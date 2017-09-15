@@ -23,11 +23,16 @@ class Brands extends CI_Controller {
 			$data['site_title'] = APP_NAME;
 			$data['user'] 		= $this->user_model->userdetails($userdata['username']); //fetches users record
 
+			//Search
+			$search = '';
+			if(isset($_GET['search'])) {
+				$search = $_GET['search'];
+			}
 
 			//Paginated data - Candidate Names				            
 	   		$config['num_links'] = 5;
 			$config['base_url'] = base_url('/brands/index/');
-			$config["total_rows"] = $this->brand_model->count_brands();
+			$config["total_rows"] = $this->brand_model->count_brands($search);
 			$config['per_page'] = 20;				
 			$this->load->config('pagination'); //LOAD PAGINATION CONFIG
 
@@ -38,7 +43,7 @@ class Brands extends CI_Controller {
 		       $page = 1;		               
 		    }
 
-		    $data["results"] = $this->brand_model->fetch_brands($config["per_page"], $page);
+		    $data["results"] = $this->brand_model->fetch_brands($config["per_page"], $page, $search);
 		    $str_links = $this->pagination->create_links();
 		    $data["links"] = explode('&nbsp;',$str_links );
 
@@ -113,18 +118,12 @@ class Brands extends CI_Controller {
 		if($userdata)	{
 
 			$data['site_title'] = APP_NAME;
-			$data['user'] = $this->user_model->userdetails($userdata['username']); //fetches users record
-
-			//Page Data 
-			$data['brands']		= $this->item_model->fetch_brands();
-			$data['usertypes']		= $this->user_model->usertypes();			
+			$data['user'] = $this->user_model->userdetails($userdata['username']); //fetches users record		
 
 			$data['info']		= $this->brand_model->view($id);
 			$data['logs']		= $this->logs_model->fetch_logs('brand', $id, 50);
 			$data['title'] 		= $data['info']['title'];
-
-
-			
+	
 			//Paginated data - Candidate Names				            
 		   	$config['num_links'] = 5;
 			$config['base_url'] = base_url('/brands/view/'.$id.'/items/');

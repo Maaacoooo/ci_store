@@ -111,7 +111,16 @@ Class Brand_model extends CI_Model
      * @param  int      $id         the Page ID of the request. 
      * @return Array        The array of returned rows 
      */
-    function fetch_brands($limit, $id) {
+    function fetch_brands($limit, $id, $search) {
+
+            if($search) {
+              $this->db->like('title', $search);
+              $this->db->or_like('description', $search);
+              $this->db->or_like('address', $search);
+              $this->db->or_like('email', $search);
+              $this->db->or_like('web', $search);
+            }
+
             $this->db->where('is_deleted', 0);
             $this->db->limit($limit, (($id-1)*$limit));
 
@@ -128,7 +137,14 @@ Class Brand_model extends CI_Model
      * Returns the total number of rows of users
      * @return int       the total rows
      */
-    function count_brands() {
+    function count_brands($search) {
+        if($search) {
+          $this->db->like('title', $search);
+          $this->db->or_like('description', $search);
+          $this->db->or_like('address', $search);
+          $this->db->or_like('email', $search);
+          $this->db->or_like('web', $search);
+        }
         $this->db->where('is_deleted', 0);
         return $this->db->count_all_results("item_brand");
     }

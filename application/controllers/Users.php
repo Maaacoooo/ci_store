@@ -25,11 +25,10 @@ class Users extends CI_Controller {
 
 			//Page Data 
 			$data['usertypes']	= $this->user_model->usertypes();
-			$data['brands']		= $this->item_model->fetch_brands();
+			$data['brands']		= $this->item_model->fetch_brand();
 
 			//Search
 			$search = '';
-
 			if(isset($_GET['search'])) {
 				$search = $_GET['search'];
 			}
@@ -126,7 +125,7 @@ class Users extends CI_Controller {
 			$data['user'] = $this->user_model->userdetails($userdata['username']); //fetches users record
 
 			//Page Data 
-			$data['brands']		= $this->item_model->fetch_brands();
+			$data['brands']		= $this->item_model->fetch_brand();
 			$data['usertypes']		= $this->user_model->usertypes();			
 
 			$data['info']		= $this->user_model->userdetails($id);
