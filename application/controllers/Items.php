@@ -23,20 +23,27 @@ class Items extends CI_Controller {
 			$data['site_title'] = APP_NAME;
 			$data['user'] 		= $this->user_model->userdetails($userdata['username']); //fetches users record
 
+			//Fetch Data
 			$data['brands']		= $this->item_model->fetch_brand();
 			$data['units']		= $this->item_model->fetch_unit();
 			$data['category']		= $this->item_model->fetch_category();
 
-			//Search
+			//Search 
 			$search = '';
 			if(isset($_GET['search'])) {
 				$search = $_GET['search'];
 			}
 
-			//Paginated data - Candidate Names				            
+			//item view for !Administrator account
+			$brand = '';
+			if($data['user']['usertype'] != 'Administrator') {
+				$brand = $data['user']['brand'];
+			}
+
+			//Paginated data				            
 	   		$config['num_links'] = 5;
 			$config['base_url'] = base_url('/items/index/');
-			$config["total_rows"] = $this->item_model->count_items($search);
+			$config["total_rows"] = $this->item_model->count_items($search, $brand);
 			$config['per_page'] = 50;				
 			$this->load->config('pagination'); //LOAD PAGINATION CONFIG
 
@@ -47,7 +54,7 @@ class Items extends CI_Controller {
 		       $page = 1;		               
 		    }
 
-		    $data["results"] = $this->item_model->fetch_items($config["per_page"], $page, $search);
+		    $data["results"] = $this->item_model->fetch_items($config["per_page"], $page, $search, $brand);
 		    $str_links = $this->pagination->create_links();
 		    $data["links"] = explode('&nbsp;',$str_links );
 
@@ -62,22 +69,26 @@ class Items extends CI_Controller {
 			//Form Validation for user
 			$this->form_validation->set_rules('name', 'Item Name', 'trim|required'); 
 			$this->form_validation->set_rules('serial', 'Serial No', 'trim'); 
-			$this->form_validation->set_rules('category', 'Category', 'trim|required'); 
-			$this->form_validation->set_rules('brand', 'Brand', 'trim|required'); 
-			$this->form_validation->set_rules('unit', 'Unit', 'trim|required'); 
-			$this->form_validation->set_rules('srp', 'SRP', 'trim|required'); 
-			$this->form_validation->set_rules('dp', 'DP', 'trim|required'); 
+			$this->form_validation->set_rules('category', 'Category', 'trim|required');  
+			$this->form_validation->set_rules('unit', 'Unit', 'trim|required'); 			
 			$this->form_validation->set_rules('desc', 'Description', 'trim'); 
-			
-			
-			//Validate Usertype
-			if($data['user']['usertype'] == 'Administrator') {
+			$this->form_validation->set_rules('srp', 'SRP', 'trim'); 
+			$this->form_validation->set_rules('dp', 'DP', 'trim'); 
 
-				if($this->form_validation->run() == FALSE)	{
+			if($data['user']['usertype'] == 'Administrator') {
+				$this->form_validation->set_rules('brand', 'Brand', 'trim|required'); 				
+			}
+			
+
+			if($this->form_validation->run() == FALSE)	{
 					$this->load->view('items/list', $data);
 				} else {	
 					
-					$act = $this->item_model->create();
+					if($brand) {
+						$act = $this->item_model->create($brand);
+					} else {
+						$act = $this->item_model->create($this->input->post('brand'));
+					}
 
 					//Proceed saving user				
 					if($act) {			
@@ -106,11 +117,8 @@ class Items extends CI_Controller {
 						$this->session->set_flashdata('error', 'Error occured!');
 						redirect($_SERVER['HTTP_REFERER'], 'refresh');
 					}		
-				}
-			} else {
-				show_error('Oops! Your account does not have the privilege to view the content. Please Contact the Administrator', 403, 'Access Denied!');
 			}
-
+		
 		} else {
 
 			$this->session->set_flashdata('error', 'You need to login!');
@@ -137,7 +145,13 @@ class Items extends CI_Controller {
 			$data['info']		= $this->item_model->view($id);
 			$data['logs']		= $this->logs_model->fetch_logs('item', $id, 50);
 			$data['title'] 		= $data['info']['name'];
+			
 
+			//item view for !Administrator account
+			$brand = '';
+			if($data['user']['usertype'] != 'Administrator') {
+				$brand = $data['user']['brand'];
+			}
 
 
 			//Validate if record exist
@@ -151,21 +165,31 @@ class Items extends CI_Controller {
 			$this->form_validation->set_rules('name', 'Item Name', 'trim|required'); 
 			$this->form_validation->set_rules('serial', 'Serial No', 'trim'); 
 			$this->form_validation->set_rules('category', 'Category', 'trim|required'); 
-			$this->form_validation->set_rules('brand', 'Brand', 'trim|required'); 
 			$this->form_validation->set_rules('unit', 'Unit', 'trim|required'); 
-			$this->form_validation->set_rules('srp', 'SRP', 'trim|required'); 
-			$this->form_validation->set_rules('dp', 'DP', 'trim|required'); 
+			$this->form_validation->set_rules('srp', 'SRP', 'trim'); 
+			$this->form_validation->set_rules('dp', 'DP', 'trim'); 
 			$this->form_validation->set_rules('desc', 'Description', 'trim'); 
+			
+			if($data['user']['usertype'] == 'Administrator') {
+				$this->form_validation->set_rules('brand', 'Brand', 'trim|required'); 				
+			}
 		
 			//Validate Usertype
-			if($data['user']['usertype'] == 'Administrator') {
+			if($data['user']['usertype'] == 'Administrator' || $data['user']['brand'] == $data['info']['brand']) {
 				if($this->form_validation->run() == FALSE)	{
 				$this->load->view('items/view', $data);
-				} else {			
+				} else {	
 
 					//Proceed saving candidate				
 					$key_id = $this->encryption->decrypt($this->input->post('id')); //ID of the row
-					if($this->item_model->update($key_id)) {		
+
+					if($brand) {
+						$act = $this->item_model->update($key_id, $brand);
+					} else {
+						$act = $this->item_model->update($key_id, $this->input->post('brand'));
+					}	
+
+					if($act) {		
 
 						$log[] = array(
 							'user' 		=> 	$userdata['username'],

@@ -13,7 +13,7 @@ Class Item_Model extends CI_Model {
         return 'ITEM'.prettyID(($total_rows + 1));  
     }
 
-    function create() {
+    function create($brand) {
         
             $item_id = $this->generate_ItemID();
 
@@ -21,7 +21,7 @@ Class Item_Model extends CI_Model {
                 'id'             => $item_id,  
                 'name'           => $this->input->post('name'),  
                 'category'       => $this->input->post('category'),  
-                'brand'          => $this->input->post('brand'),  
+                'brand'          => $brand,  
                 'unit'           => $this->input->post('unit'),  
                 'description'    => $this->input->post('desc'),  
                 'serial'         => $this->input->post('serial'),
@@ -35,12 +35,12 @@ Class Item_Model extends CI_Model {
     }
 
 
-    function update($id) { 
+    function update($id, $brand) { 
 
             $data = array(                
                 'name'           => $this->input->post('name'),  
                 'category'       => $this->input->post('category'),  
-                'brand'          => $this->input->post('brand'),  
+                'brand'          => $brand,  
                 'unit'           => $this->input->post('unit'),  
                 'description'    => $this->input->post('desc'),  
                 'serial'         => $this->input->post('serial'),
@@ -79,7 +79,7 @@ Class Item_Model extends CI_Model {
      * @param  int      $id         the Page ID of the request. 
      * @return Array        The array of returned rows 
      */
-    function fetch_items($limit, $id, $search) {
+    function fetch_items($limit, $id, $search, $brand) {
 
             if($search) {
               $this->db->like('items.name', $search);
@@ -87,6 +87,10 @@ Class Item_Model extends CI_Model {
               $this->db->or_like('items.description', $search);
               $this->db->or_like('items.serial', $search);
               $this->db->or_like('items.id', $search);
+            }
+
+            if($brand) {
+              $this->db->where('items.brand', $brand);
             }
 
             $this->db->join('item_inventory', 'item_inventory.item_id = items.id', 'left');
@@ -120,7 +124,7 @@ Class Item_Model extends CI_Model {
      * Returns the total number of rows of users
      * @return int       the total rows
      */
-    function count_items($search) {
+    function count_items($search, $brand) {
         if($search) {
           $this->db->like('name', $search);
           $this->db->or_like('category', $search);
@@ -128,6 +132,11 @@ Class Item_Model extends CI_Model {
           $this->db->or_like('serial', $search);
           $this->db->or_like('id', $search);
         }
+
+        if($brand) {
+              $this->db->where('items.brand', $brand);
+        }
+
         $this->db->where('is_deleted', 0);
         return $this->db->count_all_results("items");
     }

@@ -185,6 +185,7 @@
                 <table class="table table-condensed">
                   <thead>
                     <tr>
+                      <th>User</th>
                       <th>Action</th>
                       <th>Date Time</th>
                     </tr>
@@ -192,11 +193,8 @@
                   <tbody>
                     <?php foreach ($logs as $lg): ?>
                     <tr>
-                      <td><?=$lg['action']?>
-                        <?php if ($lg['tag'] == 'user'): ?>
-                          <a href="<?=base_url('users/update/'.$lg['tag_id'])?>" title="Check out..."><i class="fa fa-external-link"></i></a>
-                        <?php endif ?>
-                      </td>
+                      <td><?=$lg['user']?></td>
+                      <td><?=$lg['action']?></td>
                       <td><?=$lg['date_time']?></td>
                     </tr>
                     <?php endforeach ?>

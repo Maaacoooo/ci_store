@@ -19,25 +19,21 @@
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MAIN NAVIGATION</li>
         <li><a href="<?=base_url()?>"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>        
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-dashboard"></i> <span>Dashboard</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="../../index.html"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
-            <li><a href="../../index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
-          </ul>
-        </li>
-        <li><a href="https://adminlte.io/docs"><i class="fa fa-book"></i> <span>Documentation</span></a></li>
+
+        <?php if ($user['usertype'] == 'Supplier User'): ?>
+        <li><a href="<?=base_url('items')?>"><i class="fa fa-flask"></i> <span>My Items</span></a></li>
+        <li><a href="<?=base_url('exports')?>"><i class="fa fa-truck"></i> <span>My Exports</span></a></li>
+        <?php endif ?>     
+
+        <?php if ($user['usertype'] == 'Administrator'): ?>
         <li class="header">ADMIN OPTIONS</li>
         <li><a href="<?=base_url('items')?>"><i class="fa fa-flask"></i> <span>Item Inventory</span></a></li>
+        <li><a href="<?=base_url('exports')?>"><i class="fa fa-truck"></i> <span>Pending Imports</span></a></li>
+        <li><a href="<?=base_url('imports')?>"><i class="fa fa-cart-arrow-down"></i> <span>Imports</span></a></li>
         <li><a href="<?=base_url('brands')?>"><i class="fa fa-bookmark"></i> <span>Affiliated Brands / Company</span></a></li>
         <li><a href="<?=base_url('locations')?>"><i class="fa fa-building"></i> <span>Storage Locations</span></a></li>
         <li><a href="<?=base_url('users')?>"><i class="fa fa-users"></i> <span>Users</span></a></li>
-        
+        <?php endif ?>      
 
       </ul>
     </section>

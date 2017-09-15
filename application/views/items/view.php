@@ -170,8 +170,7 @@
                 <table class="table table-condensed">
                   <thead>
                     <tr>
-                      <th>Tag</th>
-                      <th>Tag ID</th>
+                      <th>User</th>
                       <th>Action</th>
                       <th>Date Time</th>
                     </tr>
@@ -179,8 +178,7 @@
                   <tbody>
                     <?php foreach ($logs as $lg): ?>
                     <tr>
-                      <td><?=$lg['tag']?></td>
-                      <td><?=$lg['tag_id']?></td>
+                      <td><?=$lg['user']?></td>
                       <td><?=$lg['action']?>
                         <?php if ($lg['tag'] == 'user'): ?>
                           <a href="<?=base_url('users/update/'.$lg['tag_id'])?>" title="Check out..."><i class="fa fa-external-link"></i></a>
@@ -249,6 +247,7 @@
                         </select>       
                      </div>
 
+                    <?php if ($user['usertype']=='Administrator'): ?>
                     <label for="brand" class="col-sm-2 col-md-2 control-label">Brand</label>
                     <div class="col-sm-10 col-md-2">        
                         <select name="brand" class="form-control" required>
@@ -263,7 +262,8 @@
                               endif;
                             ?>
                         </select>       
-                     </div>
+                     </div>  
+                    <?php endif ?>
                   </div>
                   <div class="form-group">
                     <label for="dp" class="col-sm-2 col-md-2 control-label">DP</label>

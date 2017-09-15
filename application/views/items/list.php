@@ -128,7 +128,9 @@
         </div>
         <!-- /.box-body -->
         <div class="box-footer">
-          <a href="<?=base_url('items/print_total_inventory')?>" target="_blank" class="btn btn-primary btn-sm"><i class="fa fa-print"></i> Print Total Inventory Report</a>          
+          <?php if ($user['usertype']=='Administrator'): ?>
+          <a href="<?=base_url('items/print_total_inventory')?>" target="_blank" class="btn btn-primary btn-sm"><i class="fa fa-print"></i> Print Total Inventory Report</a>            
+          <?php endif ?>
           <div class="pull-right">
             <?php foreach ($links as $link) { echo $link; } ?>
           </div><!-- /.pull-right -->
@@ -197,6 +199,7 @@
                   </select>       
                </div>
 
+              <?php if ($user['usertype'] == 'Administrator'): ?>
               <label for="brand" class="col-sm-2 col-md-2 control-label">Brand</label>
               <div class="col-sm-10 col-md-2">        
                   <select name="brand" class="form-control" required>
@@ -212,16 +215,17 @@
                       ?>
                   </select>       
                </div>
+              <?php endif ?>
             </div>
             <div class="form-group">
               <label for="dp" class="col-sm-2 col-md-2 control-label">DP</label>
               <div class="col-sm-10 col-md-4">
-                <input type="number" name="dp" class="form-control" id="dp" placeholder="Dealer's Price..." value="<?=set_value('dp')?>" required>
+                <input type="number" name="dp" class="form-control" id="dp" placeholder="Dealer's Price..." value="<?=set_value('dp')?>">
               </div>
 
               <label for="srp" class="col-sm-2 col-md-2 control-label">SRP</label>
               <div class="col-sm-10 col-md-4">
-                <input type="number" name="srp" class="form-control" id="srp" placeholder="Retail Price..." value="<?=set_value('srp')?>" required>
+                <input type="number" name="srp" class="form-control" id="srp" placeholder="Retail Price..." value="<?=set_value('srp')?>">
               </div>
             </div>
             <div class="form-group">
