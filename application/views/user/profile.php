@@ -8,7 +8,19 @@
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <?php $this->load->view('inc/css')?>
-   
+   <script type="text/javascript">
+      function enablereset() {
+        if(document.getElementById("resetpass").checked == true) {
+          document.getElementById("oldpass").disabled = false; 
+          document.getElementById("newpass").disabled = false; 
+          document.getElementById("confpass").disabled = false; 
+        } else {
+          document.getElementById("oldpass").disabled = true; 
+          document.getElementById("newpass").disabled = true; 
+          document.getElementById("confpass").disabled = true; 
+        }
+      }
+    </script>
 </head>
 <body class="hold-transition skin-black sidebar-mini">
 <!-- Site wrapper -->
@@ -88,26 +100,26 @@
           <!-- Profile Image -->
           <div class="box box-primary">
             <div class="box-body box-profile">             
-              <?php if (filexist($info['img']) && $info['img']): ?>
-                <img class="profile-user-img img-responsive img-circle" src="<?=base_url('uploads/'.$info['img'])?>" alt="User profile picture">
+              <?php if (filexist($user['img']) && $user['img']): ?>
+                <img class="profile-user-img img-responsive img-circle" src="<?=base_url('uploads/'.$user['img'])?>" alt="User profile picture">
               <?php else: ?>
                 <img class="profile-user-img img-responsive img-circle" src="<?=base_url('assets/img/no_image.gif')?>" alt="User profile picture">                
               <?php endif ?>
 
-              <h3 class="profile-username text-center"><?=$info['name']?></h3>
+              <h3 class="profile-username text-center"><?=$user['name']?></h3>
 
-              <p class="text-muted text-center"><?=$info['brand']?></p>
-              <p class="text-muted text-center"><?=$info['usertype']?></p>
+              <p class="text-muted text-center"><?=$user['brand']?></p>
+              <p class="text-muted text-center"><?=$user['usertype']?></p>
 
               <ul class="list-group list-group-unbordered">
                 <li class="list-group-item">
-                  <b>Username</b> <a class="pull-right"><?=$info['username']?></a>
+                  <b>Username</b> <a class="pull-right"><?=$user['username']?></a>
                 </li>
                 <li class="list-group-item">
-                  <b>Email</b> <a href="mailto:<?=$info['email']?>" class="pull-right"><?=$info['email']?></a>
+                  <b>Email</b> <a href="mailto:<?=$user['email']?>" class="pull-right"><?=$user['email']?></a>
                 </li>
                 <li class="list-group-item">
-                  <b>Contact</b> <a class="pull-right"><?=$info['contact']?></a>
+                  <b>Contact</b> <a class="pull-right"><?=$user['contact']?></a>
                 </li>                
               </ul>
             </div>
@@ -126,7 +138,7 @@
             </ul>
             <div class="tab-content">
               <div class="tab-pane <?php if(!($flash_error || $flash_success || $flash_valid))echo'active'?>" id="activity">
-                <h4 class="title">Last 50 Activity</h4>
+                <h4 class="title">My Last Activity</h4>
                 <?php if ($logs): ?>
                 <table class="table table-condensed">
                   <thead>
@@ -162,71 +174,56 @@
               <!-- /.tab-pane -->
 
               <div class="tab-pane <?php if($flash_error || $flash_success || $flash_valid)echo'active'?>" id="settings">
-              <?=form_open_multipart('users/update/'.$info['username'], array('class' => 'form-horizontal'))?>                
+              <?=form_open_multipart('settings/profile', array('class' => 'form-horizontal'))?>                
                   <div class="form-group">
                     <label for="name" class="col-sm-2 control-label">Full name</label>
                     <div class="col-sm-10">
-                      <input type="text" name="name" class="form-control" id="name" placeholder="Full name..." value="<?=$info['name']?>" required>
+                      <input type="text" name="name" class="form-control" id="name" placeholder="Full name..." value="<?=$user['name']?>" required>
                     </div>
                   </div>
                   <div class="form-group">
                     <label for="email" class="col-sm-2 col-md-2 control-label">Email Address</label>
                     <div class="col-sm-10 col-md-4">
-                      <input type="email" name="email" class="form-control" id="email" placeholder="Email Address..." value="<?=$info['email']?>" required>
+                      <input type="email" name="email" class="form-control" id="email" placeholder="Email Address..." value="<?=$user['email']?>" required>
                     </div>
 
                     <label for="contact" class="col-sm-2 col-md-2 control-label">Contact Number</label>
                     <div class="col-sm-10 col-md-4">
-                      <input type="text" name="contact" class="form-control" id="contact" placeholder="Contact Number..." value="<?=$info['contact']?>">
+                      <input type="text" name="contact" class="form-control" id="contact" placeholder="Contact Number..." value="<?=$user['contact']?>">
                     </div>
                   </div>
                   <div class="form-group">
-                    <label for="img" class="col-sm-2 col-md-2 control-label">Profile Image</label>
-                    <div class="col-sm-10 col-md-2">        
-                        <input type="file" name="img" id="img">       
+                    <label for="oldpass" class="col-sm-2 col-md-2 control-label">Old Password</label>
+                    <div class="col-sm-10 col-md-4">
+                      <input type="password" name="oldpass" class="form-control" id="oldpass" placeholder="Old Password..." disabled required>
                     </div>
-                    <label for="name" class="col-sm-2 col-md-2 control-label">Usertype</label>
-                    <div class="col-sm-10 col-md-2">        
-                        <select name="usertype" class="form-control" required="">
-                          <option disabled="">Select Usertype...</option>
-                           <?php 
-                              if($usertypes):
-                              foreach($usertypes as $usr):
-                            ?>
-                            <option value="<?=$usr['title']?>" <?php if($info['usertype']==$usr['title'])echo'selected';?>><?=$usr['title']?></option>
-                            <?php
-                              endforeach;
-                              endif;
-                            ?>
-                        </select>       
-                     </div>
-                    <label for="name" class="col-sm-2 col-md-2 control-label">Brand / Company Affiliated</label>
-                    <div class="col-sm-10 col-md-2">        
-                        <select name="brand" class="form-control">
-                          <option>Select Affiliate...</option>
-                           <?php 
-                              if($brands):
-                              foreach($brands as $brn):
-                            ?>
-                            <option value="<?=$brn['title']?>" <?php if($info['brand']==$brn['title'])echo'selected';?>><?=$brn['title']?></option>
-                            <?php
-                              endforeach;
-                              endif;
-                            ?>
-                        </select>       
-                     </div>
+
+                    <label for="contact" class="col-sm-2 col-md-2 control-label">Profile Image</label>
+                    <div class="col-sm-10 col-md-4">
+                      <input type="file" name="img" id="img">  
+                    </div>
                   </div>
-                  <input type="hidden" name="id" value="<?=$this->encryption->encrypt($info['username'])?>" />                  
+                  <div class="form-group">
+                    <label for="newpass" class="col-sm-2 col-md-2 control-label">New Password</label>
+                    <div class="col-sm-10 col-md-4">
+                      <input type="password" name="newpass" class="form-control" id="newpass" placeholder="New Password..." disabled="" required>
+                    </div>   
+                    <div class="checkbox col-sm-2 col-md-6">
+                      <label>
+                        <input type="checkbox" id="resetpass" name="resetpass" onclick="enablereset()"> Change Password
+                      </label>
+                    </div>  
+
+                  </div>  
+                  <div class="form-group">
+                    <label for="confpass" class="col-sm-2 col-md-2 control-label">Confirm New Password</label>
+                    <div class="col-sm-10 col-md-4">
+                      <input type="password" name="confpass" class="form-control" id="confpass" placeholder="Confirm Password..." disabled="" required>
+                    </div>                   
+                  </div>         
                   <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn btn-warning pull-right">Update</button>
-
-                      <?php if (!($user['username'] == $info['username'])): ?>
-                      <div class="btn-group">                        
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalReset">Reset Password</button>                        
-                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalDelete">Delete</button> 
-                      </div>    
-                      <?php endif ?>                                          
+                        <button type="submit" class="btn btn-warning pull-right">Update</button>                                        
                     </div>
                   </div>
               <?=form_close()?>
@@ -245,61 +242,6 @@
   </div>
   <!-- /.content-wrapper -->
 
-  <!-- Modals -->
-      <?php if(!($user['username'] == $info['username'])): ?>      
-        <div class="modal modal-danger fade" id="modalDelete" style="display: none;">
-          <div class="modal-dialog">
-          <?=form_open('users/delete')?>
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">×</span></button>
-                <h4 class="modal-title">Delete <?=$info['name']?></h4>
-              </div>
-              <div class="modal-body">
-                <p>Are you sure to delete the record of <strong ><?=$info['name']?></strong>?</p>
-                <p>You <strong>CANNOT UNDO</strong> this action.</p>
-                <input type="hidden" name="id" value="<?=$this->encryption->encrypt($info['username'])?>" />
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-outline">Delete User</button>
-              </div>
-            </div>
-            <!-- /.modal-content -->
-          <?=form_close()?>
-          </div>
-          <!-- /.modal-dialog -->
-        </div>
-
-
-        <div class="modal modal-info fade" id="modalReset" style="display: none;">
-          <div class="modal-dialog">
-          <?=form_open('users/resetpassword')?>
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">×</span></button>
-                <h4 class="modal-title">Delete <?=$info['name']?></h4>
-              </div>
-              <div class="modal-body">
-                <p>Are you sure to reset to DEFAULT PASSWORD?</p>
-                <p>You <strong>CANNOT UNDO</strong> this action.</p>
-                <p>The Default Password is <strong class="text-success">Inventory2017</strong></p>
-                <input type="hidden" name="id" value="<?=$this->encryption->encrypt($info['username'])?>" />
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-outline">Reset</button>
-              </div>
-            </div>
-            <!-- /.modal-content -->
-          <?=form_close()?>
-          </div>
-          <!-- /.modal-dialog -->
-        </div>
-
-      <?php endif; ?>
 
   <footer class="main-footer">    
     <?php $this->load->view('inc/footer')?>    

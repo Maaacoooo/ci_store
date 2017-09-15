@@ -20,11 +20,14 @@ class Settings extends CI_Controller {
 			$data['user'] = $this->user_model->userdetails($userdata['username']); //fetches users record
 			$data['title'] = 'Profile : ' . $data['user']['name'];
 
+			$data['logs']		= $this->logs_model->fetch_user_logs($data['user']['username'], 50);
 			
 
 			//FORM VALIDATION
-				$this->form_validation->set_rules('name', 'Full Name', 'trim|required');
-			
+			$this->form_validation->set_rules('name', 'Full Name', 'trim|required');
+			$this->form_validation->set_rules('email', 'Email Address', 'trim|required|valid_email'); 
+			$this->form_validation->set_rules('contact', 'Contact Number', 'trim'); 
+
 			if($this->input->post('resetpass')) {
 				$this->form_validation->set_rules('oldpass', 'Old Password', 'trim|required|callback_check_user');
 				$this->form_validation->set_rules('newpass', 'New Password', 'trim|required|matches[confpass]');
@@ -33,7 +36,7 @@ class Settings extends CI_Controller {
 			 
 			   if($this->form_validation->run() == FALSE)	{
 
-					$this->load->view('admin/profile', $data);
+					$this->load->view('user/profile', $data);
 
 				} else {
 
@@ -41,6 +44,20 @@ class Settings extends CI_Controller {
 				if($this->user_model->update_profile($data['user']['username'])) {			
 					if($this->input->post('resetpass')) {
 						$this->user_model->update_profile_pass($data['user']['username']);
+
+						$log[] = array(
+							'user' 		=> 	$userdata['username'],
+							'tag' 		=> 	'',
+							'tag_id'	=> 	'',
+							'action' 	=> 	'Updated Personal Profile'
+							);
+
+				
+						//Save log loop
+						foreach($log as $lg) {
+							$this->logs_model->create_log($lg['user'], $lg['tag'], $lg['tag_id'], $lg['action']);				
+						}		
+						////////////////////////////////////
 					}
 					$this->session->set_flashdata('success', 'Success! Profile Updated!');
 					redirect($_SERVER['HTTP_REFERER'], 'refresh');
