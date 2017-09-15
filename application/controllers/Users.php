@@ -128,13 +128,17 @@ class Users extends CI_Controller {
 
 			//Validate if record exist
 			 //IF NO ID OR NO RESULT, REDIRECT
-				if(!$id OR !$data['info']) {
-					redirect('sys/users', 'refresh');
+				if(!$id || !$data['info'] || $data['info']['is_deleted']) {
+					redirect('users', 'refresh');
 			}	
 
 			//Form Validation for user
 			$this->form_validation->set_rules('name', 'Name', 'trim|required');  
 			$this->form_validation->set_rules('usertype', 'Usertype', 'trim|required'); 
+			$this->form_validation->set_rules('email', 'Email Address', 'trim|required|valid_email'); 
+			$this->form_validation->set_rules('contact', 'Contact Number', 'trim');  
+			$this->form_validation->set_rules('usertype', 'Usertype', 'trim|required'); 
+			$this->form_validation->set_rules('brand', 'Brand Affiliated', 'trim');
 		
 			//Validate Usertype
 			if($data['user']['usertype'] == 'Administrator') {
@@ -144,7 +148,22 @@ class Users extends CI_Controller {
 
 					//Proceed saving candidate				
 					$key_id = $this->encryption->decrypt($this->input->post('id')); //ID of the row
-					if($this->user_model->update_user($key_id)) {			
+					if($this->user_model->update_user($key_id)) {		
+
+						$log[] = array(
+							'user' 		=> 	$userdata['username'],
+							'tag' 		=> 	'user',
+							'tag_id'	=> 	$key_id,
+							'action' 	=> 	'Updated User Information'
+							);
+
+				
+						//Save log loop
+						foreach($log as $lg) {
+							$this->logs_model->create_log($lg['user'], $lg['tag'], $lg['tag_id'], $lg['action']);				
+						}		
+						////////////////////////////////////
+						
 					
 						$this->session->set_flashdata('success', 'Succes! User Updated!');
 						redirect($_SERVER['HTTP_REFERER'], 'refresh');
@@ -187,8 +206,22 @@ class Users extends CI_Controller {
 				$key_id = $this->encryption->decrypt($this->input->post('id')); //ID of the row				
 
 				if($this->user_model->delete_user($key_id)) {
+
+					$log[] = array(
+							'user' 		=> 	$userdata['username'],
+							'tag' 		=> 	'user',
+							'tag_id'	=> 	$key_id,
+							'action' 	=> 	'Deleted User'
+							);
+
+				
+						//Save log loop
+						foreach($log as $lg) {
+							$this->logs_model->create_log($lg['user'], $lg['tag'], $lg['tag_id'], $lg['action']);				
+						}		
+						////////////////////////////////////
 					$this->session->set_flashdata('success', 'User Deleted!');
-					redirect($_SERVER['HTTP_REFERER'], 'refresh');
+					redirect('users', 'refresh');
 				}
 			}
 
@@ -220,6 +253,20 @@ class Users extends CI_Controller {
 				$key_id = $this->encryption->decrypt($this->input->post('id')); //ID of the row				
 
 				if($this->user_model->reset_password($key_id)) {
+
+					$log[] = array(
+							'user' 		=> 	$userdata['username'],
+							'tag' 		=> 	'user',
+							'tag_id'	=> 	$key_id,
+							'action' 	=> 	'Resetted Password to Default'
+							);
+
+				
+						//Save log loop
+						foreach($log as $lg) {
+							$this->logs_model->create_log($lg['user'], $lg['tag'], $lg['tag_id'], $lg['action']);				
+						}		
+						////////////////////////////////////
 					$this->session->set_flashdata('success', 'Password Resetted to Default!');
 					redirect($_SERVER['HTTP_REFERER'], 'refresh');
 				}

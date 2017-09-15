@@ -132,8 +132,11 @@ Class User_model extends CI_Model
       
             $data = array(           
                 'name'      => $this->input->post('name'),  
+                'email'     => $this->input->post('email'),  
+                'contact'   => $this->input->post('contact'),  
                 'usertype'  => $this->input->post('usertype'),                 
-                'img'       => $filename  
+                'brand'     => $this->input->post('brand'),                 
+                'img'       => $filename   
              );
             
             $this->db->where('username', $user);
@@ -149,14 +152,13 @@ Class User_model extends CI_Model
      */
     function delete_user($user) {
 
-        $filename = $this->userdetails($user)['img'];
-
-        //Deletes the old photo
-        if(!filexist($filename)) {
-          unlink('./uploads/'.$filename); 
-        }
-
-        return $this->db->delete('users', array('username' => $user)); 
+ 
+           $data = array(           
+                'is_deleted'      => 1
+             );
+            
+            $this->db->where('username', $user);
+            return $this->db->update('users', $data);          
 
     }
 
@@ -234,7 +236,9 @@ Class User_model extends CI_Model
             }
       
             $data = array(           
-                'name'      => $this->input->post('name'),                
+                'name'      => $this->input->post('name'),    
+                'email'     => $this->input->post('email'),  
+                'contact'   => $this->input->post('contact'),              
                 'img'       => $filename  
              );
             
