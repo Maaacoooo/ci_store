@@ -4,186 +4,170 @@ Class Item_Model extends CI_Model {
 
 // CREATE DATA ////////////////////////////////////////////////////////////////////
 
-    public function create() {
-
-        $data = array(
-            'name'           => ucwords($this->input->post('title')),
-            'unit'           => $this->input->post('unit'),
-            'op'             => $this->input->post('op'),
-            'sp'             => $this->input->post('sp'),
-            'description'    => $this->input->post('description')
-        );
-
-        return $this->db->insert('items', $data);
+   /**
+     * Generates ItemID
+     * @return String the Distinct Item ID
+     */
+    function generate_ItemID() {
+        $total_rows = $this->db->count_all('items');
+        return 'ITEM'.prettyID(($total_rows + 1));  
     }
 
-    // Creating object records
-    public function create_object_record() {
-        $data = array(
-            'user_id'            => $this->session->userdata('admin_logged_in')['id'],
-            'item_id'            => $this->input->post('obj_id'),
-            'qty'                => $this->input->post('qty'),
-            'type'               => 'import'
-        );
+    function create() {
+        
+            $item_id = $this->generate_ItemID();
 
-        return $this->db->insert('inventory_loc', $data);
-    }
+            $data = array(              
+                'id'             => $item_id,  
+                'name'           => $this->input->post('name'),  
+                'category'       => $this->input->post('category'),  
+                'brand'          => $this->input->post('brand'),  
+                'unit'           => $this->input->post('unit'),  
+                'description'    => $this->input->post('desc'),  
+                'serial'         => $this->input->post('serial'),
+                'SRP'            => $this->input->post('srp'),
+                'DP'             => $this->input->post('dp')
+             );
+       
+            $this->db->insert('items', $data);    
+            return $item_id;
 
-    // Importing data 
-    public function import_data() {
-        $data = array(
-            'description'   => $this->input->post('description'),
-            'user_id'       => $this->session->userdata('admin_logged_in')['id'],
-            'total_amount'  => $this->input->post('total_amount'),
-            'type'          => 'import'
-        );
-
-            $result = $this->db->insert('inventory_act', $data);
-            $last_id = $this->db->insert_id();
-            $this->import_inventory($last_id);
-
-        return $result;
-    }
-
-    function import_inventory($last_id) {
-        $this->db->select('
-            inventory_loc.id,
-            inventory_loc.user_id,
-            inventory_loc.item_id,
-            inventory_loc.qty,
-            inventory_loc.type
-        ');
-
-        $this->db->where('user_id' ,$this->session->userdata('admin_logged_in')['id']);
-        $this->db->where('type' ,'import');
-
-        $query = $this->db->get('inventory_loc');
-
-        if($query->num_rows() > 0) {
-            $result = $query->result_array();
-                foreach($result AS $row) {
-                    $data = array(
-                        'act_id'   => $last_id,
-                        'item_id'  => $row['item_id'],
-                        'quantity' => $row['qty']
-                    );
-                    $this->db->insert('inventory' ,$data);
-                }
-        }
     }
 
 
-// UPDATE DATA ////////////////////////////////////////////////////////////////////
+    function update($id) { 
 
-    public function update() {
-
-        $data = array(
-            'name'          => ucwords($this->input->post('title')),
-            'unit'          => $this->input->post('unit'),
-            'op'            => $this->input->post('op'),
-            'sp'            => $this->input->post('sp'),
-            'description'   => $this->input->post('description')
-        );
-        $this->db->where('id', $this->input->post('id'));
-        return $this->db->update('items', $data);
+            $data = array(                
+                'name'           => $this->input->post('name'),  
+                'category'       => $this->input->post('category'),  
+                'brand'          => $this->input->post('brand'),  
+                'unit'           => $this->input->post('unit'),  
+                'description'    => $this->input->post('desc'),  
+                'serial'         => $this->input->post('serial'),
+                'SRP'            => $this->input->post('srp'),
+                'DP'             => $this->input->post('dp')
+             );
+       
+            
+            $this->db->where('id', $id);
+            return $this->db->update('items', $data);          
+        
     }
 
-// DELETE DATA ////////////////////////////////////////////////////////////////////
 
-    public function delete() {
+        /**
+     * Deletes a user record
+     * @param  int    $id    the DECODED id of the item.   
+     * @return boolean    returns TRUE if success
+     */
+    function delete($id) {
 
-        return $this->db->delete('items', array('id' => $this->input->post('id')));
+ 
+           $data = array(           
+                'is_deleted'      => 1
+             );
+            
+            $this->db->where('id', $id);
+            return $this->db->update('items', $data);          
+
     }
 
-    // Reset all the import items
-    public function reset($user_id, $type) {
-            $this->db->from('inventory_loc');
-            $this->db->where('user_id', $user_id ,'AND' ,'type', $type);
-        return $this->db->delete('inventory_loc');
-    }
 
-// READ DATA //////////////////////////////////////////////////////////////////////
+    /**
+     * Returns the paginated array of rows 
+     * @param  int      $limit      The limit of the results; defined at the controller
+     * @param  int      $id         the Page ID of the request. 
+     * @return Array        The array of returned rows 
+     */
+    function fetch_items($limit, $id, $search) {
 
-    // Count all ITEMS.
-    public function count_items() {
+            if($search) {
+              $this->db->like('items.name', $search);
+              $this->db->or_like('items.category', $search);
+              $this->db->or_like('items.description', $search);
+              $this->db->or_like('items.serial', $search);
+              $this->db->or_like('items.id', $search);
+            }
 
-        return $this->db->count_all("items");
-    }
-    // Fetch all ITEMS.
-    public function fetch_items() {
-        $this->db->select('items.id,
-            items.name, 
-            items.unit, 
-            items.op,             
-            items.sp,
+            $this->db->join('item_inventory', 'item_inventory.item_id = items.id', 'left');
+            $this->db->group_by('items.id');
+            $this->db->select('
+            items.id,
+            items.name,
+            items.brand,
+            items.category,
+            items.SRP,
+            items.DP,
             items.description,
-            SUM(inventory.quantity) AS qty
+            items.unit,
+            SUM(item_inventory.qty) as qty
             ');
-        $this->db->join('inventory', 'inventory.item_id = items.id', 'left');
-        $this->db->group_by('items.id');
-        $query = $this->db->get("items");
-        if ($query->num_rows() > 0) {
-            return $query->result_array();
+            
+
+            $this->db->where('items.is_deleted', 0);
+            $this->db->limit($limit, (($id-1)*$limit));
+
+            $query = $this->db->get("items");
+
+            if ($query->num_rows() > 0) {
+                return $query->result_array();
+            }
+            return false;
+
+    }
+
+    /**
+     * Returns the total number of rows of users
+     * @return int       the total rows
+     */
+    function count_items($search) {
+        if($search) {
+          $this->db->like('name', $search);
+          $this->db->or_like('category', $search);
+          $this->db->or_like('description', $search);
+          $this->db->or_like('serial', $search);
+          $this->db->or_like('id', $search);
         }
-        return false;
-    }
-    // View ALL Items.
-    public function view($id) {
-
-        $this->db->where('id', $id);
-        $query = $this->db->get('items');
-        return $query->row_array();
+        $this->db->where('is_deleted', 0);
+        return $this->db->count_all_results("items");
     }
 
-    //JSON for Select2 Kind of damn
-    function get_json_objects($q){
-        $this->db->like('name', $q);
-        $this->db->limit(15);
-        $query = $this->db->get('items');
-        if($query->num_rows > 0){
-          return $query->result_array();
-      }
+
+    function view($id) {
+
+             $this->db->select('*');        
+             $this->db->where('id', $id);          
+             $this->db->limit(1);
+
+             $query = $this->db->get('items');
+
+             return $query->row_array();
     }
 
-    // Count all INVENTORY.
-    public function count_inventory() {
 
-        return $this->db->count_all("inventory_loc");
-    }
-    // Fetch all INVENTORY
-    public function fetch_inventory() {
-        $this->db->select('inventory_loc.id,
-            inventory_loc.user_id, 
-            inventory_loc.item_id, 
-            inventory_loc.qty,             
-            items.id AS items_id,
-            items.name AS items_name,
-            items.unit AS items_unit,
-            items.op AS items_op,
-            items.sp AS items_sp,
-            items.description AS items_description
-            ');
-        $this->db->order_by('items_name', 'ASC'); 
-        $this->db->join('items', 'items.id = inventory_loc.item_id', 'left');
-        $query = $this->db->get("inventory_loc");
-        if ($query->num_rows() > 0) {
-            return $query->result_array();
-        }
-        return false;
-    }
-    // Get the total qty in INVENTORY
-    public function total_qty() {
-        $this->db->where('inventory_loc.type', 'import');
-        $this->db->where('inventory_loc.user_id', $this->session->userdata('admin_logged_in')['id']);
-        $this->db->select_sum('qty');
-        $this->db->from('inventory_loc');
-        $query = $this->db->get();
-        $total_sold = $query->row()->qty;
+    /**
+     * Fetches the quantity of the item in each location
+     * @param  [type] $id [description]
+     * @return [type]     [description]
+     */
+    function fetch_item_inventory($id) {
 
-        if ($total_sold > 0) {
-            return $total_sold;
-        }
-        return NULL;
+            $this->db->join('item_inventory', 'item_inventory.location = item_location.title', 'left');
+            $this->db->join('items', 'items.id = item_inventory.item_id', 'left');
+            $this->db->group_by('item_location.id');
+            $this->db->select('
+                item_location.title,
+                SUM(item_inventory.qty) as qty
+            ');            
+
+            $this->db->where('items.id', $id);
+
+            $query = $this->db->get("item_location");
+
+            if ($query->num_rows() > 0) {
+                return $query->result_array();
+            }
+            return false;
 
     }
 
@@ -191,7 +175,7 @@ Class Item_Model extends CI_Model {
     //////////////
     // HELPERS
 
-    function fetch_brands() {
+    function fetch_brand() {
 
             $this->db->select('*');
             $this->db->where('is_deleted', 0);
