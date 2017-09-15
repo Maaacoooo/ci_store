@@ -7,6 +7,7 @@ class Dashboard extends CI_Controller {
 	public function __construct()	{
 		parent::__construct();		
        $this->load->model('user_model');
+       $this->load->model('export_model');
 	}	
 
 
@@ -20,10 +21,10 @@ class Dashboard extends CI_Controller {
 			$data['site_title'] = APP_NAME;
 			$data['user'] = $this->user_model->userdetails($userdata['username']); //fetches users record
 
-			$data['passwordverify'] = $this->user_model->check_user($userdata['username'], 'ClinicUser'); //boolean - returns false if default password
+			$data['passwordverify'] = $this->user_model->check_user($userdata['username'], 'Inventory2017'); //boolean - returns false if default password
+			$data['items'] = $this->export_model->fetch_export_items(0, $data['user']['username']);
 
-
-			$this->load->view('blank', $data);					
+			$this->load->view('dashboard/dashboard_user', $data);					
 
 
 		} else {

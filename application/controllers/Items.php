@@ -287,7 +287,7 @@ class Items extends CI_Controller {
 
 			//Page Data 
 			$data['items']		= $this->item_model->total_inventory();
-			$data['total_items'] = $this->item_model->count_items('');
+			$data['total_items'] = $this->item_model->count_items('', '');
 			$data['title'] 		= 'Total Inventory Report';
 
 		

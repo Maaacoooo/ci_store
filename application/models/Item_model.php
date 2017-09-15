@@ -146,6 +146,7 @@ Class Item_Model extends CI_Model {
 
              $this->db->select('*');        
              $this->db->where('id', $id);          
+             $this->db->or_where('serial', $id);          
              $this->db->limit(1);
 
              $query = $this->db->get('items');
@@ -243,4 +244,21 @@ Class Item_Model extends CI_Model {
             return $query->result_array();
 
     }
+
+
+    function search($q, $brand){
+            
+            if($brand) {
+              $this->db->where('brand', $brand);
+            }
+            $this->db->like('name', $q);
+            $this->db->or_like('description', $q);
+            $this->db->or_like('serial', $q);
+            $this->db->or_like('id', $q);
+
+            $this->db->limit(15);
+            $query = $this->db->get('items');
+            
+            return $query->result_array();
+  }
 }
