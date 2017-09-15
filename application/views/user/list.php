@@ -82,7 +82,7 @@
       <!-- Default box -->
       <div class="box box-primary">
         <div class="box-header with-border">
-          <h3 class="box-title">User List</h3>
+          <h3 class="box-title">User List  <span class="badge"><?=$total_result?></span></h3>
           <div class="box-tools pull-right">            
             <?=form_open('users', array('method' => 'get', 'class' => 'input-group input-group-sm', 'style' => 'width: 150px;'))?>
               <input type="text" name="search" class="form-control pull-right" placeholder="Search...">
