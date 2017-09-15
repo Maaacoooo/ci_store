@@ -252,6 +252,40 @@ class Items extends CI_Controller {
 
 
 
+	public function print_total_inventory()		{
+
+		$userdata = $this->session->userdata('admin_logged_in'); //it's pretty clear it's a userdata
+
+		if($userdata)	{
+
+			$data['site_title'] = APP_NAME;
+			$data['user'] = $this->user_model->userdetails($userdata['username']); //fetches users record
+
+			//Page Data 
+			$data['items']		= $this->item_model->total_inventory();
+			$data['total_items'] = $this->item_model->count_items('');
+			$data['title'] 		= 'Total Inventory Report';
+
+		
+			//Validate Usertype
+			if($data['user']['usertype'] == 'Administrator') {
+				
+				$this->load->view('items/print_total_inventory', $data);
+				
+			} else {
+				show_error('Oops! Your account does not have the privilege to view the content. Please Contact the Administrator', 403, 'Access Denied!');				
+			}		
+
+		} else {
+
+			$this->session->set_flashdata('error', 'You need to login!');
+			redirect('dashboard/login', 'refresh');
+		}
+
+	}
+
+
+
 
 
 }

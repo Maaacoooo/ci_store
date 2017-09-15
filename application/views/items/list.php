@@ -128,9 +128,11 @@
         </div>
         <!-- /.box-body -->
         <div class="box-footer">
+          <a href="<?=base_url('items/print_total_inventory')?>" target="_blank" class="btn btn-primary btn-sm"><i class="fa fa-print"></i> Print Total Inventory Report</a>          
           <div class="pull-right">
             <?php foreach ($links as $link) { echo $link; } ?>
           </div><!-- /.pull-right -->
+
         </div>
         <!-- /.box-footer-->
       </div>

@@ -172,6 +172,34 @@ Class Item_Model extends CI_Model {
     }
 
 
+    function total_inventory() {
+
+            $this->db->join('item_inventory', 'item_inventory.item_id = items.id', 'left');
+            $this->db->group_by('items.id');
+            $this->db->select('
+            items.id,
+            items.name,
+            items.brand,
+            items.category,
+            items.SRP,
+            items.DP,
+            items.serial,
+            items.unit,
+            SUM(item_inventory.qty) as qty
+            ');
+            
+
+            $this->db->where('items.is_deleted', 0);
+            $query = $this->db->get("items");
+
+            if ($query->num_rows() > 0) {
+                return $query->result_array();
+            }
+            return false;
+
+    }
+
+
     //////////////
     // HELPERS
 
