@@ -194,7 +194,30 @@ Class Item_Model extends CI_Model {
     function fetch_brands() {
 
             $this->db->select('*');
+            $this->db->where('is_deleted', 0);
             $query = $this->db->get('item_brand');
+
+            return $query->result_array();
+
+    }
+
+
+    function fetch_category() {
+
+            $this->db->select('*');
+            $this->db->where('is_deleted', 0);
+            $query = $this->db->get('item_category');
+
+            return $query->result_array();
+
+    }
+
+
+    function fetch_unit() {
+
+            $this->db->select('*');
+            $this->db->where('is_deleted', 0);
+            $query = $this->db->get('item_unit');
 
             return $query->result_array();
 
