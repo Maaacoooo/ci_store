@@ -169,8 +169,14 @@ Class User_model extends CI_Model
      * @param  int      $id         the Page ID of the request. 
      * @return Array        The array of returned rows 
      */
-    function fetch_users($limit, $id) {
-            $this->db->where('is_deleted', 0);
+    function fetch_users($limit, $id, $search) {
+
+            if($search) {
+                $this->db->like('name', $search);
+                $this->db->or_like('username', $search);
+            }
+
+            $this->db->where('is_deleted', 0);            
             $this->db->limit($limit, (($id-1)*$limit));
 
             $query = $this->db->get("users");
@@ -186,7 +192,11 @@ Class User_model extends CI_Model
      * Returns the total number of rows of users
      * @return int       the total rows
      */
-    function count_users() {
+    function count_users($search) {
+        if($search) {
+            $this->db->like('name', $search);
+            $this->db->or_like('username', $search);
+        }
         $this->db->where('is_deleted', 0);
         return $this->db->count_all_results("users");
     }

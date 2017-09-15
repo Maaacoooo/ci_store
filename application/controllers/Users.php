@@ -27,10 +27,17 @@ class Users extends CI_Controller {
 			$data['usertypes']	= $this->user_model->usertypes();
 			$data['brands']		= $this->item_model->fetch_brands();
 
+			//Search
+			$search = '';
+
+			if(isset($_GET['search'])) {
+				$search = $_GET['search'];
+			}
+
 			//Paginated data - Candidate Names				            
 	   		$config['num_links'] = 5;
 			$config['base_url'] = base_url('/users/index/');
-			$config["total_rows"] = $this->user_model->count_users();
+			$config["total_rows"] = $this->user_model->count_users($search);
 			$config['per_page'] = 20;				
 			$this->load->config('pagination'); //LOAD PAGINATION CONFIG
 
@@ -41,7 +48,7 @@ class Users extends CI_Controller {
 		       $page = 1;		               
 		    }
 
-		    $data["results"] = $this->user_model->fetch_users($config["per_page"], $page);
+		    $data["results"] = $this->user_model->fetch_users($config["per_page"], $page, $search);
 		    $str_links = $this->pagination->create_links();
 		    $data["links"] = explode('&nbsp;',$str_links );
 

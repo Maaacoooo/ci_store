@@ -84,16 +84,15 @@
         <div class="box-header with-border">
           <h3 class="box-title">User List</h3>
           <div class="box-tools pull-right">            
-            <div class="input-group input-group-sm" style="width: 150px;">
-              <input type="text" name="table_search" class="form-control pull-right" placeholder="Search...">
+            <?=form_open('users', array('method' => 'get', 'class' => 'input-group input-group-sm', 'style' => 'width: 150px;'))?>
+              <input type="text" name="search" class="form-control pull-right" placeholder="Search...">
               <div class="input-group-btn">
                 <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
                 <button type="button" class="btn btn-default btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
                   <i class="fa fa-minus"></i>
                 </button>  
-              </div>              
-            </div>  
-
+              </div> 
+            <?=form_close()?>            
           </div>
         </div>
         <div class="box-body table-responsive no-padding">
@@ -101,6 +100,7 @@
             <?php if ($results): ?>
             <thead>
               <tr>
+                <th width="8%"></th>
                 <th>Name</th>
                 <th>Username</th>
                 <th>Usertype</th>
@@ -109,6 +109,15 @@
             <tbody>
               <?php foreach ($results as $res): ?>
                 <tr>
+                  <td>
+                    <a href="<?=base_url('users/update/'.$res['username'])?>">
+                      <?php if (filexist($res['img']) && $res['img']): ?>
+                        <img class="profile-user-img img-responsive img-circle" src="<?=base_url('uploads/'.$res['img'])?>" alt="User profile picture">
+                      <?php else: ?>
+                        <img class="profile-user-img img-responsive img-circle" src="<?=base_url('assets/img/no_image.gif')?>" alt="User profile picture">                
+                      <?php endif ?>
+                    </a>
+                  </td>
                   <td><a href="<?=base_url('users/update/'.$res['username'])?>"><?=$res['name']?></a></td>
                   <td><a href="<?=base_url('users/update/'.$res['username'])?>"><?=$res['username']?></a></td>
                   <td><a href="<?=base_url('users/update/'.$res['username'])?>"><?=$res['usertype']?></a></td>
