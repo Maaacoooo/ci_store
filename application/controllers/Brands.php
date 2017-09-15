@@ -124,7 +124,7 @@ class Brands extends CI_Controller {
 			$data['logs']		= $this->logs_model->fetch_logs('brand', $id, 50);
 			$data['title'] 		= $data['info']['title'];
 	
-			//Paginated data - Candidate Names				            
+			//Paginated data			            
 		   	$config['num_links'] = 5;
 			$config['base_url'] = base_url('/brands/view/'.$id.'/items/');
 			$config["total_rows"] = $this->brand_model->count_brands_item($data['info']['title']);

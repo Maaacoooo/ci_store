@@ -177,7 +177,7 @@ Class Brand_model extends CI_Model
             items.category,
             items.SRP,
             items.DP,
-            items.description,
+            items.serial,
             items.unit,
             SUM(item_inventory.qty) as qty
             ');
@@ -191,10 +191,6 @@ Class Brand_model extends CI_Model
 
     }
 
-    /**
-     * Returns the total number of rows of users
-     * @return int       the total rows
-     */
     function count_brands_item($brand) {
         $this->db->where('is_deleted', 0);
         $this->db->where('brand', $brand);
