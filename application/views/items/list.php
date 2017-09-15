@@ -234,7 +234,7 @@
           </div>
           <!-- /.box-body -->
           <div class="box-footer">
-            <button type="submit" class="btn btn-info pull-right">Register New User</button>
+            <button type="submit" class="btn btn-info pull-right">Register New Item</button>
           </div>
           <!-- /.box-footer -->
         <?=form_close()?>
