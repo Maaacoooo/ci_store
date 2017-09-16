@@ -269,7 +269,7 @@ class Locations extends CI_Controller {
 			$data['total_items'] = $this->location_model->count_inventory($data['info']['title']);
 
 
-			$data['title'] 		= 'Total Inventory Report';
+			$data['title'] 		= 'Storage Inventory Report - ' . $data['info']['title'];
 
 		
 			//Validate Usertype
