@@ -233,7 +233,9 @@ Class Export_Model extends CI_Model {
             ');          
            
             $this->db->where('export_items.export_id', $export_id);
-            $this->db->where('export_items.user', $user);      
+            if($user) {
+              $this->db->where('export_items.user', $user);     
+            }
 
             $query = $this->db->get("export_items");
 

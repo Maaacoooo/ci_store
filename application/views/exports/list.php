@@ -120,7 +120,11 @@
                            <span class="label bg-blue">Verified</span>                      
                            <span class="label bg-blue">In-Transit</span>   
                          <?php elseif($res['status'] == 3): ?>
-                           <span class="label bg-green">Received</span>                                    
+                           <span class="label label-info">Received</span>                                    
+                           <span class="label label-warning">Verification</span>     
+                         <?php elseif($res['status'] == 4): ?>
+                           <span class="label bg-green">Imported</span>                                    
+                           <span class="label bg-green">Verified</span>                                    
                          <?php endif ?>
                       </td>                  
                       <td class="bg-warning"><a href="<?=base_url('exports/view/'.$res['id'])?>"><?=$res['courier']?></a></td>

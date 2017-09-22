@@ -120,7 +120,11 @@
                        <span class="label bg-blue">Verified</span>                      
                        <span class="label bg-blue">In-Transit</span>   
                      <?php elseif($info['status'] == 3): ?>
-                       <span class="label bg-green">Received</span>                                    
+                       <span class="label label-info">Received</span>                                    
+                       <span class="label label-warning">Verification</span>     
+                     <?php elseif($info['status'] == 4): ?>
+                       <span class="label bg-green">Imported</span>                                    
+                       <span class="label bg-green">Verified</span>                                    
                      <?php endif ?>
                    </td>
                  </tr>
@@ -179,6 +183,11 @@
                   </tr>
                 <?php endif ?>
               </table><!-- /.table table-bordered -->
+              <?php if ($info['status'] == 2 && $user['usertype'] == 'Administrator'): ?>
+                <button type="button" class="btn btn-success btn-lg pull-right" data-toggle="modal" data-target="#modalVerify">
+                   <i class="glyphicon glyphicon-download-alt"></i> Receive Export
+                 </button>
+              <?php endif; ?>
             </div><!-- /.col-md-8 -->
           </div><!-- /.row -->
         </div>
@@ -189,24 +198,23 @@
       </div>
       <!-- /.box -->
 
-
       <div class="modal modal fade" id="modalVerify">
           <div class="modal-dialog">
-          <?=form_open('exports/verify')?>
+          <?=form_open('imports/create')?>
             <div class="modal-content">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title"><i class="fa fa-check"></i> Verify Export</h4>
+                <h4 class="modal-title"><i class="glyphicon glyphicon-download-alt"></i> Receive Export</h4>
               </div>
               <div class="modal-body">
                 <p>
-                Are you sure to verify this Export? <br />
-                Note that <strong class="text-danger">AFTER SUBMITTING</strong>, you <strong class="text-danger">CANNOT UNDO</strong> any input given.</p>
+                Are you sure to Receive this Export? <br />
+                You will be redirected to Import Verification Page to verify import.
               </div>
                <input type="hidden" name="id" value="<?=$this->encryption->encrypt($info['id'])?>" />              
               <div class="modal-footer">
                 <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-success">Verify</button>
+                <button type="submit" class="btn btn-success">Receive</button>
               </div>
             </div>
             <!-- /.modal-content -->
@@ -214,8 +222,9 @@
           </div>
           <!-- /.modal-dialog -->
         </div>
-        <!-- /.modal -->
+        <!-- /.modal -->           
 
+     
     </section>
     <!-- /.content -->
   </div>
