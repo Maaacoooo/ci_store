@@ -129,11 +129,13 @@ Class Item_Model extends CI_Model {
      */
     function count_items($search, $brand) {
         if($search) {
+          $this->db->group_start();
           $this->db->like('name', $search);
           $this->db->or_like('category', $search);
           $this->db->or_like('description', $search);
           $this->db->or_like('serial', $search);
           $this->db->or_like('id', $search);
+          $this->db->group_end();
         }
         if($brand) {
               $this->db->where('items.brand', $brand);
