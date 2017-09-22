@@ -45,6 +45,7 @@
             <li><a href="<?=base_url('exports/received')?>"><i class="fa fa-cart-arrow-down"></i> <span>Received Exports</span></a></li>   
           </ul>
         </li>             
+        <li><a href="<?=base_url('imports')?>"><i class="fa fa-bookmark"></i> <span>Imports</span></a></li>
         <li><a href="<?=base_url('brands')?>"><i class="fa fa-bookmark"></i> <span>Affiliated Brands / Company</span></a></li>
         <li><a href="<?=base_url('locations')?>"><i class="fa fa-building"></i> <span>Storage Locations</span></a></li>
         <li><a href="<?=base_url('users')?>"><i class="fa fa-users"></i> <span>Users</span></a></li>
