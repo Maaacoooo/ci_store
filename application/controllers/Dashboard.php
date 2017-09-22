@@ -24,7 +24,8 @@ class Dashboard extends CI_Controller {
 			$data['passwordverify'] = $this->user_model->check_user($userdata['username'], 'Inventory2017'); //boolean - returns false if default password
 
 			if($data['user']['usertype'] == 'Administrator') {
-				$this->load->view('blank', $data);					
+				$data['intransit_exports'] = $this->export_model->fetch_exports(0, 0, 0, 0, 2);				
+				$this->load->view('dashboard/dashboard_admin', $data);						
 
 			} else {
 
