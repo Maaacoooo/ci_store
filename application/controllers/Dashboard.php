@@ -22,7 +22,16 @@ class Dashboard extends CI_Controller {
 			$data['user'] = $this->user_model->userdetails($userdata['username']); //fetches users record
 
 			$data['passwordverify'] = $this->user_model->check_user($userdata['username'], 'Inventory2017'); //boolean - returns false if default password
-			$data['items'] = $this->export_model->fetch_export_items(0, $data['user']['username']);
+
+			if($data['user']['usertype'] == 'Administrator') {
+
+			} else {
+
+				$data['items'] = $this->export_model->fetch_export_items(0, $data['user']['username']);
+				$data['pending_exports'] = $this->export_model->fetch_exports(0, 0, 0, $data['user']['brand'], 1);
+				$data['intransit_exports'] = $this->export_model->fetch_exports(0, 0, 0, $data['user']['brand'], 2);
+
+			}
 
 			$this->load->view('dashboard/dashboard_user', $data);					
 

@@ -96,14 +96,12 @@
           <h3 class="box-title">Export Items</h3>
 
           <div class="box-tools pull-right">
-            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
-                    title="Collapse">
-              <i class="fa fa-minus"></i></button>      
+            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>      
           </div>
         </div>
         <div class="box-body">
           <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-8 table-responsive">
               <?=form_open('exports/add_item')?>
                 <div class="input-group">
                   <input type="text" name="item" id="item" placeholder="Scan Barcode / Type to Search / Input ITEM ID or Serial..." class="form-control">
@@ -118,7 +116,7 @@
                 <thead>
                   <tr>
                     <th width="10%">Item ID</th>
-                    <th width="30%">Item Name</th>
+                    <th width="40%">Item Name</th>
                     <th>Unit</th>
                     <th>DP</th>
                     <th>QTY</th>
@@ -161,6 +159,7 @@
               <?=form_close()?>
             </div><!-- /.col-md-8 -->
             <div class="col-md-4">
+            <?=form_open('exports/create')?>
               <div class="form-group">
                   <label for="courier">Courier</label>
                   <input type="text" name="courier" class="form-control" id="courier" placeholder="Courier...">
@@ -176,6 +175,7 @@
                <div class="form-group">
                  <button type="submit" class="btn btn-primary btn-block"><i class="fa fa-share-square"></i> Export Items</button>
                </div><!-- /.form-group -->
+            <?=form_close()?>
             </div><!-- /.col-md-4 -->
           </div><!-- /.row -->
         </div>
@@ -190,19 +190,90 @@
       <div class="box">
         <div class="box-header with-border">
           <h3 class="box-title">Pending Exports</h3>
-
           <div class="box-tools pull-right">
-            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
-                    title="Collapse">
-              <i class="fa fa-minus"></i></button>      
+            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>      
           </div>
         </div>
         <div class="box-body">
-          Start creating your amazing application!
+          <?php if ($pending_exports): ?>
+          <table class="table table-condensed table-striped">
+            <thead>
+              <tr>
+                <th>EXP. ID</th>
+                <th>Courier</th>
+                <th>Tracking</th>
+                <th>Last Updated</th>
+                <th>User</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php foreach ($pending_exports as $exp): ?>
+                <tr>
+                  <td><a href="<?=base_url('exports/view/'.$exp['id'])?>">#<?=prettyID($exp['id'])?></a></td>
+                  <td><a href="<?=base_url('exports/view/'.$exp['id'])?>"><?=$exp['courier']?></a></td>
+                  <td><a href="<?=base_url('exports/view/'.$exp['id'])?>"><?=$exp['tracking_no']?></a></td>
+                  <td><a href="<?=base_url('exports/view/'.$exp['id'])?>"><?=$exp['updated_at']?></a></td>
+                  <td><a href="<?=base_url('exports/view/'.$exp['id'])?>"><?=$exp['user']?></a></td>
+                </tr>
+              <?php endforeach ?>
+            </tbody>
+          </table><!-- /.table table-condensed table-striped -->  
+          <?php else: ?>
+            <div class="callout callout-info">
+              <h4>No Pending Exports</h4>
+              <p>You have no Pending Exports.</p>
+            </div>
+          <?php endif ?>
         </div>
         <!-- /.box-body -->
         <div class="box-footer">
-          Footer
+        </div>
+        <!-- /.box-footer-->
+      </div>
+      <!-- /.box -->
+
+
+      <!-- Default box -->
+      <div class="box">
+        <div class="box-header with-border">
+          <h3 class="box-title">In-Transit Exports</h3>
+          <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>      
+          </div>
+        </div>
+        <div class="box-body">
+          <?php if ($intransit_exports): ?>
+          <table class="table table-condensed table-striped">
+            <thead>
+              <tr>
+                <th>EXP. ID</th>
+                <th>Courier</th>
+                <th>Tracking</th>
+                <th>Last Updated</th>
+                <th>User</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php foreach ($intransit_exports as $exp): ?>
+                <tr>
+                  <td><a href="<?=base_url('exports/view/'.$exp['id'])?>">#<?=prettyID($exp['id'])?></a></td>
+                  <td><a href="<?=base_url('exports/view/'.$exp['id'])?>"><?=$exp['courier']?></a></td>
+                  <td><a href="<?=base_url('exports/view/'.$exp['id'])?>"><?=$exp['tracking_no']?></a></td>
+                  <td><a href="<?=base_url('exports/view/'.$exp['id'])?>"><?=$exp['updated_at']?></a></td>
+                  <td><a href="<?=base_url('exports/view/'.$exp['id'])?>"><?=$exp['user']?></a></td>
+                </tr>
+              <?php endforeach ?>
+            </tbody>
+          </table><!-- /.table table-condensed table-striped -->  
+          <?php else: ?>
+            <div class="callout callout-info">
+              <h4>No In-Transit Exports</h4>
+              <p>You have no In-Transit Exports.</p>
+            </div>
+          <?php endif ?>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer">
         </div>
         <!-- /.box-footer-->
       </div>
@@ -212,7 +283,7 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
-
+        
   <footer class="main-footer">    
     <?php $this->load->view('inc/footer')?>    
   </footer>

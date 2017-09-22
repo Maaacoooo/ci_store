@@ -87,6 +87,9 @@ Class Item_Model extends CI_Model {
               $this->db->or_like('items.description', $search);
               $this->db->or_like('items.serial', $search);
               $this->db->or_like('items.id', $search);
+                if($brand) {
+                  $this->db->having('items.brand', $brand);
+              }
             }
 
             if($brand) {
@@ -132,11 +135,9 @@ Class Item_Model extends CI_Model {
           $this->db->or_like('serial', $search);
           $this->db->or_like('id', $search);
         }
-
         if($brand) {
               $this->db->where('items.brand', $brand);
         }
-
         $this->db->where('is_deleted', 0);
         return $this->db->count_all_results("items");
     }
@@ -249,7 +250,7 @@ Class Item_Model extends CI_Model {
     function search($q, $brand){
             
             if($brand) {
-              $this->db->where('brand', $brand);
+              $this->db->having('brand', $brand);
             }
             $this->db->like('name', $q);
             $this->db->or_like('description', $q);

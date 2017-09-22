@@ -10,6 +10,43 @@ class Exports extends CI_Controller {
 	}	
 
 
+	public function create()		{
+
+		$userdata = $this->session->userdata('admin_logged_in'); //it's pretty clear it's a userdata
+
+		if($userdata)	{
+			
+			//FORM VALIDATION
+			$this->form_validation->set_rules('courier', 'Courier', 'trim');   
+			$this->form_validation->set_rules('track', 'Tracking No.', 'trim');   
+			$this->form_validation->set_rules('remarks', 'Remarks', 'trim');   
+		 
+		   if($this->form_validation->run() == FALSE)	{
+
+				$this->session->set_flashdata('error', 'An Error has Occured!');
+				redirect($_SERVER['HTTP_REFERER'], 'refresh');
+
+			} else {
+				$export_id = $this->export_model->create($userdata['username']); //get export ID
+
+				if($export_id) {					
+					$this->session->set_flashdata('success', 'Export ready for verification');
+					redirect('exports/view/'.$export_id, 'refresh');
+				} else {
+					$this->session->set_flashdata('error', 'An Error has Occured! Check items and inputs.');
+					redirect($_SERVER['HTTP_REFERER'], 'refresh');
+				}
+			}
+
+		} else {
+
+			$this->session->set_flashdata('error', 'You need to login!');
+			redirect('dashboard/login', 'refresh');
+		}
+
+	}
+
+
 	public function autocomplete_items()		{
 
 		$userdata = $this->session->userdata('admin_logged_in'); //it's pretty clear it's a userdata
@@ -91,7 +128,11 @@ class Exports extends CI_Controller {
 	 * @return [type]       [description]
 	 */
 	function check_item($item) {
-		if($this->item_model->view($item)) {
+
+		$userdata = $this->session->userdata('admin_logged_in'); //it's pretty clear it's a userdata
+		$user = $this->user_model->userdetails($userdata['username']); //fetches users record
+
+		if($this->item_model->view($item) && $this->item_model->view($item)['brand'] == $user['brand']) {
 			return TRUE;
 		} else {
 			$this->form_validation->set_message('check_item', 'No Item Record Found!');		
