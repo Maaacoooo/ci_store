@@ -186,99 +186,104 @@
       </div>
       <!-- /.box -->
 
-      <!-- Default box -->
-      <div class="box">
-        <div class="box-header with-border">
-          <h3 class="box-title">Pending Exports</h3>
-          <div class="box-tools pull-right">
-            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>      
-          </div>
-        </div>
-        <div class="box-body">
-          <?php if ($pending_exports): ?>
-          <table class="table table-condensed table-striped">
-            <thead>
-              <tr>
-                <th>EXP. ID</th>
-                <th>Courier</th>
-                <th>Tracking</th>
-                <th>Last Updated</th>
-                <th>User</th>
-              </tr>
-            </thead>
-            <tbody>
-              <?php foreach ($pending_exports as $exp): ?>
-                <tr>
-                  <td><a href="<?=base_url('exports/view/'.$exp['id'])?>">#<?=prettyID($exp['id'])?></a></td>
-                  <td><a href="<?=base_url('exports/view/'.$exp['id'])?>"><?=$exp['courier']?></a></td>
-                  <td><a href="<?=base_url('exports/view/'.$exp['id'])?>"><?=$exp['tracking_no']?></a></td>
-                  <td><a href="<?=base_url('exports/view/'.$exp['id'])?>"><?=$exp['updated_at']?></a></td>
-                  <td><a href="<?=base_url('exports/view/'.$exp['id'])?>"><?=$exp['user']?></a></td>
-                </tr>
-              <?php endforeach ?>
-            </tbody>
-          </table><!-- /.table table-condensed table-striped -->  
-          <?php else: ?>
-            <div class="callout callout-info">
-              <h4>No Pending Exports</h4>
-              <p>You have no Pending Exports.</p>
+      <div class="row">
+        <div class="col-sm-12 col-md-6">
+          <!-- Default box -->
+            <div class="box">
+              <div class="box-header with-border">
+                <h3 class="box-title">Pending Exports</h3>
+                <div class="box-tools pull-right">
+                  <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>      
+                </div>
+              </div>
+              <div class="box-body">
+                <?php if ($pending_exports): ?>
+                <table class="table table-condensed table-striped">
+                  <thead>
+                    <tr>
+                      <th>EXP. ID</th>
+                      <th>Courier</th>
+                      <th>Tracking</th>
+                      <th>Last Updated</th>
+                      <th>User</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <?php foreach ($pending_exports as $exp): ?>
+                      <tr>
+                        <td><a href="<?=base_url('exports/view/'.$exp['id'])?>">#<?=prettyID($exp['id'])?></a></td>
+                        <td><a href="<?=base_url('exports/view/'.$exp['id'])?>"><?=$exp['courier']?></a></td>
+                        <td><a href="<?=base_url('exports/view/'.$exp['id'])?>"><?=$exp['tracking_no']?></a></td>
+                        <td><a href="<?=base_url('exports/view/'.$exp['id'])?>"><?=$exp['updated_at']?></a></td>
+                        <td><a href="<?=base_url('exports/view/'.$exp['id'])?>"><?=$exp['user']?></a></td>
+                      </tr>
+                    <?php endforeach ?>
+                  </tbody>
+                </table><!-- /.table table-condensed table-striped -->  
+                <?php else: ?>
+                  <div class="callout callout-info">
+                    <h4>No Pending Exports</h4>
+                    <p>You have no Pending Exports.</p>
+                  </div>
+                <?php endif ?>
+              </div>
+              <!-- /.box-body -->
+              <div class="box-footer">
+              </div>
+              <!-- /.box-footer-->
             </div>
-          <?php endif ?>
-        </div>
-        <!-- /.box-body -->
-        <div class="box-footer">
-        </div>
-        <!-- /.box-footer-->
-      </div>
-      <!-- /.box -->
+            <!-- /.box -->
+        </div><!-- /.col-sm-12 col-md-6 -->
 
-
-      <!-- Default box -->
-      <div class="box">
-        <div class="box-header with-border">
-          <h3 class="box-title">In-Transit Exports</h3>
-          <div class="box-tools pull-right">
-            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>      
-          </div>
-        </div>
-        <div class="box-body">
-          <?php if ($intransit_exports): ?>
-          <table class="table table-condensed table-striped">
-            <thead>
-              <tr>
-                <th>EXP. ID</th>
-                <th>Courier</th>
-                <th>Tracking</th>
-                <th>Last Updated</th>
-                <th>User</th>
-              </tr>
-            </thead>
-            <tbody>
-              <?php foreach ($intransit_exports as $exp): ?>
-                <tr>
-                  <td><a href="<?=base_url('exports/view/'.$exp['id'])?>">#<?=prettyID($exp['id'])?></a></td>
-                  <td><a href="<?=base_url('exports/view/'.$exp['id'])?>"><?=$exp['courier']?></a></td>
-                  <td><a href="<?=base_url('exports/view/'.$exp['id'])?>"><?=$exp['tracking_no']?></a></td>
-                  <td><a href="<?=base_url('exports/view/'.$exp['id'])?>"><?=$exp['updated_at']?></a></td>
-                  <td><a href="<?=base_url('exports/view/'.$exp['id'])?>"><?=$exp['user']?></a></td>
-                </tr>
-              <?php endforeach ?>
-            </tbody>
-          </table><!-- /.table table-condensed table-striped -->  
-          <?php else: ?>
-            <div class="callout callout-info">
-              <h4>No In-Transit Exports</h4>
-              <p>You have no In-Transit Exports.</p>
-            </div>
-          <?php endif ?>
-        </div>
-        <!-- /.box-body -->
-        <div class="box-footer">
-        </div>
-        <!-- /.box-footer-->
-      </div>
-      <!-- /.box -->
-
+        <div class="col-sm-12 col-md-6">
+            <!-- Default box -->
+              <div class="box">
+                <div class="box-header with-border">
+                  <h3 class="box-title">In-Transit Exports</h3>
+                  <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>      
+                  </div>
+                </div>
+                <div class="box-body">
+                  <?php if ($intransit_exports): ?>
+                  <table class="table table-condensed table-striped">
+                    <thead>
+                      <tr>
+                        <th>EXP. ID</th>
+                        <th>Courier</th>
+                        <th>Tracking</th>
+                        <th>Last Updated</th>
+                        <th>User</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <?php foreach ($intransit_exports as $exp): ?>
+                        <tr>
+                          <td><a href="<?=base_url('exports/view/'.$exp['id'])?>">#<?=prettyID($exp['id'])?></a></td>
+                          <td><a href="<?=base_url('exports/view/'.$exp['id'])?>"><?=$exp['courier']?></a></td>
+                          <td><a href="<?=base_url('exports/view/'.$exp['id'])?>"><?=$exp['tracking_no']?></a></td>
+                          <td><a href="<?=base_url('exports/view/'.$exp['id'])?>"><?=$exp['updated_at']?></a></td>
+                          <td><a href="<?=base_url('exports/view/'.$exp['id'])?>"><?=$exp['user']?></a></td>
+                        </tr>
+                      <?php endforeach ?>
+                    </tbody>
+                  </table><!-- /.table table-condensed table-striped -->  
+                  <?php else: ?>
+                    <div class="callout callout-info">
+                      <h4>No In-Transit Exports</h4>
+                      <p>You have no In-Transit Exports.</p>
+                    </div>
+                  <?php endif ?>
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer">
+                </div>
+                <!-- /.box-footer-->
+              </div>
+              <!-- /.box -->
+        </div><!-- /.col-sm-12 col-md-6 -->
+      </div><!-- /.row -->    
+      
     </section>
     <!-- /.content -->
   </div>
