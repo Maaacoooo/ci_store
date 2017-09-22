@@ -136,6 +136,12 @@
                    <th>Date Created</th>
                    <td><em><?=$info['created_at']?></em></td>
                  </tr>
+                 <tr>
+                   <th colspan="2">Remarks</th>
+                 </tr>
+                 <tr>
+                   <td colspan="2"><?=$info['remarks']?></td>
+                 </tr>
                </table><!-- /.table -->             
             </div><!-- /.col-md-4 -->
             <div class="col-md-8 table-responsive">
