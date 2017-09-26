@@ -102,6 +102,7 @@ Class Item_Model extends CI_Model {
             items.id,
             items.name,
             items.brand,
+            items.serial,
             items.category,
             items.SRP,
             items.DP,
