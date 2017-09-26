@@ -345,6 +345,7 @@
 
 
     <?php $this->load->view('inc/js')?>    
-  
+    <script src="<?=base_url('assets/bower_components/ckeditor/ckeditor.js')?>"></script>
+   
 </body>
 </html>
