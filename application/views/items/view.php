@@ -35,14 +35,15 @@
         <?=$title?>        
       </h1>
       <ol class="breadcrumb">
-        <li><a href="<?=base_url()?>">Dashboard</a></li>
-        <li><a href="<?=base_url('items')?>">Items</a></li>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Examples</a></li>
         <li class="active"><?=$title?></li>
       </ol>
     </section>
 
-   <section class="content">
-
+    <!-- Main content -->
+    <section class="content">
+      
       <div class="row">
         <div class="col-xs-12">
           <?php
@@ -52,7 +53,6 @@
             $flash_success = $this->session->flashdata('success');
             $flash_valid =  validation_errors();                 
             if($this->session->flashdata('error')): ?>
-
             <div class="alert alert-danger alert-dismissible">
               <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
               <h4><i class="icon fa fa-ban"></i> Oops!</h4>
@@ -82,6 +82,8 @@
         </div><!-- /.col-xs-12 -->
       </div><!-- /.row -->
 
+      
+      
       <div class="row">
         <div class="col-md-3">
 
@@ -290,9 +292,9 @@
                       </div>                                            
                     </div>
                   </div>
-              <?=form_close()?>
-              </div>
-              <!-- /.tab-pane -->
+                  <!-- /.tab-pane -->
+              <?=form_close()?>            
+              
             </div>
             <!-- /.tab-content -->
           </div>
@@ -302,11 +304,20 @@
       </div>
       <!-- /.row -->
 
+
     </section>
+    <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
 
-  <!-- Modals -->  
+  <footer class="main-footer">    
+    <?php $this->load->view('inc/footer')?>    
+  </footer>
+
+</div>
+<!-- ./wrapper -->
+
+<!-- Modals -->  
         <div class="modal modal-danger fade" id="modalDelete" style="display: none;">
           <div class="modal-dialog">
           <?=form_open('items/delete')?>
@@ -333,16 +344,7 @@
         </div>
 
 
-
-  <footer class="main-footer">    
-    <?php $this->load->view('inc/footer')?>    
-  </footer>
-
-</div>
-<!-- ./wrapper -->
-
     <?php $this->load->view('inc/js')?>    
-    <script src="<?=base_url('assets/bower_components/ckeditor/ckeditor.js')?>"></script>    
   
 </body>
 </html>
