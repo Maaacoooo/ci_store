@@ -103,6 +103,7 @@
               <tr>
                 <th>ID</th>
                 <th>Item Name</th>
+                <th>Unit</th>
                 <th>Brand</th>
                 <th>Category</th>
                 <th>SRP</th>
@@ -115,6 +116,7 @@
                 <tr>
                   <td><a href="<?=base_url('items/view/'.$res['id'])?>"><?=$res['id']?></a></td>
                   <td><a href="<?=base_url('items/view/'.$res['id'])?>"><?=$res['name']?></a></td>
+                  <td><a href="<?=base_url('items/view/'.$res['id'])?>"><?=$res['unit']?></a></td>
                   <td><a href="<?=base_url('items/view/'.$res['id'])?>"><?=$res['brand']?></a></td>
                   <td><a href="<?=base_url('items/view/'.$res['id'])?>"><?=$res['category']?></a></td>
                   <td><a href="<?=base_url('items/view/'.$res['id'])?>"><?=$res['SRP']?></a></td>
