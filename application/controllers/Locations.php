@@ -8,6 +8,7 @@ class Locations extends CI_Controller {
 		parent::__construct();		
        $this->load->model('user_model');
        $this->load->model('location_model');
+       $this->load->model('move_model');
 	}	
 
 
@@ -117,7 +118,8 @@ class Locations extends CI_Controller {
 			$data['info']			= $this->location_model->view($id);		
 			$data['logs']			= $this->logs_model->fetch_logs('location', $id, 50);
 			$data['title'] 			= $data['info']['title'];
-
+			$data['items']			= $this->move_model->fetch_move_items($id, $userdata['username'], 0);
+			$data['locations']		= $this->location_model->fetch_locations(0, 0, 0);
 
 			//Paginated data			            
 		   	$config['num_links'] = 5;
@@ -161,7 +163,7 @@ class Locations extends CI_Controller {
 			//Validate Usertype
 			if($data['user']['usertype'] == 'Administrator') {
 				if($this->form_validation->run() == FALSE)	{
-				$this->load->view('location/view', $data);
+					$this->load->view('location/view', $data);
 				} else {			
 
 					//Proceed saving candidate				
@@ -184,9 +186,12 @@ class Locations extends CI_Controller {
 						
 					
 						$this->session->set_flashdata('success', 'Succes! Location Updated!');
+						$this->session->set_flashdata('flash_loc', '1');
+
 						redirect($_SERVER['HTTP_REFERER'], 'refresh');
 					} else {
 						//failure
+						$this->session->set_flashdata('flash_loc', '1');						
 						$this->session->set_flashdata('error', 'Oops! Error occured!');
 						redirect($_SERVER['HTTP_REFERER'], 'refresh');
 					}			
