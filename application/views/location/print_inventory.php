@@ -24,7 +24,7 @@
         <h2 class="page-header">
           <?=$site_title?>
           <small class="pull-right">Printed: <?=unix_to_human(now())?></small>
-          <small>Storang Inventory Report &middot; <?=$info['title']?></small>
+          <small>Storage Inventory Report &middot; <?=$info['title']?></small>
         </h2>
       </div>
       <!-- /.col -->
