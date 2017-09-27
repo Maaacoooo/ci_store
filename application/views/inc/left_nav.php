@@ -25,7 +25,8 @@
         <li><a href="<?=base_url('exports')?>"><i class="fa fa-share-square"></i> <span>My Exports</span></a></li>
         <li><a href="<?=base_url('exports/pending')?>"><i class="fa fa-pencil-square-o"></i> <span>Pending Exports</span></a></li>
         <li><a href="<?=base_url('exports/in_transit')?>"><i class="fa fa-truck"></i> <span>In-Transit Exports</span></a></li>
-        <li><a href="<?=base_url('exports/received')?>"><i class="fa fa-cart-arrow-down"></i> <span>Received Exports</span></a></li>       
+        <li><a href="<?=base_url('exports/received')?>"><i class="fa fa-cart-arrow-down"></i> <span>Received Exports</span></a></li>    
+        <li><a href="<?=base_url('requests')?>"><i class="fa fa-bookmark"></i> <span>Requests</span></a></li>           
         <?php endif ?>     
 
         <?php if ($user['usertype'] == 'Administrator'): ?>
@@ -46,6 +47,7 @@
           </ul>
         </li>             
         <li><a href="<?=base_url('imports')?>"><i class="fa fa-bookmark"></i> <span>Imports</span></a></li>
+        <li><a href="<?=base_url('requests')?>"><i class="fa fa-bookmark"></i> <span>Requests</span></a></li>
         <li><a href="<?=base_url('brands')?>"><i class="fa fa-bookmark"></i> <span>Affiliated Brands / Company</span></a></li>
         <li><a href="<?=base_url('locations')?>"><i class="fa fa-building"></i> <span>Storage Locations</span></a></li>
         <li><a href="<?=base_url('users')?>"><i class="fa fa-users"></i> <span>Users</span></a></li>

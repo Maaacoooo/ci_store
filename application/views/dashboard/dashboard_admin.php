@@ -134,10 +134,95 @@
       </div>
       <!-- /.box -->
 
+
+      <!-- Default box -->
+      <div class="box box-warning">
+        <div class="box-header with-border">
+          <h3 class="box-title">Pending Requests</h3>
+          <div class="box-tools pull-right">
+            <button type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#RequestModal">Request</button>
+            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>      
+          </div>
+        </div>
+        <div class="box-body">
+          <?php if ($pending_requests): ?>
+          <table class="table table-condensed table-striped">
+            <thead>
+              <tr>
+                <th>REQ. ID</th>
+                <th>Brand</th>
+                <th>Last Updated</th>
+                <th>Requestor</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php foreach ($pending_requests as $pen_req): ?>
+                <tr>
+                  <td><a href="<?=base_url('requests/view/'.$pen_req['id'])?>">#<?=prettyID($pen_req['id'])?></a></td>
+                  <td><a href="<?=base_url('requests/view/'.$pen_req['id'])?>"><?=$pen_req['brand']?></a></td>
+                  <td><a href="<?=base_url('requests/view/'.$pen_req['id'])?>"><?=$pen_req['created_at']?></a></td>
+                  <td><a href="<?=base_url('requests/view/'.$pen_req['id'])?>"><?=$pen_req['user']?></a></td>
+                </tr>
+              <?php endforeach ?>
+            </tbody>
+          </table><!-- /.table table-condensed table-striped -->  
+          <?php else: ?>
+            <div class="callout callout-warning">
+              <h4>No Pending Requests</h4>
+              <p>You have no Pending Requests.</p>
+            </div>
+          <?php endif ?>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer">
+        </div>
+        <!-- /.box-footer-->
+      </div>
+      <!-- /.box -->
+
     </section>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
+
+  <!-- Modals -->  
+        <div class="modal fade" id="RequestModal" style="display: none;">
+          <div class="modal-dialog">
+          <?=form_open('requests/create')?>
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">×</span></button>
+                <h4 class="modal-title"><i class="fa fa-external-link-square"></i> Request</h4>
+              </div>
+              <div class="modal-body">
+                <div class="form-group">
+                  <label for="brand">Supplier / Company / Brand</label>
+                  <select name="brand" id="brand" class="form-control" required="">
+                    <option selected="" disabled="">Select Supplier...</option>
+                    <?php if ($brands): ?>
+                    <?php foreach ($brands as $brn): ?>
+                    <option value="<?=$brn['title']?>"><?=$brn['title']?></option>
+                    <?php endforeach ?>
+                    <?php endif ?>
+                  </select>
+                </div><!-- /.form-group -->
+                <div class="form-group">
+                  <label for="remarks">Remarks</label>
+                  <textarea name="remarks" id="remarks" class="ckeditor" cols="30" rows="10"></textarea>
+                </div><!-- /.form-group -->
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-warning">Request</button>
+              </div>
+            </div>
+            <!-- /.modal-content -->
+          <?=form_close()?>
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
+
         
   <footer class="main-footer">    
     <?php $this->load->view('inc/footer')?>    
@@ -147,6 +232,7 @@
 <!-- ./wrapper -->
 
     <?php $this->load->view('inc/js')?>    
+    <script src="<?=base_url('assets/bower_components/ckeditor/ckeditor.js')?>"></script>
     
   
 </body>

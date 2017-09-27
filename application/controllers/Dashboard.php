@@ -8,6 +8,8 @@ class Dashboard extends CI_Controller {
 		parent::__construct();		
        $this->load->model('user_model');
        $this->load->model('export_model');
+       $this->load->model('item_model');
+       $this->load->model('request_model');
 	}	
 
 
@@ -24,11 +26,14 @@ class Dashboard extends CI_Controller {
 			$data['passwordverify'] = $this->user_model->check_user($userdata['username'], 'Inventory2017'); //boolean - returns false if default password
 
 			if($data['user']['usertype'] == 'Administrator') {
-				$data['intransit_exports'] = $this->export_model->fetch_exports(0, 0, 0, 0, 2);				
+
+				$data['brands']				= $this->item_model->fetch_brand();
+				$data['intransit_exports'] 	= $this->export_model->fetch_exports(0, 0, 0, 0, 2);				
+				$data['pending_requests'] 	= $this->request_model->fetch_requests(0, 0, NULL, NULL, 1);				
 				$this->load->view('dashboard/dashboard_admin', $data);						
 
 			} else {
-
+				$data['pending_requests'] 	= $this->request_model->fetch_requests(0, 0, NULL, $data['user']['brand'], 2);		
 				$data['items'] = $this->export_model->fetch_export_items(0, $data['user']['username']);
 				$data['pending_exports'] = $this->export_model->fetch_exports(0, 0, 0, $data['user']['brand'], 1);
 				$data['intransit_exports'] = $this->export_model->fetch_exports(0, 0, 0, $data['user']['brand'], 2);

@@ -89,6 +89,50 @@
       <?php endif ?>
 
       <!-- Default box -->
+      <div class="box box-warning <?php if(!$pending_requests)echo 'collapsed-box';?>">
+        <div class="box-header with-border">
+          <h3 class="box-title">Pending Client Requests</h3>
+          <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa <?php if(!$pending_requests)echo 'fa-plus'; else echo 'fa-minus';?>"></i></button>      
+          </div>
+        </div>
+        <div class="box-body">
+          <?php if ($pending_requests): ?>
+          <table class="table table-condensed table-striped">
+            <thead>
+              <tr>
+                <th>REQ. ID</th>
+                <th>Brand</th>
+                <th>Last Updated</th>
+                <th>Requestor</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php foreach ($pending_requests as $pen_req): ?>
+                <tr>
+                  <td><a href="<?=base_url('requests/view/'.$pen_req['id'])?>">#<?=prettyID($pen_req['id'])?></a></td>
+                  <td><a href="<?=base_url('requests/view/'.$pen_req['id'])?>"><?=$pen_req['brand']?></a></td>
+                  <td><a href="<?=base_url('requests/view/'.$pen_req['id'])?>"><?=$pen_req['created_at']?></a></td>
+                  <td><a href="<?=base_url('requests/view/'.$pen_req['id'])?>"><?=$pen_req['user']?></a></td>
+                </tr>
+              <?php endforeach ?>
+            </tbody>
+          </table><!-- /.table table-condensed table-striped -->  
+          <?php else: ?>
+            <div class="callout callout-warning">
+              <h4>No Pending Requests</h4>
+              <p>You have no Pending Requests.</p>
+            </div>
+          <?php endif ?>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer">
+        </div>
+        <!-- /.box-footer-->
+      </div>
+      <!-- /.box -->
+
+      <!-- Default box -->
       <div class="box">
         <div class="box-header with-border">
           <h3 class="box-title">Export Items</h3>
