@@ -38,63 +38,51 @@ Class Move_Model extends CI_Model {
 
 
     function view($id) {
-            $this->db->join('users', 'users.username = exports.user', 'left');
+            $this->db->join('users', 'users.username = move.user', 'left');
             $this->db->select('
-                exports.id,
-                exports.courier,
-                exports.tracking_no,
-                exports.remarks,
-                exports.status,
-                exports.created_at,
-                exports.updated_at,
-                exports.brand,
+                move.id,
+                move.location_to,
+                move.location_from,
+                move.remarks,
+                move.created_at,
+                move.updated_at,
                 users.name as user,
                 users.username
                 
             ');
-            $this->db->where('exports.id', $id);
-            $query = $this->db->get('exports');
+            $this->db->where('move.id', $id);
+            $query = $this->db->get('move');
 
             return $query->row_array();
     }
 
 
 
-    function fetch_exports($limit, $id, $search, $brand, $status) {
+    function fetch_move($limit, $id, $search) {
 
             if($search) {
               $this->db->group_start();
-              $this->db->like('exports.id', $search);
-              $this->db->or_like('exports.courier', $search);
-              $this->db->or_like('exports.tracking_no', $search);
+              $this->db->like('move.id', $search);
+              $this->db->or_like('move.location_to', $search);
+              $this->db->or_like('move.location_from', $search);
               $this->db->group_end();
             }
 
-            if($brand) {
-              $this->db->where('exports.brand', $brand);
-            }
 
-            if($status) {
-              $this->db->where('exports.status', $status);
-            }  
-
-            $this->db->join('users', 'users.username = exports.user', 'left');
+            $this->db->join('users', 'users.username = move.user', 'left');
             $this->db->select('
-                exports.id,
-                exports.courier,
-                exports.tracking_no,
-                exports.remarks,
-                exports.status,
-                exports.created_at,
-                exports.updated_at,
-                exports.brand,
+                move.id,
+                move.location_to,
+                move.location_from,
+                move.created_at,
+                move.updated_at,
                 users.name as user                
             ');
             
-            $this->db->order_by('exports.created_at', 'DESC');
+            $this->db->order_by('move.created_at', 'DESC');
             $this->db->limit($limit, (($id-1)*$limit));
 
-            $query = $this->db->get("exports");
+            $query = $this->db->get("move");
 
             if ($query->num_rows() > 0) {
                 return $query->result_array();
@@ -107,23 +95,16 @@ Class Move_Model extends CI_Model {
      * Returns the total number of rows of users
      * @return int       the total rows
      */
-    function count_exports($search, $brand, $status) {
+    function count_move($search) {
         if($search) {
           $this->db->group_start();
-          $this->db->like('exports.id', $search);
-          $this->db->or_like('exports.courier', $search);
-          $this->db->or_like('exports.tracking_no', $search);
+          $this->db->like('move.id', $search);
+          $this->db->or_like('move.location_to', $search);
+          $this->db->or_like('move.location_from', $search);
           $this->db->group_end();
         }
-        if($brand) {
-          $this->db->where('exports.brand', $brand);
-        }
 
-        if($status) {
-           $this->db->where('exports.status', $status);
-        } 
-
-        return $this->db->count_all_results("exports");
+        return $this->db->count_all_results("move");
     }
 
 
