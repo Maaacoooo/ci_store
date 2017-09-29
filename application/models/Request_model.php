@@ -220,10 +220,11 @@ Class Request_Model extends CI_Model {
      * @param  [type] $user   [description]
      * @return [type]         [description]
      */
-    function export($req_id, $user) {
+    function export($req_id, $user, $brand) {
 
         $data = array(              
                 'user'        => $user,
+                'brand'        => $brand,
                 'status'      => 1             
              );
        

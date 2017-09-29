@@ -282,7 +282,7 @@ class Requests extends CI_Controller {
 
 				if($this->request_model->update_status($req_id, 3)) {
 
-					$export_id = $this->request_model->export($req_id, $user['username']);
+					$export_id = $this->request_model->export($req_id, $user['username'], $this->request_model->view($req_id)['brand']);
 
 					////////////////////////////
 
