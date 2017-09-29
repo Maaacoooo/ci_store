@@ -105,6 +105,10 @@
                            <td class="text-blue"><?=$info['user']?></td>
                          </tr>
                          <tr>
+                           <th>Storage</th>
+                           <td class="text-blue"><?=$info['location']?></td>
+                         </tr>
+                         <tr>
                            <th>Status</th>
                            <td>
                              <?php if ($info['status'] == 1): ?>

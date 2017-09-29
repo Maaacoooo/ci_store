@@ -53,6 +53,7 @@ Class Import_Model extends CI_Model {
             $this->db->select('
                 imports.id,
                 imports.remarks,
+                imports.location,
                 imports.status,
                 imports.created_at,
                 imports.updated_at,
