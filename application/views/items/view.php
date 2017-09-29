@@ -177,6 +177,7 @@
                     <tr>
                       <th>User</th>
                       <th>Action</th>
+                      <th>IP Address</th>
                       <th>Date Time</th>
                     </tr>
                   </thead>
@@ -189,6 +190,7 @@
                           <a href="<?=base_url('users/update/'.$lg['tag_id'])?>" title="Check out..."><i class="fa fa-external-link"></i></a>
                         <?php endif ?>
                       </td>
+                      <td><?=$lg['ip_address']?></td>
                       <td><?=$lg['date_time']?></td>
                     </tr>
                     <?php endforeach ?>

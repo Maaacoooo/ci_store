@@ -21,10 +21,11 @@ Class Logs_model extends CI_Model
 
       
             $data = array(              
-                'user'     => $user,  
-                'tag'      => $tag,  
-                'tag_id'   => $tag_id,                 
-                'action'   => $action                         
+                'user'        => $user,  
+                'tag'         => $tag,  
+                'tag_id'      => $tag_id,                 
+                'action'      => $action,
+                'ip_address'  => $_SERVER['REMOTE_ADDR']                      
              );
        
             return $this->db->insert('logs', $data);      

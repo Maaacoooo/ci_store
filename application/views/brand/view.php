@@ -187,6 +187,7 @@
                     <tr>
                       <th>User</th>
                       <th>Action</th>
+                      <th>IP Address</th>
                       <th>Date Time</th>
                     </tr>
                   </thead>
@@ -195,6 +196,7 @@
                     <tr>
                       <td><?=$lg['user']?></td>
                       <td><?=$lg['action']?></td>
+                      <td><?=$lg['ip_address']?></td>
                       <td><?=$lg['date_time']?></td>
                     </tr>
                     <?php endforeach ?>

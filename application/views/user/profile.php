@@ -147,6 +147,7 @@
                       <th>Tag ID</th>
                       <th>Action</th>
                       <th>Date Time</th>
+                      <th>IP Address</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -160,6 +161,7 @@
                         <?php endif ?>
                       </td>
                       <td><?=$lg['date_time']?></td>
+                      <td><?=$lg['ip_address']?></td>
                     </tr>
                     <?php endforeach ?>
                   </tbody>
