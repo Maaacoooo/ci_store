@@ -114,7 +114,10 @@
                 <li class="list-group-item">
                   <b>Description</b>
                   <p><?=$info['description']?></p>
-                </li>                
+                </li>     
+                <li class="list-group-item">
+                  <a href="<?=base_url('items/view/'.$info['id'].'/barcode')?>" target="_blank" class="btn btn-block btn-primary btn-sm"><i class="fa fa-print"></i> Print Barcode</a>
+                </li><!-- /.list-group-item -->           
               </ul>
             </div>
             <!-- /.box-body -->

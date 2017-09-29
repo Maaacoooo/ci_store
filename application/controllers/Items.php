@@ -177,7 +177,14 @@ class Items extends CI_Controller {
 			//Validate Usertype
 			if($data['user']['usertype'] == 'Administrator' || $data['user']['brand'] == $data['info']['brand']) {
 				if($this->form_validation->run() == FALSE)	{
-				$this->load->view('items/view', $data);
+					//Check URI Request 
+					if($this->uri->segment(4) == 'barcode') {
+						$this->load->view('items/print_barcode', $data);						
+					} elseif(!$this->uri->segment(4)) {
+						$this->load->view('items/view', $data);
+					} else {
+						show_404();
+					}
 				} else {	
 
 					//Proceed saving candidate				
