@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 27, 2017 at 08:09 AM
+-- Generation Time: Sep 29, 2017 at 11:02 AM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 7.1.1
 
@@ -100,7 +100,51 @@ INSERT INTO `ci_sessions` (`id`, `ip_address`, `timestamp`, `data`) VALUES
 ('o6vm19v7389h6qs0vsb974dlokanenu1', '::1', 1506492196, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363439323139363b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a353a22626962626f223b7d),
 ('3cdkmlpj6cs14va6rgnfsetskqncfraj', '::1', 1506492531, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363439323533313b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a353a22626962626f223b7d),
 ('fs5mmp9r7t9kr7vou7shhlmngeejprge', '::1', 1506492527, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363439323439353b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d737563636573737c733a31373a225265717565737420566572696669656421223b5f5f63695f766172737c613a313a7b733a373a2273756363657373223b733a333a226f6c64223b7d),
-('e5adbt7ru5n0rrcq4gvqfspc8jv6qfp9', '::1', 1506492539, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363439323533313b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a353a22626962626f223b7d737563636573737c733a31373a225265717565737420416363657074656421223b5f5f63695f766172737c613a313a7b733a373a2273756363657373223b733a333a226f6c64223b7d);
+('e5adbt7ru5n0rrcq4gvqfspc8jv6qfp9', '::1', 1506496802, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363439363830323b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a353a22626962626f223b7d737563636573737c733a31373a225265717565737420416363657074656421223b5f5f63695f766172737c613a313a7b733a373a2273756363657373223b733a333a226f6c64223b7d),
+('imiu44tupc3vdsnsiikal63nppb69hj1', '::1', 1506497136, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363439373133363b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a353a2261646d696e223b7d),
+('3jrk5jotj87rp1alu3ancfcals6ce15i', '::1', 1506497459, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363439373435393b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a353a2261646d696e223b7d),
+('fkmqum9th050il048u0eam7c4d6f7lti', '::1', 1506497913, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363439373931333b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a353a2261646d696e223b7d),
+('maq6talel540f0br1mt0lt13rqjf24pc', '192.168.8.101', 1506498146, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363439383134363b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a31313a2263726f776e727562626572223b7d),
+('anbd9pvtn0d9qsd4hmu0gr6mbcveuecs', '::1', 1506498332, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363439383333323b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a353a2261646d696e223b7d),
+('9tsmuq7b8obvi8okcfhbkh9fpv04iia5', '192.168.8.101', 1506498467, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363439383436373b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a31313a2263726f776e727562626572223b7d),
+('lsfrela94cv9hvc8uq8dfs38jh495k66', '::1', 1506498653, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363439383635333b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a353a2261646d696e223b7d),
+('mtb3vr4betiadok1mcf5ngeceifs129m', '192.168.8.101', 1506500009, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363530303030393b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a31313a2263726f776e727562626572223b7d),
+('udoul1hncj19buv5uie0m1vjpauqj30r', '::1', 1506499076, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363439393037363b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a353a2261646d696e223b7d),
+('eveoaogj9vo138nf7b6dshqs04gv2shg', '::1', 1506499513, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363439393531333b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a353a2261646d696e223b7d),
+('5l1lamd04k6uios30g5l1u1te8qnak06', '::1', 1506500060, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363530303036303b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a353a2261646d696e223b7d),
+('me86q7o3nqsajil4m6svuvfe1vhc9ei3', '192.168.8.101', 1506500018, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363530303030393b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a31313a2263726f776e727562626572223b7d),
+('g7j6gqhfmbaca3hl0ht2cs1722ikghph', '::1', 1506500066, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363530303036303b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a353a2261646d696e223b7d),
+('dkkgv0sfusf68agfdc7su7vjul3bm4r1', '::1', 1506542818, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363534323831383b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
+('b43me17lcjf1sl6rk3rgehg8totd1r20', '::1', 1506543148, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363534333134383b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
+('3jf33gvd9vk55r1idp1fofimr76b14e5', '::1', 1506543527, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363534333532373b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
+('d06ljkils4mflmgtbn83r8h757bfp0h7', '::1', 1506543928, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363534333932383b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
+('54om57dmf8aad6mndnvmnkbqq9jmnt0v', '::1', 1506544400, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363534343430303b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
+('7irb3bmoreu88kojlscfirl8chipt2em', '::1', 1506544730, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363534343733303b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
+('5os1jphicqva8qgo40hfbhd3jpvbpd6k', '::1', 1506547540, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363534373534303b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
+('es567fa00euotp1pc29mi84l7vm2j989', '::1', 1506547933, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363534373933333b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
+('hogcb1582sg2e54s8413tv5ju19hn0k9', '::1', 1506548317, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363534383331373b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
+('8r1fljjit63otav4bknrum5dv41aeg3r', '::1', 1506548775, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363534383737353b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
+('nhvtt7umv52cvo9rb9e403aebeh32r6f', '::1', 1506549115, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363534393131353b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
+('k9oepktndfc523i97bn1r23mupgier7d', '::1', 1506549457, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363534393435373b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
+('5aic0gpae1ushuofgvt28aio9pjlackv', '::1', 1506549758, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363534393735383b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
+('8838qheesovniqj2vnr5teuhard5utd2', '::1', 1506550191, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363535303139313b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
+('olsfid2a67dnhnmgd4q0rhc6pejh6gh2', '::1', 1506550595, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363535303539353b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
+('aaoh740ehbnnq659k6ije3g225ct7ghk', '::1', 1506550897, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363535303839373b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
+('minh6d61ok3cm2t29i0hipknkedmjnam', '::1', 1506551204, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363535313230343b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
+('1ii30gl9oi5inctggitmbda778k59l68', '::1', 1506551705, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363535313730353b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
+('nfm6k3ebklkgg6mnej1m7838hp0urd0m', '::1', 1506552231, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363535323233313b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
+('ikmemuls4pq12n5e0640i133ci9f094n', '::1', 1506552533, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363535323533333b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
+('0fhkhq4k0n9jfpdo9dbl2bgkngq3s6oj', '::1', 1506553125, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363535333132353b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
+('ert115fm7jk2c8c3rrj0um6btpdairjp', '::1', 1506553420, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363535333132353b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
+('h4nv46fp45n5lvdeqa8qfk2pae6r1boq', '::1', 1506636372, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363633363337323b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
+('avgi8d86r953ke65qu295kgkb16vevel', '::1', 1506636690, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363633363639303b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
+('bblvgdh9dv0onnkn2800hp37k501bonn', '::1', 1506637012, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363633373031323b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
+('78bs1dd9cu4jurd39m31cltl8ujlg24c', '::1', 1506637503, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363633373530333b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
+('p13bu6r60t1f09o5qiqhhnlchg9497e8', '::1', 1506637898, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363633373839383b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
+('38fe7g544mpuhdftm68n1aee5cod4b81', '::1', 1506638374, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363633383337343b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
+('mae8ob8vfhsv67sajoq8tq1nnlnq3erl', '::1', 1506639092, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363633393039323b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
+('oud6icne6bmelg53fmqnpm9fs35rqqut', '::1', 1506640340, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363634303334303b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
+('l2aari4fuqbr8dq51fli9aspt34vontq', '::1', 1506640596, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363634303334303b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d);
 
 -- --------------------------------------------------------
 
@@ -132,7 +176,9 @@ INSERT INTO `exports` (`id`, `courier`, `tracking_no`, `remarks`, `brand`, `user
 (5, 'LBC', '4005808298334', 'asdasdasdasdasdasdasdasdasdasd', 'Tire King', 'bibbo', 4, '2017-09-26 19:38:08', '2017-09-26 19:39:10'),
 (6, '', '', NULL, NULL, 'bibbo', 1, '2017-09-27 14:00:40', '0000-00-00 00:00:00'),
 (7, 'LBC', '456456456', '', NULL, 'bibbo', 2, '2017-09-27 14:01:40', '2017-09-27 14:02:07'),
-(8, '', '', NULL, NULL, 'bibbo', 1, '2017-09-27 14:08:59', '0000-00-00 00:00:00');
+(8, '', '', NULL, NULL, 'bibbo', 1, '2017-09-27 14:08:59', '0000-00-00 00:00:00'),
+(9, 'LBC', '1234567890', 'rgdfghfghfghfghf', 'Crown Rubber Corporation', 'crownrubber', 4, '2017-09-27 15:44:31', '2017-09-27 15:47:17'),
+(10, 'LBC', '23245555221', 'hghghkkkh', NULL, 'crownrubber', 4, '2017-09-27 15:50:07', '2017-09-27 15:51:31');
 
 -- --------------------------------------------------------
 
@@ -170,7 +216,12 @@ INSERT INTO `export_items` (`id`, `item_id`, `export_id`, `qty`, `date_time`, `u
 (14, 'ITEM00005', 7, '20', '2017-09-27 14:01:40', 'bibbo'),
 (15, 'ITEM00013', 7, '10', '2017-09-27 14:01:40', 'bibbo'),
 (16, 'ITEM00003', 7, '10', '2017-09-27 14:01:40', 'bibbo'),
-(17, 'ITEM00004', 8, '1000', '2017-09-27 14:08:59', 'bibbo');
+(17, 'ITEM00004', 8, '1000', '2017-09-27 14:08:59', 'bibbo'),
+(19, 'ITEM00015', 9, '12', '2017-09-27 15:41:44', 'crownrubber'),
+(20, 'ITEM00014', 9, '10', '2017-09-27 15:43:49', 'crownrubber'),
+(21, 'ITEM00014', 10, '100', '2017-09-27 15:50:07', 'crownrubber'),
+(22, 'ITEM00015', 10, '100', '2017-09-27 15:50:07', 'crownrubber'),
+(23, 'ITEM00014', 0, '1', '2017-09-27 16:13:38', 'crownrubber');
 
 -- --------------------------------------------------------
 
@@ -198,7 +249,9 @@ INSERT INTO `imports` (`id`, `export_id`, `location`, `remarks`, `user`, `status
 (3, 3, 'Warehouse - Dipolog', '', 'maco', 2, '2017-09-23 01:50:59', '2017-09-23 01:51:15'),
 (4, 2, 'Warehouse - Zamboanga', 'Nahhhh', 'maco', 2, '2017-09-23 01:55:18', '2017-09-23 01:55:35'),
 (5, 4, 'Warehouse - Dipolog', 'Testing', 'maco', 2, '2017-09-23 15:58:47', '2017-09-23 15:59:39'),
-(6, 5, 'Warehouse - Dipolog', '4005808298334\r\n4005808298334\r\n4005808298334\r\n4005808888368', 'maco', 2, '2017-09-26 19:38:45', '2017-09-26 19:39:10');
+(6, 5, 'Warehouse - Dipolog', '4005808298334\r\n4005808298334\r\n4005808298334\r\n4005808888368', 'maco', 2, '2017-09-26 19:38:45', '2017-09-26 19:39:10'),
+(7, 9, 'Minaog', 'ertyryrtythfhfhjghjghjghjghjghjgkjhkjghlhjklj', 'admin', 2, '2017-09-27 15:45:58', '2017-09-27 15:47:17'),
+(8, 10, 'Store - Dipolog', 'efsdsdf', 'admin', 2, '2017-09-27 15:51:07', '2017-09-27 15:51:31');
 
 -- --------------------------------------------------------
 
@@ -229,7 +282,11 @@ INSERT INTO `import_items` (`id`, `item_id`, `import_id`, `qty`, `date_time`) VA
 (8, 'ITEM00011', 5, '5', '2017-09-23 15:58:47'),
 (9, 'ITEM00013', 6, '25', '2017-09-26 19:38:45'),
 (10, 'ITEM00004', 6, '10', '2017-09-26 19:38:45'),
-(11, 'ITEM00002', 6, '10', '2017-09-26 19:38:45');
+(11, 'ITEM00002', 6, '10', '2017-09-26 19:38:45'),
+(12, 'ITEM00015', 7, '10', '2017-09-27 15:45:58'),
+(13, 'ITEM00014', 7, '10', '2017-09-27 15:45:58'),
+(14, 'ITEM00014', 8, '99', '2017-09-27 15:51:07'),
+(15, 'ITEM00015', 8, '80', '2017-09-27 15:51:07');
 
 -- --------------------------------------------------------
 
@@ -269,7 +326,9 @@ INSERT INTO `items` (`id`, `name`, `category`, `brand`, `unit`, `description`, `
 ('ITEM00010', 'slipper', 'Slippers', 'Lee Plaza', 'BOX', '<p><strong>asdfghjkert</strong></p>', '34578u909u', 50.00, 100.00, '2017-09-23 15:49:34', '2017-09-23 15:49:34', 0),
 ('ITEM00011', 'chettah', 'Shoes', 'Lee Plaza', 'PC', '', '454667587', 55.00, 150.00, '2017-09-23 15:50:33', '2017-09-23 15:50:33', 0),
 ('ITEM00012', 'shoes', 'Accessories', 'Lee Plaza', 'DOZ', '', '4005808298334', 45.00, 99.00, '2017-09-23 15:51:23', '2017-09-26 19:39:45', 0),
-('ITEM00013', 'Barcode Reader', 'Accessories', 'Tire King', 'PC', '', '179840562991', 2000.00, 2500.00, '2017-09-26 18:53:23', '2017-09-26 18:54:40', 0);
+('ITEM00013', 'Barcode Reader', 'Accessories', 'Tire King', 'PC', '', '179840562991', 2000.00, 2500.00, '2017-09-26 18:53:23', '2017-09-26 18:54:40', 0),
+('ITEM00014', 'King Slipper Crown SIZE 20', 'Slippers', 'Crown Rubber Corporation', 'PC', '', '4800417005256', 100.00, 150.00, '2017-09-27 15:29:40', '2017-09-27 15:43:29', 0),
+('ITEM00015', 'King Slipper Crown SIZE 20', 'Slippers', 'Crown Rubber Corporation', 'BOX', '', '', 90.00, 100.00, '2017-09-27 15:34:36', '2017-09-27 15:34:36', 0);
 
 -- --------------------------------------------------------
 
@@ -298,7 +357,8 @@ INSERT INTO `item_brand` (`id`, `title`, `address`, `description`, `logo`, `cont
 (2, 'Tire King', '', '', '', '', '', '', 0),
 (3, 'JM Rubber', '', '', '', '', '', '', 0),
 (4, 'Dipolog Rubber Groups', 'Dipolog city', '<ul>\r\n	<li>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias hic ullam quis, voluptate ab praesentium. Impedit quaerat rem reprehenderit aperiam quam, dolore explicabo quibusdam maiores aspernatur error repudia<strong>ndae atque blanditiis?</strong></li>\r\n</ul>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>&nbsp;</p>', '3d62f16a1021f38ef0d8d822ea6a1bea.jpg', '09058208455', 'maco.techdepot@gmail.com', 'http://rubbergrp.com', 0),
-(5, 'Lee Plaza', 'ertyuil', '', '', '09058208455', 'leeplaza@leeplaza.com', 'http://rubbergrp.com', 0);
+(5, 'Lee Plaza', 'ertyuil', '', '', '09058208455', 'leeplaza@leeplaza.com', 'http://rubbergrp.com', 0),
+(6, 'Crown Rubber Corporation', 'Cebu Cityy', '', '', '234567890', 'crown@crow.com', 'http://crow.com', 0);
 
 -- --------------------------------------------------------
 
@@ -355,7 +415,16 @@ INSERT INTO `item_inventory` (`id`, `item_id`, `qty`, `tag`, `tag_id`, `location
 (8, 'ITEM00011', '5', 'import', 5, 'Warehouse - Dipolog', '', '2017-09-23 15:59:39'),
 (9, 'ITEM00013', '25', 'import', 6, 'Warehouse - Dipolog', '', '2017-09-26 19:39:10'),
 (10, 'ITEM00004', '10', 'import', 6, 'Warehouse - Dipolog', '', '2017-09-26 19:39:10'),
-(11, 'ITEM00002', '10', 'import', 6, 'Warehouse - Dipolog', '', '2017-09-26 19:39:10');
+(11, 'ITEM00002', '10', 'import', 6, 'Warehouse - Dipolog', '', '2017-09-26 19:39:10'),
+(12, 'ITEM00015', '10', 'import', 7, 'Minaog', '', '2017-09-27 15:47:17'),
+(13, 'ITEM00014', '10', 'import', 7, 'Minaog', '', '2017-09-27 15:47:17'),
+(14, 'ITEM00014', '99', 'import', 8, 'Store - Dipolog', '', '2017-09-27 15:51:31'),
+(15, 'ITEM00015', '80', 'import', 8, 'Store - Dipolog', '', '2017-09-27 15:51:31'),
+(16, 'ITEM00007', '60', 'move', 10, 'Testing', '', '2017-09-28 07:03:25'),
+(17, 'ITEM00007', '-60', 'move', 10, 'Warehouse - Zamboanga', '', '2017-09-28 07:03:25'),
+(18, 'ITEM00014', '20', 'move', 11, 'Warehouse - Cebu', '', '2017-09-29 06:10:41'),
+(19, 'ITEM00014', '-20', 'move', 11, 'Store - Dipolog', '', '2017-09-29 06:10:41'),
+(20, 'ITEM00015', '-20', 'move', 12, 'Store - Dipolog', '', '2017-09-29 06:14:09');
 
 -- --------------------------------------------------------
 
@@ -378,7 +447,8 @@ INSERT INTO `item_location` (`id`, `title`, `is_deleted`) VALUES
 (2, 'Warehouse - Cebu', 0),
 (3, 'Warehouse - Zamboanga', 0),
 (4, 'Store - Dipolog', 0),
-(5, 'Testing', 0);
+(5, 'Testing', 0),
+(6, 'Minaog', 0);
 
 -- --------------------------------------------------------
 
@@ -520,7 +590,88 @@ INSERT INTO `logs` (`id`, `user`, `tag`, `tag_id`, `action`, `date_time`) VALUES
 (97, 'maco', 'request', '4', 'Updated Request Information', '2017-09-27 06:08:44'),
 (98, 'maco', 'request', '4', 'Verified Request', '2017-09-27 06:08:47'),
 (99, 'bibbo', 'request', '4', 'Request Accepted byBibbo', '2017-09-27 06:08:59'),
-(100, 'bibbo', 'export', '8', 'Export Queue created thru Request #00004', '2017-09-27 06:08:59');
+(100, 'bibbo', 'export', '8', 'Export Queue created thru Request #00004', '2017-09-27 06:08:59'),
+(101, 'maco', 'user', 'admin', 'User Registration', '2017-09-27 07:22:36'),
+(102, 'admin', '', '', 'Updated Personal Profile', '2017-09-27 07:23:23'),
+(103, 'admin', 'brand', '6', 'Brand Registration', '2017-09-27 07:26:42'),
+(104, 'admin', 'item', 'ITEM00014', 'Product Registration', '2017-09-27 07:29:40'),
+(105, 'admin', 'item', 'ITEM00015', 'Product Registration', '2017-09-27 07:34:36'),
+(106, 'admin', 'location', '6', 'Location Registration', '2017-09-27 07:35:18'),
+(107, 'admin', 'user', 'crownrubber', 'User Registration', '2017-09-27 07:39:34'),
+(108, 'crownrubber', '', '', 'Updated Personal Profile', '2017-09-27 07:40:42'),
+(109, 'crownrubber', 'item', 'ITEM00014', 'Updated Item Information', '2017-09-27 07:43:29'),
+(110, 'crownrubber', 'export', '9', 'Updated Export Information', '2017-09-27 07:44:55'),
+(111, 'admin', 'import', '7', 'Imported an Export', '2017-09-27 07:45:58'),
+(112, 'admin', 'import', '7', 'Imported to actual inventory - Minaog', '2017-09-27 07:47:17'),
+(113, 'admin', 'location', '6', 'Imported Items - IMP #00007', '2017-09-27 07:47:17'),
+(114, 'admin', 'request', '5', 'Created Request', '2017-09-27 07:48:33'),
+(115, 'admin', 'request', '5', 'Verified Request', '2017-09-27 07:49:29'),
+(116, 'crownrubber', 'request', '5', 'Request Accepted byJuan Luna', '2017-09-27 07:50:07'),
+(117, 'crownrubber', 'export', '10', 'Export Queue created thru Request #00005', '2017-09-27 07:50:07'),
+(118, 'crownrubber', 'export', '10', 'Updated Export Information', '2017-09-27 07:50:40'),
+(119, 'admin', 'import', '8', 'Imported an Export', '2017-09-27 07:51:07'),
+(120, 'admin', 'import', '8', 'Imported to actual inventory - Store - Dipolog', '2017-09-27 07:51:31'),
+(121, 'admin', 'location', '4', 'Imported Items - IMP #00008', '2017-09-27 07:51:31'),
+(122, 'admin', 'request', '6', 'Created Request', '2017-09-27 07:53:28'),
+(123, 'maco', 'location', '1', 'Updated Location Information', '2017-09-27 20:07:30'),
+(124, 'maco', 'location', '1', 'Updated Location Information', '2017-09-27 20:07:34'),
+(125, 'maco', 'location', '3', 'Updated Location Information', '2017-09-27 21:48:45'),
+(126, 'maco', 'location', '3', 'Updated Location Information', '2017-09-27 21:48:48'),
+(127, 'maco', 'location', '3', 'Updated Location Information', '2017-09-27 21:54:27'),
+(128, 'maco', 'location', '3', 'Moved items to Testing - MOVE #00010', '2017-09-27 23:03:25'),
+(129, 'maco', 'location', '4', 'Moved items to Warehouse - Cebu - MOVE #00011', '2017-09-28 22:10:41'),
+(130, 'maco', 'location', '4', 'Disposed Items - MOVE #00012', '2017-09-28 22:14:09'),
+(131, 'maco', 'request', '6', 'Verified Request', '2017-09-28 23:14:14');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `move`
+--
+
+CREATE TABLE `move` (
+  `id` int(11) NOT NULL,
+  `location_from` varchar(255) DEFAULT NULL,
+  `location_to` varchar(255) DEFAULT NULL,
+  `remarks` text NOT NULL,
+  `user` varchar(255) DEFAULT NULL,
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `move`
+--
+
+INSERT INTO `move` (`id`, `location_from`, `location_to`, `remarks`, `user`, `created_at`, `updated_at`) VALUES
+(10, 'Warehouse - Zamboanga', 'Testing', 'fafasdasdasdasdasdasdasdasd', 'maco', '2017-09-28 07:03:25', '0000-00-00 00:00:00'),
+(11, 'Store - Dipolog', 'Warehouse - Cebu', '', 'maco', '2017-09-29 06:10:41', '0000-00-00 00:00:00'),
+(12, 'Store - Dipolog', NULL, 'asdadasdasdasd', 'maco', '2017-09-29 06:14:09', '0000-00-00 00:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `move_items`
+--
+
+CREATE TABLE `move_items` (
+  `id` int(11) NOT NULL,
+  `loc_id` int(11) DEFAULT NULL,
+  `move_id` int(11) NOT NULL,
+  `item_id` varchar(255) NOT NULL,
+  `qty` varchar(10) NOT NULL,
+  `user` varchar(255) DEFAULT NULL,
+  `date_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `move_items`
+--
+
+INSERT INTO `move_items` (`id`, `loc_id`, `move_id`, `item_id`, `qty`, `user`, `date_time`) VALUES
+(16, 3, 10, 'ITEM00007', '60', 'maco', '2017-09-28 05:41:36'),
+(17, 4, 11, 'ITEM00014', '20', 'maco', '2017-09-29 06:10:28'),
+(18, 4, 12, 'ITEM00015', '20', 'maco', '2017-09-29 06:13:58');
 
 -- --------------------------------------------------------
 
@@ -546,7 +697,9 @@ INSERT INTO `requests` (`id`, `brand`, `remarks`, `created_at`, `updated_at`, `u
 (1, 'JM Rubber', '<p>Nice</p>', '2017-09-26 22:41:45', '2017-09-27 13:12:09', 'maco', 4),
 (2, 'Lee Plaza', '<p>WATTATAWsadasdsad</p>', '2017-09-26 22:42:16', '2017-09-27 07:50:23', 'maco', 2),
 (3, 'Tire King', '<p>&nbsp; &nbsp; Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam voluptatum repellendus, quis consequuntur vitae, rerum quo, ducimus consectetur obcaecati officia inventore molestias delectus, aspernatur incidunt dolor! Rerum, facere?', '2017-09-26 22:42:02', '2017-09-27 14:01:40', 'maco', 3),
-(4, 'Tire King', '<p>asdasdasd</p>', '2017-09-27 14:08:29', '2017-09-27 14:08:59', 'maco', 3);
+(4, 'Tire King', '<p>asdasdasd</p>', '2017-09-27 14:08:29', '2017-09-27 14:08:59', 'maco', 3),
+(5, 'Crown Rubber Corporation', '<p>ghfghfghfghfghfghfhfg</p>', '2017-09-27 15:48:33', '2017-09-27 15:50:07', 'admin', 3),
+(6, 'Crown Rubber Corporation', '<p>adadas</p>', '2017-09-27 15:53:28', '2017-09-29 07:14:14', 'maco', 2);
 
 -- --------------------------------------------------------
 
@@ -571,7 +724,11 @@ INSERT INTO `request_items` (`id`, `request_id`, `item_id`, `qty`) VALUES
 (4, 3, 'ITEM00005', 20),
 (5, 3, 'ITEM00013', 10),
 (6, 3, 'ITEM00003', 10),
-(7, 4, 'ITEM00004', 1000);
+(7, 4, 'ITEM00004', 1000),
+(8, 5, 'ITEM00014', 100),
+(9, 5, 'ITEM00015', 100),
+(10, 6, 'ITEM00014', 100),
+(11, 6, 'ITEM00015', 100);
 
 -- --------------------------------------------------------
 
@@ -617,8 +774,10 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`username`, `password`, `name`, `brand`, `email`, `contact`, `usertype`, `img`, `created_at`, `updated_at`, `is_deleted`) VALUES
+('admin', '$2y$10$mt9rqihNCu6CVMnAcyqOreGwmO4yh2rgD9zvODgvxcpcDHvMIMcm6', 'Administrator', NULL, 'admin@admin.com', '1234567890', 'Administrator', '', '2017-09-27 15:22:36', '2017-09-27 07:23:23', 0),
 ('asd', '$2y$10$uo82doJurg9UTSKB5ZsHVuOUbc1S.bY5eb5oWmcqNVDZE//yQdJte', 'Mia Luisa Sanchez', 'Tire King', 'mia@mia.com', '12121454asd', 'Administrator', '57ee82b17727cfa683faea80e720ff96.jpg', '2017-09-14 20:43:57', '2017-09-15 14:32:54', 0),
 ('bibbo', '$2y$10$oBxDYZpitapcaOuaKSL0OuXJx5nvKnm8J9pjEgVBgEgKcxgvYhqp6', 'Bibbo', 'Tire King', 'bibbo@bibbo.com', '231321564', 'Supplier User', '', '2017-09-22 21:25:45', '2017-09-26 10:54:13', 0),
+('crownrubber', '$2y$10$l20HV2AeyvExZ/UizfnhgeOBgP38RNmRC5g.z3ri0fz6/0QUGV13K', 'Juan Luna', 'Crown Rubber Corporation', 'crown@crow.com', '123456789', 'Supplier User', '', '2017-09-27 15:39:34', '2017-09-27 07:40:42', 0),
 ('maco', '$2y$10$QF6KBzs5FZpLH31c/1CqiutrlVOnq0gWtXde4qtg9LIxvDUdLnG3S', 'Maco Cortes', NULL, 'maco.techdepot@gmail.com', '09058208455', 'Administrator', '95d9e91ba95089b52db4c74ff03f13ea.jpg', '2017-09-14 20:10:01', '2017-09-22 13:49:59', 0),
 ('test', '$2y$10$.ebM/6yhzaLnBCHVfxRpzOtgrsetbGo5g4QV/STLxsVLnPN5Bf6G6', 'Testing Assistant', 'Nestle', 'test@test.com', '564564564', 'Administrator', '55f7f100c785d43bc3ee1bd7bcc2015b.jpg', '2017-09-14 20:12:52', '2017-09-15 01:42:41', 1),
 ('testacc', '$2y$10$sPE0x.pcFdMxIMdoe0CHa.zCG6gBTwpWNcXEWoKam.bBM01IHLjmm', 'Testing Account', 'Lee Plaza', 'test@test.com', '1234567890', 'Supplier User', '', '2017-09-23 15:43:12', '2017-09-23 07:48:21', 0);
@@ -734,6 +893,23 @@ ALTER TABLE `logs`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `move`
+--
+ALTER TABLE `move`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `expUser` (`user`),
+  ADD KEY `FKImportLoc` (`location_from`),
+  ADD KEY `FKMoveTo` (`location_to`);
+
+--
+-- Indexes for table `move_items`
+--
+ALTER TABLE `move_items`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `InvItem` (`item_id`),
+  ADD KEY `FKMoveItemUser` (`user`);
+
+--
 -- Indexes for table `requests`
 --
 ALTER TABLE `requests`
@@ -778,27 +954,27 @@ ALTER TABLE `usertypes`
 -- AUTO_INCREMENT for table `exports`
 --
 ALTER TABLE `exports`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT for table `export_items`
 --
 ALTER TABLE `export_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 --
 -- AUTO_INCREMENT for table `imports`
 --
 ALTER TABLE `imports`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `import_items`
 --
 ALTER TABLE `import_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 --
 -- AUTO_INCREMENT for table `item_brand`
 --
 ALTER TABLE `item_brand`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `item_category`
 --
@@ -808,12 +984,12 @@ ALTER TABLE `item_category`
 -- AUTO_INCREMENT for table `item_inventory`
 --
 ALTER TABLE `item_inventory`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 --
 -- AUTO_INCREMENT for table `item_location`
 --
 ALTER TABLE `item_location`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `item_unit`
 --
@@ -823,17 +999,27 @@ ALTER TABLE `item_unit`
 -- AUTO_INCREMENT for table `logs`
 --
 ALTER TABLE `logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=132;
+--
+-- AUTO_INCREMENT for table `move`
+--
+ALTER TABLE `move`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+--
+-- AUTO_INCREMENT for table `move_items`
+--
+ALTER TABLE `move_items`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 --
 -- AUTO_INCREMENT for table `requests`
 --
 ALTER TABLE `requests`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `request_items`
 --
 ALTER TABLE `request_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT for table `settings`
 --
@@ -877,6 +1063,21 @@ ALTER TABLE `items`
 ALTER TABLE `item_inventory`
   ADD CONSTRAINT `InvItem` FOREIGN KEY (`item_id`) REFERENCES `items` (`id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `InvLoc` FOREIGN KEY (`location`) REFERENCES `item_location` (`title`) ON UPDATE CASCADE;
+
+--
+-- Constraints for table `move`
+--
+ALTER TABLE `move`
+  ADD CONSTRAINT `FKMoveFrom` FOREIGN KEY (`location_from`) REFERENCES `item_location` (`title`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `FKMoveTo` FOREIGN KEY (`location_to`) REFERENCES `item_location` (`title`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `FKMoveUser` FOREIGN KEY (`user`) REFERENCES `users` (`username`) ON UPDATE CASCADE;
+
+--
+-- Constraints for table `move_items`
+--
+ALTER TABLE `move_items`
+  ADD CONSTRAINT `FKMoveItemUser` FOREIGN KEY (`user`) REFERENCES `users` (`username`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `FKMoveItems` FOREIGN KEY (`item_id`) REFERENCES `items` (`id`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `requests`
