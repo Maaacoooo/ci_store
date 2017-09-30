@@ -163,7 +163,7 @@ class Items extends CI_Controller {
 			//Form Validation
 			$this->form_validation->set_rules('id', 'ID', 'trim|required'); 
 			$this->form_validation->set_rules('name', 'Item Name', 'trim|required'); 
-			$this->form_validation->set_rules('serial', 'Serial No', 'trim|is_unique[items.serial]'); 
+			$this->form_validation->set_rules('serial', 'Serial No', 'trim|callback_check_serial'); 
 			$this->form_validation->set_rules('category', 'Category', 'trim|required'); 
 			$this->form_validation->set_rules('unit', 'Unit', 'trim|required'); 
 			$this->form_validation->set_rules('srp', 'SRP', 'trim|decimal'); 
@@ -233,6 +233,26 @@ class Items extends CI_Controller {
 		}
 
 	}
+
+
+	/**
+	 * Checks the Serial of the Item. Returns True if Serial Exist from another Record
+	 * @param  [type] $item [description]
+	 * @return [type]       [description]
+	 */
+	function check_serial($serial) {
+
+		$userdata = $this->session->userdata('admin_logged_in'); //it's pretty clear it's a userdata
+		$item = $this->encryption->decrypt($this->input->post('id')); 
+
+		if($this->item_model->check_serial($item, $serial)) {
+			$this->form_validation->set_message('check_serial', 'Serial is Registered from another Item!');		
+			return FALSE;
+		} else {
+			return TRUE;
+		}
+	}
+
 
 
 	public function delete()		{

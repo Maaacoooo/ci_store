@@ -158,6 +158,18 @@ Class Item_Model extends CI_Model {
              return $query->row_array();
     }
 
+    function check_serial($id, $serial) {
+
+             $this->db->select('*');        
+             $this->db->where('id !=', $id);          
+             $this->db->where('serial', $serial);          
+             $this->db->limit(1);
+
+             $query = $this->db->get('items');
+
+             return $query->row_array();
+    }
+
 
     /**
      * Fetches the quantity of the item in each location
