@@ -67,13 +67,14 @@ Class Sales_Model extends CI_Model {
 
 
 
-    function fetch_sales($limit, $id, $search) {
+    function fetch_sales($limit, $id, $search, $date) {
 
             if($search) {
               $this->db->like('sales.customer', $search);
             }
 
             $this->db->join('users', 'users.username = sales.user', 'left');
+            $this->db->join('sale_items', 'sale_items.sale_id = sales.id', 'left');
             $this->db->select('
                 sales.id,
                 sales.status,
@@ -81,10 +82,26 @@ Class Sales_Model extends CI_Model {
                 sales.updated_at,
                 sales.amount_tendered,
                 sales.customer,
-                users.name as user                
+                users.name as user,
+                SUM((sale_items.srp * sale_items.qty) - (sale_items.discount * sale_items.qty)) as totalAmt                
             ');
+
+            if(($date)) {
+               $arr_date = (explode("-",$date));
+               $str_from = str_replace(" ", "", ($arr_date[0]));
+               $str_to = str_replace(" ", "", ($arr_date[1]));
+
+               $arr_from = explode('/', $str_from);
+               $from = $arr_from[2].'-'.$arr_from[0].'-'.$arr_from[1];
+
+               $arr_to = explode('/', $str_to);
+               $to = $arr_to[2].'-'.$arr_to[0].'-'.$arr_to[1] . ' 23:59:59';
+               $this->db->where('sales.created_at BETWEEN "'.$from.'" AND "'.$to.'"');
+
+            }
             
             $this->db->order_by('sales.created_at', 'DESC');
+            $this->db->group_by('sales.id', 'DESC');
             $this->db->limit($limit, (($id-1)*$limit));
 
             $query = $this->db->get("sales");
@@ -100,11 +117,25 @@ Class Sales_Model extends CI_Model {
      * Returns the total number of rows of users
      * @return int       the total rows
      */
-    function count_sales($search) {
+    function count_sales($search, $date) {
 
         if($search) {
               $this->db->like('sales.customer', $search);
         }
+
+         if(($date)) {
+               $arr_date = (explode("-",$date));
+               $str_from = str_replace(" ", "", ($arr_date[0]));
+               $str_to = str_replace(" ", "", ($arr_date[1]));
+
+               $arr_from = explode('/', $str_from);
+               $from = $arr_from[2].'-'.$arr_from[0].'-'.$arr_from[1];
+
+               $arr_to = explode('/', $str_to);
+               $to = $arr_to[2].'-'.$arr_to[0].'-'.$arr_to[1] . ' 23:59:59';
+               $this->db->where('sales.created_at BETWEEN "'.$from.'" AND "'.$to.'"');
+
+            }
         return $this->db->count_all_results("sales");
     }
 

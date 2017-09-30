@@ -12,6 +12,12 @@ class Sales extends CI_Controller {
        $this->load->model('sales_model');
 	}	
 
+	public function test() {
+$number = 123;
+$txt = sprintf("%1\$.2f",$number);
+echo $txt;
+	}
+
 
 
 	public function index()		{
@@ -32,10 +38,16 @@ class Sales extends CI_Controller {
 					$search = $_GET['search'];
 				}	
 
+				//Search Date
+				$date = '';
+				if(isset($_GET['date'])) {
+					$date = $_GET['date'];
+				}	
+
 				//Paginated data				            
 		   		$config['num_links'] = 5;
 				$config['base_url'] = base_url('/sales/index/');
-				$config["total_rows"] = $this->sales_model->count_sales($search);
+				$config["total_rows"] = $this->sales_model->count_sales($search, $date);
 				$config['per_page'] = 20;				
 				$this->load->config('pagination'); //LOAD PAGINATION CONFIG
 
@@ -46,7 +58,7 @@ class Sales extends CI_Controller {
 			       $page = 1;		               
 			    }
 
-			    $data["results"] = $this->sales_model->fetch_sales($config["per_page"], $page, $search);
+			    $data["results"] = $this->sales_model->fetch_sales($config["per_page"], $page, $search, $date);
 			    $str_links = $this->pagination->create_links();
 			    $data["links"] = explode('&nbsp;',$str_links );
 
@@ -56,9 +68,55 @@ class Sales extends CI_Controller {
 
 			    //GET TOTAL RESULT
 			    $data['total_result'] = $config["total_rows"];
-			    //END PAGINATION		
+			    //END PAGINATION
 			
 				$this->load->view('sales/list', $data);
+				
+			} else {
+				show_error('Oops! Your account does not have the privilege to view the content. Please Contact the Administrator', 403, 'Access Denied!');				
+			}
+
+		
+		} else {
+
+			$this->session->set_flashdata('error', 'You need to login!');
+			redirect('dashboard/login', 'refresh');
+		}
+
+	}
+
+
+	public function print_report()		{
+
+		$userdata = $this->session->userdata('admin_logged_in'); //it's pretty clear it's a userdata
+
+		if($userdata)	{
+
+			$data['site_title'] = APP_NAME;
+			$data['user'] 		= $this->user_model->userdetails($userdata['username']); //fetches users record
+
+			//Access Control
+			if($data['user']['usertype'] == 'Administrator') {
+				//Search 
+			
+				//Search Date
+				$date = '';
+				if(isset($_GET['date'])) {
+					$date = $_GET['date'];
+				}	
+
+				$data['title'] 		= 'Summary Sales Report -' . $date;
+
+
+				$config["total_rows"] = $this->sales_model->count_sales('', $date);
+			    $data["results"] = $this->sales_model->fetch_sales(0, 0, '', $date);
+
+			    //GET TOTAL RESULT
+			    $data['total_result'] = $config["total_rows"];
+			    //END PAGINATION
+			
+				$this->load->view('sales/print', $data);
+				
 			} else {
 				show_error('Oops! Your account does not have the privilege to view the content. Please Contact the Administrator', 403, 'Access Denied!');				
 			}
