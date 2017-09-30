@@ -275,12 +275,12 @@
                   <div class="form-group">
                     <label for="dp" class="col-sm-2 col-md-2 control-label">DP</label>
                     <div class="col-sm-10 col-md-4">
-                      <input type="number" name="dp" class="form-control" id="dp" placeholder="Dealer's Price..." value="<?=$info['DP']?>" required>
+                      <input type="text" name="dp" class="form-control" id="dp" placeholder="Dealer's Price. e.g 500.00" value="<?=$info['DP']?>" required>
                     </div>
 
                     <label for="srp" class="col-sm-2 col-md-2 control-label">SRP</label>
                     <div class="col-sm-10 col-md-4">
-                      <input type="number" name="srp" class="form-control" id="srp" placeholder="Retail Price..." value="<?=$info['SRP']?>" required>
+                      <input type="text" name="srp" class="form-control" id="srp" placeholder="Retail Price. e.g 1000.00" value="<?=$info['SRP']?>" required>
                     </div>
                   </div>
                   <div class="form-group">

@@ -68,12 +68,12 @@ class Items extends CI_Controller {
 		
 			//Form Validation for user
 			$this->form_validation->set_rules('name', 'Item Name', 'trim|required'); 
-			$this->form_validation->set_rules('serial', 'Serial No', 'trim'); 
+			$this->form_validation->set_rules('serial', 'Serial No', 'trim|is_unique[items.serial]'); 
 			$this->form_validation->set_rules('category', 'Category', 'trim|required');  
 			$this->form_validation->set_rules('unit', 'Unit', 'trim|required'); 			
 			$this->form_validation->set_rules('desc', 'Description', 'trim'); 
-			$this->form_validation->set_rules('srp', 'SRP', 'trim'); 
-			$this->form_validation->set_rules('dp', 'DP', 'trim'); 
+			$this->form_validation->set_rules('srp', 'SRP', 'trim|decimal'); 
+			$this->form_validation->set_rules('dp', 'DP', 'trim|decimal'); 
 
 			if($data['user']['usertype'] == 'Administrator') {
 				$this->form_validation->set_rules('brand', 'Brand', 'trim|required'); 				
@@ -163,11 +163,11 @@ class Items extends CI_Controller {
 			//Form Validation
 			$this->form_validation->set_rules('id', 'ID', 'trim|required'); 
 			$this->form_validation->set_rules('name', 'Item Name', 'trim|required'); 
-			$this->form_validation->set_rules('serial', 'Serial No', 'trim'); 
+			$this->form_validation->set_rules('serial', 'Serial No', 'trim|is_unique[items.serial]'); 
 			$this->form_validation->set_rules('category', 'Category', 'trim|required'); 
 			$this->form_validation->set_rules('unit', 'Unit', 'trim|required'); 
-			$this->form_validation->set_rules('srp', 'SRP', 'trim'); 
-			$this->form_validation->set_rules('dp', 'DP', 'trim'); 
+			$this->form_validation->set_rules('srp', 'SRP', 'trim|decimal'); 
+			$this->form_validation->set_rules('dp', 'DP', 'trim|decimal'); 
 			$this->form_validation->set_rules('desc', 'Description', 'trim'); 
 			
 			if($data['user']['usertype'] == 'Administrator') {

@@ -177,7 +177,7 @@
                         if($units):
                         foreach($units as $unit):
                       ?>
-                      <option value="<?=$unit['title']?>"><?=$unit['title']?></option>
+                      <option value="<?=$unit['title']?>" <?php if($unit['title']==set_value('unit'))echo'selected';?>><?=$unit['title']?></option>
                       <?php
                         endforeach;
                         endif;
@@ -193,7 +193,7 @@
                         if($category):
                         foreach($category as $cat):
                       ?>
-                      <option value="<?=$cat['title']?>"><?=$cat['title']?></option>
+                      <option value="<?=$cat['title']?>" <?php if($cat['title']==set_value('category'))echo'selected';?>><?=$cat['title']?></option>
                       <?php
                         endforeach;
                         endif;
@@ -210,7 +210,7 @@
                         if($brands):
                         foreach($brands as $brn):
                       ?>
-                      <option value="<?=$brn['title']?>"><?=$brn['title']?></option>
+                      <option value="<?=$brn['title']?>" <?php if($brn['title']==set_value('brand'))echo'selected';?>><?=$brn['title']?></option>
                       <?php
                         endforeach;
                         endif;
@@ -222,12 +222,12 @@
             <div class="form-group">
               <label for="dp" class="col-sm-2 col-md-2 control-label">DP</label>
               <div class="col-sm-10 col-md-4">
-                <input type="number" name="dp" class="form-control" id="dp" placeholder="Dealer's Price..." value="<?=set_value('dp')?>">
+                <input type="text" name="dp" class="form-control" id="dp" placeholder="Dealer's Price. e.g 500.00" value="<?=set_value('dp')?>">
               </div>
 
               <label for="srp" class="col-sm-2 col-md-2 control-label">SRP</label>
               <div class="col-sm-10 col-md-4">
-                <input type="number" name="srp" class="form-control" id="srp" placeholder="Retail Price..." value="<?=set_value('srp')?>">
+                <input type="text" name="srp" class="form-control" id="srp" placeholder="Retail Price. e.g 1000.00" value="<?=set_value('srp')?>">
               </div>
             </div>
             <div class="form-group">
