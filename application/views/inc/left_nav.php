@@ -32,7 +32,18 @@
         <?php if ($user['usertype'] == 'Administrator'): ?>
         <li class="header">ADMIN OPTIONS</li>
         <li><a href="<?=base_url('items')?>"><i class="fa fa-flask"></i> <span>Item Inventory</span></a></li>
-        <li><a href="<?=base_url('sales')?>"><i class="fa fa-money"></i> <span>Sales</span></a></li>                     
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-money"></i> <span>Sales</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="<?=base_url('sales/create')?>"><i class="fa fa-share-square"></i> <span>Sales Register</span></a></li>
+            <li><a href="<?=base_url('sales')?>"><i class="fa fa-pencil-square-o"></i> <span>Sales Report</span></a></li>
+          </ul>
+        </li>                    
         <li><a href="<?=base_url('requests')?>"><i class="fa fa-ticket"></i> <span>Requests</span></a></li>
         <li><a href="<?=base_url('imports')?>"><i class="fa fa-cart-arrow-down"></i> <span>Imports</span></a></li>
         <li class="treeview">
