@@ -80,6 +80,11 @@
     }
 
 
+    function decimalize($str) {
+        return sprintf("%1\$.2f", $str);
+    }
+
+
   
 
 
