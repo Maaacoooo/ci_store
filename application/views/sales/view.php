@@ -114,7 +114,7 @@
                       <td><?=$t['srp']?></td>
                       <td class="bg-info"><?=$t['qty']?></td>
                       <td class="bg-info"><?=$t['discount'] * $t['qty']?></td>
-                      <td><?=(($t['qty']*$t['srp']) - ($t['qty'] * $t['discount']))?></td>
+                      <td><?=decimalize(($t['qty']*$t['srp']) - ($t['qty'] * $t['discount']))?></td>
                     </tr>
                     <input type="hidden" name="id[]" value="<?=$this->encryption->encrypt($t['item_id'])?>" />
                   <?php endforeach ?>
@@ -124,7 +124,7 @@
                     <th colspan="3" class="text-right">Total</th>
                     <th class="bg-info text-danger"><?=array_sum($qty)?></th><!-- /.bg-success text-danger -->
                     <th class="bg-info text-danger"><?=array_sum($disc)?></th><!-- /.bg-success text-danger -->
-                    <th class="bg-success text-danger"><?=array_sum($sub)?></th><!-- /.bg-success text-danger -->
+                    <th class="bg-success text-danger"><?=decimalize(array_sum($sub))?></th><!-- /.bg-success text-danger -->
                   </tr>
                 </tfoot>
                 <button type="submit" class="hidden"></button>
@@ -152,7 +152,7 @@
                  </tr>
                  <tr>
                    <th class="bg-warning">Total Payables</th>
-                   <td class="text-red bg-warning"><strong><?=array_sum($sub)?></strong></td>
+                   <td class="text-red bg-warning"><strong><?=decimalize(array_sum($sub))?></strong></td>
                  </tr>
                  <tr>
                    <th class="bg-warning">Amount Tendered</th>

@@ -8,6 +8,10 @@
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <?php $this->load->view('inc/css')?>
+  <!-- daterange picker -->
+  <link rel="stylesheet" href="<?=base_url('assets/bower_components/bootstrap-daterangepicker/daterangepicker.css')?>">
+  <!-- bootstrap datepicker -->
+  <link rel="stylesheet" href="<?=base_url('assets/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css')?>">
    
 </head>
 <body class="hold-transition skin-black sidebar-mini">
@@ -83,8 +87,19 @@
       <div class="box box-primary">
         <div class="box-header with-border">
           <h3 class="box-title">Sales <span class="badge"><?=$total_result?></span></h3>
-          <div class="box-tools pull-right">            
-            <?=form_open('sales', array('method' => 'get', 'class' => 'input-group input-group-sm', 'style' => 'width: 150px;'))?>
+          <div class="box-tools pull-right">    
+            <?=form_open('sales', array('method' => 'get', 'class' => 'input-group input-group-sm pull-left', 'style' => 'width: 250px;'))?>
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                  </div>
+                  <input type="text" name="date" class="form-control input-sm pull-right" id="dateSearch">
+                  <div class="input-group-btn">
+                    <button type="submit" class="btn btn-default btn-sm"><i class="fa fa-search"></i></button>  
+                  </div> 
+                </div>
+            <?=form_close()?>  
+            <?=form_open('sales', array('method' => 'get', 'class' => 'input-group input-group-sm pull-right', 'style' => 'width: 150px;'))?>
               <input type="text" name="search" class="form-control pull-right" placeholder="Search...">
               <div class="input-group-btn">
                 <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
@@ -93,7 +108,6 @@
                 </button>  
               </div> 
             <?=form_close()?> 
-
           </div>
         </div>
         <div class="box-body <?php if($results)echo 'table-responsive no-padding';?>">
@@ -101,18 +115,20 @@
               <table class="table">          
                 <thead>
                   <tr>
-                    <th>Sale ID</th>           
+                    <th>Sale ID</th>
+                    <th>Preparer</th>           
                     <th>Customer</th>     
-                    <th>Preparer</th>
+                    <th>Total Amount</th>                    
                     <th>Date Time</th>
                   </tr>
                 </thead>
                 <tbody>
                   <?php foreach ($results as $res): ?>
                     <tr>
-                      <td><a href="<?=base_url('sales/view/'.$res['id'])?>">#<?=prettyID($res['id'])?></a></td>                
+                      <td><a href="<?=base_url('sales/view/'.$res['id'])?>">#<?=prettyID($res['id'])?></a></td>   
+                      <td><a href="<?=base_url('sales/view/'.$res['id'])?>"><?=$res['user']?></a></td>             
                       <td><a href="<?=base_url('sales/view/'.$res['id'])?>"><?=$res['customer']?></a></td>
-                      <td><a href="<?=base_url('sales/view/'.$res['id'])?>"><?=$res['user']?></a></td>
+                      <td><a href="<?=base_url('sales/view/'.$res['id'])?>"><?=$res['totalAmt']?></a></td>                      
                       <td><a href="<?=base_url('sales/view/'.$res['id'])?>"><?=$res['created_at']?></a></td>                  
                     </tr>
                   <?php endforeach; ?>
@@ -122,7 +138,7 @@
             <div class="row">
               <div class="col-md-12">
                 <div class="callout callout-info">
-                  <h4>No Import Found!</h4>
+                  <h4>No Sales Found!</h4>
                   <p>No records found in the database</p>
                 </div><!-- /.callout callout-info -->
               </div><!-- /.col-md-12 -->
@@ -131,6 +147,9 @@
         </div>
         <!-- /.box-body -->
         <div class="box-footer">
+          <div class="pull-left">
+            <button class="btn btn-primary" data-toggle="modal" data-target="#modalPrint"><i class="fa fa-print"></i> Print Sales Report</button>
+          </div><!-- /.pull-left -->
           <div class="pull-right">
             <?php foreach ($links as $link) { echo $link; } ?>
           </div><!-- /.pull-right -->
@@ -139,6 +158,38 @@
         <!-- /.box-footer-->
       </div>
       <!-- /.box -->
+
+
+      <div class="modal fade" id="modalPrint" style="display: none;">
+          <div class="modal-dialog">
+          <?=form_open('sales/print_report', array('method' => 'get', 'target' => '_blank'))?>
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">Print Sales Report</h4>
+              </div>
+              <div class="modal-body">
+                <p>When printing a Summary Sales Report, select the range of date.</p>
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                  </div>
+                  <input type="text" name="date" class="form-control input-sm pull-right" id="dateReport">
+                  <div class="input-group-btn">
+                    <button type="submit" class="btn btn-default btn-sm"><i class="fa fa-print"></i> Print Report</button>  
+                  </div> 
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+            <!-- /.modal-content -->
+          <?=form_close()?>
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
 
 
 
@@ -155,6 +206,22 @@
 <!-- ./wrapper -->
 
     <?php $this->load->view('inc/js')?>    
+    <!-- date-range-picker -->
+    <script src="<?=base_url('assets/bower_components/moment/min/moment.min.js')?>"></script>
+    <script src="<?=base_url('assets/bower_components/bootstrap-daterangepicker/daterangepicker.js')?>"></script>
+    <!-- bootstrap datepicker -->
+    <script src="<?=base_url('assets/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js')?>"></script>
+
+    <!-- Page script -->
+<script>
+  $(function () {  
+    //Date range picker
+    $('#dateSearch').daterangepicker()
+    $('#dateReport').daterangepicker()
+
+  })
+</script>
+
     <script src="<?=base_url('assets/bower_components/ckeditor/ckeditor.js')?>"></script>
     
 </body>

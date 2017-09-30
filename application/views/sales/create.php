@@ -146,8 +146,8 @@
                         <tr>
                           <th colspan="3" class="text-right">Total</th>
                           <th class="bg-success text-danger"><?=array_sum($qty)?></th><!-- /.bg-success text-danger -->
-                          <th class="bg-success text-danger"><?=array_sum($disc)?></th><!-- /.bg-success text-danger -->
-                          <th class="bg-success text-danger"><?=array_sum($sub)?></th><!-- /.bg-success text-danger -->
+                          <th class="bg-success text-danger"><?=decimalize(array_sum($disc))?></th><!-- /.bg-success text-danger -->
+                          <th class="bg-success text-danger"><?=decimalize(array_sum($sub))?></th><!-- /.bg-success text-danger -->
                         </tr>
                       </tfoot>
                       <button type="submit" class="hidden"></button>
@@ -204,11 +204,11 @@
               </div><!-- /.form-group -->
               <div class="form-group">
                 <label for="customer">Total Amount</label>
-                <h3 class="text-danger" id="totAmt"><?=array_sum($sub)?></h3>
+                <h3 class="text-danger" id="totAmt"><?=decimalize(array_sum($sub))?></h3>
               </div><!-- /.form-group -->
               <div class="form-group">
                 <label for="amt_tendered">Amount Tendered</label>
-                <input type="text" name="amt_tendered" id="amt_tendered" onkeyup="updateChange()" class="form-control" placeholder="Amount e.g 1000.00" value="<?=round(array_sum($sub), 2)?>" />
+                <input type="text" name="amt_tendered" id="amt_tendered" onkeyup="updateChange()" class="form-control" placeholder="Amount e.g 1000.00" value="<?=decimalize(array_sum($sub))?>" />
               </div><!-- /.form-group -->
               <div class="form-group bg-info">
                 <label for="customer">Change</label>
