@@ -30,8 +30,20 @@
         <?php endif ?>     
 
         <?php if ($user['usertype'] == 'Administrator'): ?>
-        <li class="header">ADMIN OPTIONS</li>
-        <li><a href="<?=base_url('items')?>"><i class="fa fa-flask"></i> <span>Item Inventory</span></a></li>
+        <li class="header">ADMIN OPTIONS</li>        
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-flask"></i> <span>Item Inventory</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="<?=base_url('items')?>"><i class="fa fa-flask"></i> <span>Total Item Inventory</span></a></li>
+            <li><a href="<?=base_url('categories')?>"><i class="fa fa-list"></i> <span>Item Categories</span></a></li>
+            <li><a href="<?=base_url('units')?>"><i class="fa fa-certificate"></i> <span>Item Units</span></a></li>
+          </ul>
+        </li>        
         <li class="treeview">
           <a href="#">
             <i class="fa fa-money"></i> <span>Sales</span>
@@ -40,8 +52,8 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="<?=base_url('sales/create')?>"><i class="fa fa-share-square"></i> <span>Sales Register</span></a></li>
-            <li><a href="<?=base_url('sales')?>"><i class="fa fa-pencil-square-o"></i> <span>Sales Report</span></a></li>
+            <li><a href="<?=base_url('sales/create')?>"><i class="fa fa-shopping-cart"></i> <span>Sales Register</span></a></li>
+            <li><a href="<?=base_url('sales')?>"><i class="fa fa-bar-chart-o"></i> <span>Sales Report</span></a></li>
           </ul>
         </li>                    
         <li><a href="<?=base_url('requests')?>"><i class="fa fa-ticket"></i> <span>Requests</span></a></li>
