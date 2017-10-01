@@ -170,26 +170,43 @@
             </div>
             <div class="form-group">
               <label for="email" class="col-sm-2 col-md-2 control-label">Email Address</label>
-              <div class="col-sm-10 col-md-4">
+              <div class="col-sm-10 col-md-3">
                 <input type="email" name="email" class="form-control" id="email" placeholder="Email Address..." value="<?=set_value('email')?>" required>
               </div>
 
               <label for="contact" class="col-sm-2 col-md-2 control-label">Contact Number</label>
-              <div class="col-sm-10 col-md-4">
+              <div class="col-sm-10 col-md-2">
                 <input type="text" name="contact" class="form-control" id="contact" placeholder="Contact Number..." value="<?=set_value('contact')?>">
               </div>
 
-            </div>
-            <div class="form-group">
-              <label for="img" class="col-sm-2 col-md-2 control-label">Profile Image</label>
+              <label for="img" class="col-sm-2 col-md-1 control-label">Profile Image</label>
               <div class="col-sm-10 col-md-2">        
                   <input type="file" name="img" id="img">       
               </div>
 
+            </div>
+            <div class="form-group">            
+
+              <label for="name" class="col-sm-2 col-md-2 control-label">Location / Branch Assigned</label>
+              <div class="col-sm-10 col-md-2">        
+                  <select name="location" class="form-control">
+                    <option></option>
+                     <?php 
+                        if($locations):
+                        foreach($locations as $loc):
+                      ?>
+                      <option value="<?=$loc['title']?>"><?=$loc['title']?></option>
+                      <?php
+                        endforeach;
+                        endif;
+                      ?>
+                  </select>       
+               </div>
+
               <label for="name" class="col-sm-2 col-md-2 control-label">Usertype</label>
               <div class="col-sm-10 col-md-2">        
                   <select name="usertype" class="form-control" required="">
-                    <option disabled="" selected="">Select Usertype...</option>
+                    <option selected="">Select Usertype...</option>
                      <?php 
                         if($usertypes):
                         foreach($usertypes as $usr):
@@ -202,10 +219,10 @@
                   </select>       
                </div>
 
-               <label for="name" class="col-sm-2 col-md-2 control-label">Brand / Company Affiliated</label>
+              <label for="name" class="col-sm-2 col-md-2 control-label">Brand / Company Affiliated</label>
               <div class="col-sm-10 col-md-2">        
                   <select name="brand" class="form-control">
-                    <option disabled="" selected="">Select Affiliate...</option>
+                    <option></option>
                      <?php 
                         if($brands):
                         foreach($brands as $brn):

@@ -8,6 +8,7 @@ class Users extends CI_Controller {
 		parent::__construct();		
        $this->load->model('user_model');
        $this->load->model('item_model');
+       $this->load->model('location_model');
 	}	
 
 
@@ -26,6 +27,7 @@ class Users extends CI_Controller {
 			//Page Data 
 			$data['usertypes']	= $this->user_model->usertypes();
 			$data['brands']		= $this->item_model->fetch_brand();
+			$data['locations']  = $this->location_model->fetch_locations(0, 0, 0);
 
 			//Search
 			$search = '';
@@ -66,6 +68,7 @@ class Users extends CI_Controller {
 			$this->form_validation->set_rules('username', 'Username', 'trim|required|is_unique[users.username]|alpha_dash'); 
 			$this->form_validation->set_rules('usertype', 'Usertype', 'trim|required'); 
 			$this->form_validation->set_rules('brand', 'Brand Affiliated', 'trim'); 
+			$this->form_validation->set_rules('location', 'Location Assigned', 'trim'); 
 			
 			
 			//Validate Usertype
@@ -74,9 +77,18 @@ class Users extends CI_Controller {
 				if($this->form_validation->run() == FALSE)	{
 					$this->load->view('user/list', $data);
 				} else {	
-			
+					
+					$brand = NULL;
+					if($this->input->post('brand')) {
+						$brand = $this->input->post('brand');
+					}
+
+					$location = NULL;
+					if($this->input->post('location')) {
+						$location = $this->input->post('location');
+					}
 					//Proceed saving user				
-					if($this->user_model->create_user()) {			
+					if($this->user_model->create_user($brand, $location)) {			
 
 						$user_id = $this->input->post('username'); //fetch last insert case Row ID
 						// Save Log Data ///////////////////				
@@ -127,6 +139,8 @@ class Users extends CI_Controller {
 			//Page Data 
 			$data['brands']		= $this->item_model->fetch_brand();
 			$data['usertypes']		= $this->user_model->usertypes();			
+			$data['locations']  = $this->location_model->fetch_locations(0, 0, 0);
+
 
 			$data['info']		= $this->user_model->userdetails($id);
 			$data['logs']		= $this->logs_model->fetch_user_logs($id, 50);
@@ -145,6 +159,7 @@ class Users extends CI_Controller {
 			$this->form_validation->set_rules('contact', 'Contact Number', 'trim');  
 			$this->form_validation->set_rules('usertype', 'Usertype', 'trim|required'); 
 			$this->form_validation->set_rules('brand', 'Brand Affiliated', 'trim');
+			$this->form_validation->set_rules('location', 'Location Assigned', 'trim'); 
 		
 			//Validate Usertype
 			if($data['user']['usertype'] == 'Administrator') {
@@ -152,9 +167,18 @@ class Users extends CI_Controller {
 				$this->load->view('user/update', $data);
 				} else {			
 
+					$brand = NULL;
+					if($this->input->post('brand')) {
+						$brand = $this->input->post('brand');
+					}
+
+					$location = NULL;
+					if($this->input->post('location')) {
+						$location = $this->input->post('location');
+					}
 					//Proceed saving candidate				
 					$key_id = $this->encryption->decrypt($this->input->post('id')); //ID of the row
-					if($this->user_model->update_user($key_id)) {		
+					if($this->user_model->update_user($key_id, $brand, $location)) {		
 
 						$log[] = array(
 							'user' 		=> 	$userdata['username'],

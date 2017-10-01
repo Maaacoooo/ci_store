@@ -48,7 +48,7 @@ Class User_model extends CI_Model
     }
 
 
-    function create_user() {
+    function create_user($brand, $location) {
 
             $filename = ''; //img filename empty if not present
 
@@ -78,7 +78,8 @@ Class User_model extends CI_Model
                 'email'     => $this->input->post('email'),  
                 'contact'   => $this->input->post('contact'),  
                 'usertype'  => $this->input->post('usertype'),                 
-                'brand'     => $this->input->post('brand'),                 
+                'brand'     => $brand,                 
+                'location'  => $location,                 
                 'img'       => $filename  
              );
        
@@ -101,7 +102,7 @@ Class User_model extends CI_Model
      * @param  int      $id    the DECODED id of the item. 
      * @return void            returns TRUE if success
      */
-    function update_user($user) { 
+    function update_user($user, $brand, $location) { 
 
             $filename = $this->userdetails($user)['img']; //gets the old data 
 
@@ -135,7 +136,8 @@ Class User_model extends CI_Model
                 'email'     => $this->input->post('email'),  
                 'contact'   => $this->input->post('contact'),  
                 'usertype'  => $this->input->post('usertype'),                 
-                'brand'     => $this->input->post('brand'),                 
+                'brand'     => $brand,                 
+                'location'  => $location,                 
                 'img'       => $filename   
              );
             
