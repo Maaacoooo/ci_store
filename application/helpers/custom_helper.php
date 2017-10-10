@@ -85,6 +85,45 @@
     }
 
 
+
+    /**
+     * Checks and Creates a directory from a String Request
+     * @param  String   $path  the path to be created; e.g: dir1/subdir1/supersub1
+     * @return Boolean  FALSE  on error
+     */
+    function createDir($path) {
+
+        $upload_folder = './uploads/'; //the default upload folder
+
+        if(!is_dir($upload_folder)) {
+            mkdir($upload_folder);
+        }
+
+        $exp_path = explode('/', $path);
+
+        foreach ($exp_path as $key => $value) {
+
+            $addr[] = $value; //compile path
+            $dir_path = $upload_folder . implode('/', $addr); //glue parts
+
+            echo $dir_path;
+
+            //checks if path already exist
+            if(!is_dir($dir_path)) {
+                //Create a Path
+                if (mkdir($dir_path)) {
+                    echo '- Path Created ';
+                } else {
+                    return FALSE; // if error occurs
+                }
+            } 
+        }
+
+        return TRUE;
+
+    }
+
+
   
 
 
