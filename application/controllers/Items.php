@@ -242,12 +242,17 @@ class Items extends CI_Controller {
 	 */
 	function check_serial($serial) {
 
-		$userdata = $this->session->userdata('admin_logged_in'); //it's pretty clear it's a userdata
-		$item = $this->encryption->decrypt($this->input->post('id')); 
 
-		if($this->item_model->check_serial($item, $serial)) {
-			$this->form_validation->set_message('check_serial', 'Serial is Registered from another Item!');		
-			return FALSE;
+		if($serial) {
+			$userdata = $this->session->userdata('admin_logged_in'); //it's pretty clear it's a userdata
+			$item = $this->encryption->decrypt($this->input->post('id')); 
+
+			if($this->item_model->check_serial($item, $serial)) {
+				$this->form_validation->set_message('check_serial', 'Serial is Registered from another Item!');		
+				return FALSE;
+			} else {
+				return TRUE;
+			}
 		} else {
 			return TRUE;
 		}
