@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 30, 2017 at 11:16 AM
+-- Generation Time: Oct 11, 2017 at 09:10 AM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 7.1.1
 
@@ -38,50 +38,62 @@ CREATE TABLE `ci_sessions` (
 --
 
 INSERT INTO `ci_sessions` (`id`, `ip_address`, `timestamp`, `data`) VALUES
-('0dq0goneubj41e6jmgh9qo1l10ga1qo7', '::1', 1506725557, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363732353535373b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
-('cv9cu986r6t6u7v3lloe6j1of0h3jbr2', '::1', 1506725860, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363732353836303b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
-('kvjdb1dls01ov8s3p4goa6v3rnf6csfc', '::1', 1506726189, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363732363138393b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
-('gdovckcqfmcgtd7lvg3051n1vr9l2or3', '::1', 1506726495, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363732363439353b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
-('hvnum5vfvfuvcfbkkb3j3jab8sbgcood', '::1', 1506726850, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363732363835303b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
-('ccqp291jqop1pkijpbgffgagk488ur2i', '::1', 1506726877, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363732363837373b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a353a22626962626f223b7d),
-('e62lgk1dq4djdn620ks044a14m6vhbqs', '::1', 1506727169, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363732373136393b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
-('hnb6a9r974kmle7rfcb5p2esapukrpli', '::1', 1506727166, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363732363837373b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a353a22626962626f223b7d),
-('jj0s1b1cdf4up5nlnobrnh90vc5rtf0l', '::1', 1506727489, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363732373438393b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
-('20qmbj2ivbl91igvt693pf4jpjaij2oc', '::1', 1506727807, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363732373830373b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
-('vpadskn1k9h8mg88ja2n30mlnir8ebnr', '::1', 1506728143, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363732383134333b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
-('lp0vic7cqtojehuldjdub2amjfop8hvb', '::1', 1506728467, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363732383436373b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
-('cpcoplf113no57mh6cegr92o24kl44j1', '::1', 1506728777, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363732383737373b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
-('ej1ngfb618k7bh8c9762m6av3ilmetor', '::1', 1506728853, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363732383737373b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
-('dmrsg18db0ts4uvo8gvjae9r82lbhphu', '::1', 1506747283, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363734373238333b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
-('pqgkosgg9u37bpbn12p4blc7n8us2ett', '::1', 1506751322, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363735313332323b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
-('03s2b6nu32gk9v8r9tktgnhvt1h35cjf', '::1', 1506751866, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363735313836363b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
-('niou66eb3ala7kqireoonobtfdlk1lvs', '::1', 1506752553, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363735323535333b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
-('93iv0hd36munhl7gaf3ecsjl88gv5ocb', '::1', 1506753183, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363735333138333b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
-('r6v4v9bhr7l49efe2cbs7l4h6doel7ih', '::1', 1506753666, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363735333636363b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
-('h9prg3ic54edhsc2ans5dvk3rukmaova', '::1', 1506754017, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363735343031373b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
-('k689g17u8qnbfjl17c3gjnkhfq6qpsuv', '::1', 1506754935, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363735343933353b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
-('5nncahtjhva8h4mcsogbnmf6ab7nmaef', '::1', 1506755236, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363735353233363b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
-('aln7m98l7pqr9bbft2jf00978ln907qb', '::1', 1506755549, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363735353534393b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
-('5sji1to5f1f0qgskelmpup5gs9k9pn59', '::1', 1506755900, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363735353930303b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
-('f1otq6s0uijche9am35l6l8ulicj0s00', '::1', 1506756205, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363735363230353b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
-('loh96gsrahnebp84fq8k0ffqle55i7ud', '::1', 1506756537, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363735363533373b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
-('2r5r6rv9thest8qmr0d7ss9rmc3fjbk5', '::1', 1506756895, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363735363839353b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
-('h0t8o3nrrlbct9ockkoo0kjl8rbfjsmb', '::1', 1506757221, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363735373232313b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
-('6drm6a5f4sim5j93hpdai4k3q46tsiof', '::1', 1506757534, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363735373533343b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
-('lvlvac7ccqiv8iddk9q6kn6gh2629dh1', '::1', 1506757851, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363735373835313b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
-('ekp2ju5s0laq0ernfsanutd5ps35l8mn', '::1', 1506758342, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363735383334323b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
-('a027pj07mfj940il3cjn69jtvn4ncbpn', '::1', 1506758815, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363735383831353b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
-('vn26hcvhoidjbnurelctockn0qifv787', '::1', 1506759188, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363735393138383b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
-('4p8qo01brcimtr8kmfcsf1drvmo2sgrh', '::1', 1506760047, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363736303034373b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
-('80b66qt88t0e58b2etid1mh180abiskm', '::1', 1506760420, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363736303432303b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
-('kglsao06j0gi1ilcesl7muhf1l7bfnb9', '::1', 1506760795, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363736303739353b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
-('engo93n71grq4422t8p4eoq323vgkjr8', '::1', 1506761117, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363736313131373b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
-('fes0tbk2a662mt9f7h4jv0hc08r2aju0', '::1', 1506761456, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363736313435363b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
-('rdcuvefui2srtoaqqvk9mask6voqoi9k', '::1', 1506761770, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363736313737303b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
-('vadcmoq14ughes8k3ini6ea3frf70mje', '::1', 1506762141, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363736323134313b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
-('slsfim9mvo63tfdc38ik06hcfq7s8eag', '::1', 1506762442, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363736323434323b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
-('qeuhep78ku1sbo8ahc0vj5dciq9kdeui', '::1', 1506762748, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363736323734383b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
-('cht9kn2suuece9asns6eegapobuddtoo', '::1', 1506762861, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363736323734383b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d);
+('dmqplt3blloib0n2tldarfve3hi3nef7', '::1', 1506822100, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363832323130303b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a353a2261646d696e223b7d),
+('akdbc1orqfll7ofp6d9vice4174nlkt3', '::1', 1506822407, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363832323430373b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a353a2261646d696e223b7d),
+('m7vtbqp8d5a4k17hmfcelq7715oi3ref', '::1', 1506822775, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363832323737353b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a353a2261646d696e223b7d),
+('bdn5os6b4g0navgdmpgu2tn424f16j6m', '::1', 1506823200, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363832333230303b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a353a2261646d696e223b7d),
+('j71near9qaag7jsmkfc35bf46f7qjaqm', '::1', 1506823535, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363832333533353b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a353a2261646d696e223b7d),
+('fq3udu610ibq3jrbcvmba5ri5ltkp4m8', '::1', 1506827446, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363832373434363b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a353a2261646d696e223b7d),
+('92rn1tdvrdin5rific8q3q6dsbcacvh8', '::1', 1506827561, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530363832373434363b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a353a2261646d696e223b7d),
+('p41nve1onvreab8c4k5dvg3u8lte011o', '::1', 1507644941, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530373634343931333b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
+('tp01fld5oced667dmqu78vmc7qgv5rmn', '::1', 1507703234, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530373730333233313b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d),
+('h0371ed40da21jmog2vnvdiacunlmn9n', '::1', 1507705796, 0x5f5f63695f6c6173745f726567656e65726174657c693a313530373730353739323b61646d696e5f6c6f676765645f696e7c613a313a7b733a383a22757365726e616d65223b733a343a226d61636f223b7d);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `customers`
+--
+
+CREATE TABLE `customers` (
+  `id` int(11) NOT NULL,
+  `firstname` varchar(255) DEFAULT NULL,
+  `lastname` varchar(255) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `customer_address`
+--
+
+CREATE TABLE `customer_address` (
+  `id` int(11) NOT NULL,
+  `customer_id` int(11) NOT NULL,
+  `tag` int(11) NOT NULL DEFAULT '1' COMMENT '0 = bplace; 1 = address',
+  `building` varchar(255) NOT NULL,
+  `street` varchar(255) NOT NULL,
+  `barangay` varchar(255) NOT NULL,
+  `city` varchar(255) NOT NULL,
+  `province` varchar(255) NOT NULL,
+  `zip` varchar(255) NOT NULL,
+  `country` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `customer_contacts`
+--
+
+CREATE TABLE `customer_contacts` (
+  `id` int(11) NOT NULL,
+  `customer_id` int(11) NOT NULL,
+  `tag` int(11) NOT NULL COMMENT '0 = mobile; 1 = email',
+  `details` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
 -- --------------------------------------------------------
 
@@ -94,7 +106,6 @@ CREATE TABLE `exports` (
   `courier` varchar(255) NOT NULL,
   `tracking_no` varchar(255) NOT NULL,
   `remarks` text,
-  `brand` varchar(255) DEFAULT NULL,
   `user` varchar(255) DEFAULT NULL,
   `status` int(11) DEFAULT NULL COMMENT '1 = pending; 2 = verified / in-transit; 3 = received; 4 = reviewed',
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
@@ -105,19 +116,19 @@ CREATE TABLE `exports` (
 -- Dumping data for table `exports`
 --
 
-INSERT INTO `exports` (`id`, `courier`, `tracking_no`, `remarks`, `brand`, `user`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'LBC', '12', '', 'JM Rubber', 'bibbo', 4, '2017-09-22 21:47:30', '2017-09-23 01:54:41'),
-(2, 'LBC', '77887', 'Whoaaa', 'JM Rubber', 'bibbo', 4, '2017-09-22 21:52:08', '2017-09-23 01:55:35'),
-(3, 'AP Cargo', '11222554634', 'Test', 'JM Rubber', 'bibbo', 4, '2017-09-22 23:04:33', '2017-09-23 01:54:44'),
-(4, 'LBC', '1234567890', 'adasdasdasdsa', 'Lee Plaza', 'testacc', 4, '2017-09-23 15:56:33', '2017-09-23 15:59:39'),
-(5, 'LBC', '4005808298334', 'asdasdasdasdasdasdasdasdasdasd', 'Tire King', 'bibbo', 4, '2017-09-26 19:38:08', '2017-09-26 19:39:10'),
-(6, '', '', NULL, NULL, 'bibbo', 1, '2017-09-27 14:00:40', '0000-00-00 00:00:00'),
-(7, 'LBC', '456456456', '', NULL, 'bibbo', 2, '2017-09-27 14:01:40', '2017-09-27 14:02:07'),
-(8, '', '', NULL, NULL, 'bibbo', 1, '2017-09-27 14:08:59', '0000-00-00 00:00:00'),
-(9, 'LBC', '1234567890', 'rgdfghfghfghfghf', 'Crown Rubber Corporation', 'crownrubber', 4, '2017-09-27 15:44:31', '2017-09-27 15:47:17'),
-(10, 'LBC', '23245555221', 'hghghkkkh', NULL, 'crownrubber', 4, '2017-09-27 15:50:07', '2017-09-27 15:51:31'),
-(11, 'asdas', 'dasdasd', '', 'Tire King', 'bibbo', 2, '2017-09-30 07:11:10', '2017-09-30 07:19:21'),
-(13, 'LBC', '4523453435645', 'asdasdasasasd', 'Tire King', 'bibbo', 4, '2017-09-30 07:17:44', '2017-09-30 07:19:45');
+INSERT INTO `exports` (`id`, `courier`, `tracking_no`, `remarks`, `user`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'LBC', '12', '', 'bibbo', 4, '2017-09-22 21:47:30', '2017-09-23 01:54:41'),
+(2, 'LBC', '77887', 'Whoaaa', 'bibbo', 4, '2017-09-22 21:52:08', '2017-09-23 01:55:35'),
+(3, 'AP Cargo', '11222554634', 'Test', 'bibbo', 4, '2017-09-22 23:04:33', '2017-09-23 01:54:44'),
+(4, 'LBC', '1234567890', 'adasdasdasdsa', 'testacc', 4, '2017-09-23 15:56:33', '2017-09-23 15:59:39'),
+(5, 'LBC', '4005808298334', 'asdasdasdasdasdasdasdasdasdasd', 'bibbo', 4, '2017-09-26 19:38:08', '2017-09-26 19:39:10'),
+(6, '', '', NULL, 'bibbo', 1, '2017-09-27 14:00:40', '0000-00-00 00:00:00'),
+(7, 'LBC', '456456456', '', 'bibbo', 2, '2017-09-27 14:01:40', '2017-09-27 14:02:07'),
+(8, '', '', NULL, 'bibbo', 1, '2017-09-27 14:08:59', '0000-00-00 00:00:00'),
+(9, 'LBC', '1234567890', 'rgdfghfghfghfghf', 'crownrubber', 4, '2017-09-27 15:44:31', '2017-09-27 15:47:17'),
+(10, 'LBC', '23245555221', 'hghghkkkh', 'crownrubber', 4, '2017-09-27 15:50:07', '2017-09-27 15:51:31'),
+(11, 'asdas', 'dasdasd', '', 'bibbo', 2, '2017-09-30 07:11:10', '2017-09-30 07:19:21'),
+(13, 'LBC', '4523453435645', 'asdasdasasasd', 'bibbo', 4, '2017-09-30 07:17:44', '2017-09-30 07:19:45');
 
 -- --------------------------------------------------------
 
@@ -173,6 +184,7 @@ INSERT INTO `export_items` (`id`, `item_id`, `export_id`, `qty`, `date_time`, `u
 CREATE TABLE `imports` (
   `id` int(11) NOT NULL,
   `export_id` int(11) DEFAULT NULL,
+  `supplier` varchar(255) DEFAULT NULL,
   `location` varchar(255) DEFAULT NULL,
   `remarks` text NOT NULL,
   `user` varchar(255) DEFAULT NULL,
@@ -185,15 +197,15 @@ CREATE TABLE `imports` (
 -- Dumping data for table `imports`
 --
 
-INSERT INTO `imports` (`id`, `export_id`, `location`, `remarks`, `user`, `status`, `created_at`, `updated_at`) VALUES
-(2, 1, 'Warehouse - Dipolog', 'Rwadsjaskljdklasjdkljskldjlaksjdklasjd', 'maco', 2, '2017-09-23 01:30:24', '2017-09-23 01:50:25'),
-(3, 3, 'Warehouse - Dipolog', '', 'maco', 2, '2017-09-23 01:50:59', '2017-09-23 01:51:15'),
-(4, 2, 'Warehouse - Zamboanga', 'Nahhhh', 'maco', 2, '2017-09-23 01:55:18', '2017-09-23 01:55:35'),
-(5, 4, 'Warehouse - Dipolog', 'Testing', 'maco', 2, '2017-09-23 15:58:47', '2017-09-23 15:59:39'),
-(6, 5, 'Warehouse - Dipolog', '4005808298334\r\n4005808298334\r\n4005808298334\r\n4005808888368', 'maco', 2, '2017-09-26 19:38:45', '2017-09-26 19:39:10'),
-(7, 9, 'Minaog', 'ertyryrtythfhfhjghjghjghjghjghjgkjhkjghlhjklj', 'admin', 2, '2017-09-27 15:45:58', '2017-09-27 15:47:17'),
-(8, 10, 'Store - Dipolog', 'efsdsdf', 'admin', 2, '2017-09-27 15:51:07', '2017-09-27 15:51:31'),
-(9, 13, 'Warehouse - Dipolog', '', 'maco', 2, '2017-09-30 07:19:39', '2017-09-30 07:19:45');
+INSERT INTO `imports` (`id`, `export_id`, `supplier`, `location`, `remarks`, `user`, `status`, `created_at`, `updated_at`) VALUES
+(2, NULL, NULL, 'Warehouse - Dipolog', 'Rwadsjaskljdklasjdkljskldjlaksjdklasjd', 'maco', 2, '2017-09-23 01:30:24', '2017-09-23 01:50:25'),
+(3, NULL, NULL, 'Warehouse - Dipolog', '', 'maco', 2, '2017-09-23 01:50:59', '2017-09-23 01:51:15'),
+(4, NULL, NULL, 'Warehouse - Zamboanga', 'Nahhhh', 'maco', 2, '2017-09-23 01:55:18', '2017-09-23 01:55:35'),
+(5, NULL, NULL, 'Warehouse - Dipolog', 'Testing', 'maco', 2, '2017-09-23 15:58:47', '2017-09-23 15:59:39'),
+(6, NULL, NULL, 'Warehouse - Dipolog', '4005808298334\r\n4005808298334\r\n4005808298334\r\n4005808888368', 'maco', 2, '2017-09-26 19:38:45', '2017-09-26 19:39:10'),
+(7, NULL, NULL, 'Minaog', 'ertyryrtythfhfhjghjghjghjghjghjgkjhkjghlhjklj', 'admin', 2, '2017-09-27 15:45:58', '2017-09-27 15:47:17'),
+(8, NULL, NULL, 'Store - Dipolog', 'efsdsdf', 'admin', 2, '2017-09-27 15:51:07', '2017-09-27 15:51:31'),
+(9, NULL, NULL, 'Warehouse - Dipolog', '', 'maco', 2, '2017-09-30 07:19:39', '2017-09-30 07:19:45');
 
 -- --------------------------------------------------------
 
@@ -257,10 +269,10 @@ CREATE TABLE `items` (
 --
 
 INSERT INTO `items` (`id`, `name`, `category`, `brand`, `unit`, `description`, `serial`, `DP`, `SRP`, `created_at`, `updated_at`, `is_deleted`) VALUES
-('ITEM00001', 'Slipper (Size 24)', 'Slippers', 'Dipolog Rubber Groups', 'BOX', '<p>ASDSADSADAD</p>', 'asad', 50.00, 110.00, '2017-09-15 14:13:53', '2017-09-30 15:36:36', 0),
+('ITEM00001', 'Slipper (Size 24)', 'Slippers', 'Dipolog Rubber Groups', 'BOX', '<p>ASDSADSADAD</p>', '456456456456', 50.00, 110.00, '2017-09-15 14:13:53', '2017-10-01 04:45:14', 0),
 ('ITEM00002', 'TEST ITEMsss', 'Slippers', 'Tire King', 'BOX', '', '4801010130321', 70.00, 130.00, '2017-09-15 14:13:53', '2017-09-26 19:36:51', 0),
 ('ITEM00003', 'Lorem Ipsum', 'Slippers', 'Tire King', 'PC', '<p>150asdasdasdasdasd</p>', 'asdadasd', 100.00, 125.00, '2017-09-15 15:50:54', '2017-09-15 15:50:54', 0),
-('ITEM00004', 'Nahhhh', 'Slippers', 'Tire King', 'PC', '<p>asdasdasdasdasdasd</p>', '4005808888368', 1000.00, 1950.00, '2017-09-15 16:32:45', '2017-09-26 19:37:04', 0),
+('ITEM00004', 'Nahhhh', 'Slippers', 'Tire King', 'PC', '<p>asdasdasdasdasdasd</p>', '123', 1000.00, 1950.00, '2017-09-15 16:32:45', '2017-10-01 11:12:39', 0),
 ('ITEM00005', 'Baofeng Radio 124524s', 'Slippers', 'Tire King', 'PC', '<p>asdasdasdasd</p>', '11222334445556', 1000.00, 100.00, '2017-09-15 22:13:27', '2017-09-26 14:46:13', 0),
 ('ITEM00006', 'Slipper (Size 25)', 'Slippers', 'JM Rubber', 'PC', '', '234567890', 35.00, 200.00, '2017-09-16 16:30:33', '2017-09-16 16:30:33', 0),
 ('ITEM00007', 'Mouse', 'Slippers', 'JM Rubber', 'PC', '', '123456', 255.00, 500.00, '2017-09-22 21:30:39', '2017-09-22 21:30:39', 0),
@@ -285,11 +297,7 @@ INSERT INTO `items` (`id`, `name`, `category`, `brand`, `unit`, `description`, `
 CREATE TABLE `item_brand` (
   `id` int(11) NOT NULL,
   `title` varchar(30) NOT NULL,
-  `address` varchar(255) NOT NULL,
-  `description` text NOT NULL,
   `logo` varchar(100) NOT NULL,
-  `contact` varchar(100) NOT NULL,
-  `email` varchar(100) NOT NULL,
   `web` varchar(100) NOT NULL,
   `is_deleted` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -298,13 +306,13 @@ CREATE TABLE `item_brand` (
 -- Dumping data for table `item_brand`
 --
 
-INSERT INTO `item_brand` (`id`, `title`, `address`, `description`, `logo`, `contact`, `email`, `web`, `is_deleted`) VALUES
-(1, 'Nestle', '', '', '', '090909099009', 'support@neste.com.ph', 'http://nestle.ph', 1),
-(2, 'Tire King', '', '', '', '', '', '', 0),
-(3, 'JM Rubber', '', '', '', '', '', '', 0),
-(4, 'Dipolog Rubber Groups', 'Dipolog city', '<ul>\r\n	<li>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias hic ullam quis, voluptate ab praesentium. Impedit quaerat rem reprehenderit aperiam quam, dolore explicabo quibusdam maiores aspernatur error repudia<strong>ndae atque blanditiis?</strong></li>\r\n</ul>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>&nbsp;</p>', '3d62f16a1021f38ef0d8d822ea6a1bea.jpg', '09058208455', 'maco.techdepot@gmail.com', 'http://rubbergrp.com', 0),
-(5, 'Lee Plaza', 'ertyuil', '', '', '09058208455', 'leeplaza@leeplaza.com', 'http://rubbergrp.com', 0),
-(6, 'Crown Rubber Corporation', 'Cebu Cityy', '', '', '234567890', 'crown@crow.com', 'http://crow.com', 0);
+INSERT INTO `item_brand` (`id`, `title`, `logo`, `web`, `is_deleted`) VALUES
+(1, 'Nestle', '', 'http://nestle.ph', 1),
+(2, 'Tire King', '', '', 0),
+(3, 'JM Rubber', '', '', 0),
+(4, 'Dipolog Rubber Groups', '3d62f16a1021f38ef0d8d822ea6a1bea.jpg', 'http://rubbergrp.com', 0),
+(5, 'Lee Plaza', '', 'http://rubbergrp.com', 0),
+(6, 'Crown Rubber Corporation', '', 'http://crow.com', 0);
 
 -- --------------------------------------------------------
 
@@ -327,7 +335,8 @@ INSERT INTO `item_category` (`id`, `title`, `is_deleted`) VALUES
 (2, 'Shoes', 0),
 (3, 'Laces', 0),
 (4, 'Accessories', 0),
-(5, 'Dress', 0);
+(5, 'Dress', 0),
+(6, 'Cools', 0);
 
 -- --------------------------------------------------------
 
@@ -377,7 +386,9 @@ INSERT INTO `item_inventory` (`id`, `item_id`, `qty`, `tag`, `tag_id`, `location
 (24, 'ITEM00001', '-10', 'sale', 3, 'Warehouse - Zamboanga', '', '2017-09-30 16:43:44'),
 (25, 'ITEM00002', '-10', 'sale', 3, 'Warehouse - Zamboanga', '', '2017-09-30 16:43:44'),
 (26, 'ITEM00001', '-1', 'sale', 4, 'Warehouse - Zamboanga', '', '2017-09-30 16:45:27'),
-(27, 'ITEM00014', '-1', 'sale', 4, 'Warehouse - Zamboanga', '', '2017-09-30 16:45:27');
+(27, 'ITEM00014', '-1', 'sale', 4, 'Warehouse - Zamboanga', '', '2017-09-30 16:45:27'),
+(28, 'ITEM00003', '-10', 'sale', 5, 'Warehouse - Zamboanga', '', '2017-10-01 03:43:08'),
+(29, 'ITEM00003', '-1', 'sale', 6, 'Warehouse - Zamboanga', '', '2017-10-01 04:30:37');
 
 -- --------------------------------------------------------
 
@@ -423,7 +434,8 @@ INSERT INTO `item_unit` (`id`, `title`, `is_deleted`) VALUES
 (1, 'PC', 0),
 (2, 'BOX', 0),
 (3, 'PAIR', 0),
-(4, 'DOZ', 0);
+(4, 'DOZ', 0),
+(5, 'SCK', 0);
 
 -- --------------------------------------------------------
 
@@ -598,7 +610,32 @@ INSERT INTO `logs` (`id`, `user`, `tag`, `tag_id`, `action`, `ip_address`, `date
 (151, 'maco', 'item', 'ITEM00001', 'Updated Item Information', '::1', '2017-09-30 07:36:36'),
 (152, 'maco', 'sale', '2', 'Purchased by Walk-in', '::1', '2017-09-30 08:42:37'),
 (153, 'maco', 'sale', '3', 'Purchased by Walk-in', '::1', '2017-09-30 08:43:44'),
-(154, 'maco', 'sale', '4', 'Purchased by Walk-in', '::1', '2017-09-30 08:45:27');
+(154, 'maco', 'sale', '4', 'Purchased by Walk-in', '::1', '2017-09-30 08:45:27'),
+(155, 'maco', 'sale', '5', 'Purchased by Walk-in', '::1', '2017-09-30 19:43:08'),
+(156, 'maco', 'sale', '6', 'Purchased by Walk-in', '::1', '2017-09-30 20:30:37'),
+(157, 'maco', 'item', 'ITEM00004', 'Updated Item Information', '::1', '2017-09-30 20:41:33'),
+(158, 'maco', 'item', 'ITEM00004', 'Updated Item Information', '::1', '2017-09-30 20:41:40'),
+(159, 'maco', 'item', 'ITEM00001', 'Updated Item Information', '::1', '2017-09-30 20:42:33'),
+(160, 'maco', 'item', 'ITEM00001', 'Updated Item Information', '::1', '2017-09-30 20:44:04'),
+(161, 'maco', 'item', 'ITEM00001', 'Updated Item Information', '::1', '2017-09-30 20:44:08'),
+(162, 'maco', 'item', 'ITEM00001', 'Updated Item Information', '::1', '2017-09-30 20:45:14'),
+(163, 'maco', 'category', '6', 'Category Registration', '::1', '2017-09-30 21:01:06'),
+(164, 'maco', 'location', '1', 'Updated Location Information', '::1', '2017-09-30 21:03:45'),
+(165, 'maco', 'location', '1', 'Updated Location Information', '::1', '2017-09-30 21:04:05'),
+(166, 'maco', 'location', '1', 'Deleted Location', '::1', '2017-09-30 21:06:23'),
+(167, 'maco', 'unit', '5', 'Item Unit Registration', '::1', '2017-09-30 21:12:03'),
+(168, 'admin', 'user', 'aaron', 'User Registration', '::1', '2017-10-01 01:46:47'),
+(169, 'admin', 'user', 'aaron', 'Updated User Information', '::1', '2017-10-01 01:48:10'),
+(170, 'admin', 'user', 'masss', 'User Registration', '::1', '2017-10-01 02:00:22'),
+(171, 'admin', 'user', 'supp', 'User Registration', '::1', '2017-10-01 02:02:54'),
+(172, 'admin', 'user', 'maco', 'Updated User Information', '::1', '2017-10-01 02:06:48'),
+(173, 'admin', 'user', 'maco', 'Updated User Information', '::1', '2017-10-01 02:06:50'),
+(174, 'admin', 'user', 'maco', 'Updated User Information', '::1', '2017-10-01 02:06:53'),
+(175, 'admin', 'user', 'maco', 'Updated User Information', '::1', '2017-10-01 02:06:56'),
+(176, 'admin', 'item', 'ITEM00004', 'Updated Item Information', '::1', '2017-10-01 03:12:17'),
+(177, 'admin', 'item', 'ITEM00004', 'Updated Item Information', '::1', '2017-10-01 03:12:35'),
+(178, 'admin', 'item', 'ITEM00004', 'Updated Item Information', '::1', '2017-10-01 03:12:39'),
+(179, 'admin', 'item', 'ITEM00004', 'Updated Item Information', '::1', '2017-10-01 03:12:40');
 
 -- --------------------------------------------------------
 
@@ -658,7 +695,6 @@ INSERT INTO `move_items` (`id`, `loc_id`, `move_id`, `item_id`, `qty`, `user`, `
 
 CREATE TABLE `requests` (
   `id` int(11) NOT NULL,
-  `brand` varchar(255) DEFAULT NULL,
   `remarks` text,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -670,16 +706,16 @@ CREATE TABLE `requests` (
 -- Dumping data for table `requests`
 --
 
-INSERT INTO `requests` (`id`, `brand`, `remarks`, `created_at`, `updated_at`, `user`, `status`) VALUES
-(1, 'JM Rubber', '<p>Nice</p>', '2017-09-26 22:41:45', '2017-09-27 13:12:09', 'maco', 4),
-(2, 'Lee Plaza', '<p>WATTATAWsadasdsad</p>', '2017-09-26 22:42:16', '2017-09-27 07:50:23', 'maco', 2),
-(3, 'Tire King', '<p>&nbsp; &nbsp; Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam voluptatum repellendus, quis consequuntur vitae, rerum quo, ducimus consectetur obcaecati officia inventore molestias delectus, aspernatur incidunt dolor! Rerum, facere?', '2017-09-26 22:42:02', '2017-09-27 14:01:40', 'maco', 3),
-(4, 'Tire King', '<p>asdasdasd</p>', '2017-09-27 14:08:29', '2017-09-27 14:08:59', 'maco', 3),
-(5, 'Crown Rubber Corporation', '<p>ghfghfghfghfghfghfhfg</p>', '2017-09-27 15:48:33', '2017-09-27 15:50:07', 'admin', 3),
-(6, 'Crown Rubber Corporation', '<p>adadas</p>', '2017-09-27 15:53:28', '2017-09-29 07:14:14', 'maco', 2),
-(7, 'Tire King', '<p>Nahhh</p>', '2017-09-30 07:10:18', '2017-09-30 07:10:30', 'maco', 4),
-(8, 'Tire King', '<p>adasdadasd</p>', '2017-09-30 07:10:44', '2017-09-30 07:11:10', 'maco', 3),
-(9, 'Tire King', '<p>asdasdasdasd</p>', '2017-09-30 07:14:19', '2017-09-30 07:17:44', 'maco', 3);
+INSERT INTO `requests` (`id`, `remarks`, `created_at`, `updated_at`, `user`, `status`) VALUES
+(1, '<p>Nice</p>', '2017-09-26 22:41:45', '2017-09-27 13:12:09', 'maco', 4),
+(2, '<p>WATTATAWsadasdsad</p>', '2017-09-26 22:42:16', '2017-09-27 07:50:23', 'maco', 2),
+(3, '<p>&nbsp; &nbsp; Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam voluptatum repellendus, quis consequuntur vitae, rerum quo, ducimus consectetur obcaecati officia inventore molestias delectus, aspernatur incidunt dolor! Rerum, facere?', '2017-09-26 22:42:02', '2017-09-27 14:01:40', 'maco', 3),
+(4, '<p>asdasdasd</p>', '2017-09-27 14:08:29', '2017-09-27 14:08:59', 'maco', 3),
+(5, '<p>ghfghfghfghfghfghfhfg</p>', '2017-09-27 15:48:33', '2017-09-27 15:50:07', 'admin', 3),
+(6, '<p>adadas</p>', '2017-09-27 15:53:28', '2017-09-29 07:14:14', 'maco', 2),
+(7, '<p>Nahhh</p>', '2017-09-30 07:10:18', '2017-09-30 07:10:30', 'maco', 4),
+(8, '<p>adasdadasd</p>', '2017-09-30 07:10:44', '2017-09-30 07:11:10', 'maco', 3),
+(9, '<p>asdasdasdasd</p>', '2017-09-30 07:14:19', '2017-09-30 07:17:44', 'maco', 3);
 
 -- --------------------------------------------------------
 
@@ -721,8 +757,9 @@ INSERT INTO `request_items` (`id`, `request_id`, `item_id`, `qty`) VALUES
 
 CREATE TABLE `sales` (
   `id` int(11) NOT NULL,
+  `invoice_no` varchar(255) DEFAULT NULL,
   `location` varchar(255) DEFAULT NULL,
-  `customer` varchar(255) DEFAULT NULL,
+  `customer_id` int(255) DEFAULT NULL,
   `remarks` text,
   `amount_tendered` decimal(10,2) DEFAULT NULL,
   `user` varchar(255) DEFAULT NULL,
@@ -730,16 +767,6 @@ CREATE TABLE `sales` (
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `sales`
---
-
-INSERT INTO `sales` (`id`, `location`, `customer`, `remarks`, `amount_tendered`, `user`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Warehouse - Zamboanga', 'Walk-in', 'asdasdasadsdsdsdssadsdsa', NULL, 'maco', '1', '2017-09-30 16:42:28', NULL),
-(2, 'Warehouse - Zamboanga', 'Walk-in', 'asdasdasadsdsdsdssadsdsa', '3000.00', 'maco', '1', '2017-09-30 16:42:37', '2017-09-30 17:04:50'),
-(3, 'Warehouse - Zamboanga', 'Walk-in', '', NULL, 'maco', '1', '2017-09-30 16:43:44', NULL),
-(4, 'Warehouse - Zamboanga', 'Walk-in', '', NULL, 'maco', '1', '2017-09-30 16:45:27', NULL);
 
 -- --------------------------------------------------------
 
@@ -756,18 +783,6 @@ CREATE TABLE `sale_items` (
   `discount` decimal(10,2) DEFAULT NULL,
   `user` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `sale_items`
---
-
-INSERT INTO `sale_items` (`id`, `sale_id`, `item_id`, `qty`, `srp`, `discount`, `user`) VALUES
-(2, 2, 'ITEM00001', 3, '100.00', '10.56', 'maco'),
-(3, 2, 'ITEM00004', 1, '1950.00', '5.00', 'maco'),
-(4, 3, 'ITEM00001', 10, '110.00', '5.00', 'maco'),
-(5, 3, 'ITEM00002', 10, '130.00', '10.00', 'maco'),
-(6, 4, 'ITEM00001', 1, '110.00', NULL, 'maco'),
-(7, 4, 'ITEM00014', 1, '150.00', NULL, 'maco');
 
 -- --------------------------------------------------------
 
@@ -791,6 +806,20 @@ INSERT INTO `settings` (`id`, `setting_field`, `value`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `supplier`
+--
+
+CREATE TABLE `supplier` (
+  `id` int(11) NOT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `remarks` varchar(255) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users`
 --
 
@@ -799,7 +828,6 @@ CREATE TABLE `users` (
   `password` varchar(255) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   `location` varchar(255) DEFAULT NULL,
-  `brand` varchar(255) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
   `contact` varchar(255) DEFAULT NULL,
   `usertype` varchar(255) NOT NULL,
@@ -813,14 +841,19 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`username`, `password`, `name`, `location`, `brand`, `email`, `contact`, `usertype`, `img`, `created_at`, `updated_at`, `is_deleted`) VALUES
-('admin', '$2y$10$mt9rqihNCu6CVMnAcyqOreGwmO4yh2rgD9zvODgvxcpcDHvMIMcm6', 'Administrator', NULL, NULL, 'admin@admin.com', '1234567890', 'Administrator', '', '2017-09-27 15:22:36', '2017-09-27 07:23:23', 0),
-('asd', '$2y$10$uo82doJurg9UTSKB5ZsHVuOUbc1S.bY5eb5oWmcqNVDZE//yQdJte', 'Mia Luisa Sanchez', NULL, 'Tire King', 'mia@mia.com', '12121454asd', 'Administrator', '57ee82b17727cfa683faea80e720ff96.jpg', '2017-09-14 20:43:57', '2017-09-15 14:32:54', 0),
-('bibbo', '$2y$10$oBxDYZpitapcaOuaKSL0OuXJx5nvKnm8J9pjEgVBgEgKcxgvYhqp6', 'Bibbo', NULL, 'Tire King', 'bibbo@bibbo.com', '231321564', 'Supplier User', '', '2017-09-22 21:25:45', '2017-09-26 10:54:13', 0),
-('crownrubber', '$2y$10$l20HV2AeyvExZ/UizfnhgeOBgP38RNmRC5g.z3ri0fz6/0QUGV13K', 'Juan Luna', NULL, 'Crown Rubber Corporation', 'crown@crow.com', '123456789', 'Supplier User', '', '2017-09-27 15:39:34', '2017-09-27 07:40:42', 0),
-('maco', '$2y$10$QF6KBzs5FZpLH31c/1CqiutrlVOnq0gWtXde4qtg9LIxvDUdLnG3S', 'Maco Cortes', 'Warehouse - Zamboanga', NULL, 'maco.techdepot@gmail.com', '09058208455', 'Administrator', '95d9e91ba95089b52db4c74ff03f13ea.jpg', '2017-09-14 20:10:01', '2017-09-30 08:37:48', 0),
-('test', '$2y$10$.ebM/6yhzaLnBCHVfxRpzOtgrsetbGo5g4QV/STLxsVLnPN5Bf6G6', 'Testing Assistant', NULL, 'Nestle', 'test@test.com', '564564564', 'Administrator', '55f7f100c785d43bc3ee1bd7bcc2015b.jpg', '2017-09-14 20:12:52', '2017-09-15 01:42:41', 1),
-('testacc', '$2y$10$sPE0x.pcFdMxIMdoe0CHa.zCG6gBTwpWNcXEWoKam.bBM01IHLjmm', 'Testing Account', NULL, 'Lee Plaza', 'test@test.com', '1234567890', 'Supplier User', '', '2017-09-23 15:43:12', '2017-09-23 07:48:21', 0);
+INSERT INTO `users` (`username`, `password`, `name`, `location`, `email`, `contact`, `usertype`, `img`, `created_at`, `updated_at`, `is_deleted`) VALUES
+('878787', '$2y$10$r4W6pgPx1XkKUHAmjf4s3.Pgv8hUSbBEeVaKkvWfYnA7.9laMvOWm', '76767', 'Warehouse - Dipolog', '2345678@567.com', '3456789', 'Administrator', '', '2017-10-01 09:55:01', NULL, 0),
+('aaron', '$2y$10$qS7VM6YJZYHbeLJXyCVQYOHyz2Mw0/W7bEDT0bRaPy9LZpfnW5lEK', 'Aaron Alfonso', 'Warehouse - Dipolog', 'alpha.anonymousph@gmail.com', '123456789', 'Administrator', '95ffe23569290558e11d5611a28ccbdb.png', '2017-10-01 09:46:47', '2017-10-01 01:48:10', 0),
+('admin', '$2y$10$mt9rqihNCu6CVMnAcyqOreGwmO4yh2rgD9zvODgvxcpcDHvMIMcm6', 'Administrator', NULL, 'admin@admin.com', '1234567890', 'Administrator', '', '2017-09-27 15:22:36', '2017-09-27 07:23:23', 0),
+('asd', '$2y$10$uo82doJurg9UTSKB5ZsHVuOUbc1S.bY5eb5oWmcqNVDZE//yQdJte', 'Mia Luisa Sanchez', NULL, 'mia@mia.com', '12121454asd', 'Administrator', '57ee82b17727cfa683faea80e720ff96.jpg', '2017-09-14 20:43:57', '2017-09-15 14:32:54', 0),
+('bibbo', '$2y$10$oBxDYZpitapcaOuaKSL0OuXJx5nvKnm8J9pjEgVBgEgKcxgvYhqp6', 'Bibbo', NULL, 'bibbo@bibbo.com', '231321564', 'Reseller', '', '2017-09-22 21:25:45', '2017-09-26 10:54:13', 0),
+('bla', 'hjasda', '132', 'Minaog', NULL, NULL, 'Administrator', NULL, '2017-10-01 09:50:42', NULL, 0),
+('crownrubber', '$2y$10$l20HV2AeyvExZ/UizfnhgeOBgP38RNmRC5g.z3ri0fz6/0QUGV13K', 'Juan Luna', NULL, 'crown@crow.com', '123456789', 'Reseller', '', '2017-09-27 15:39:34', '2017-09-27 07:40:42', 0),
+('maco', '$2y$10$QF6KBzs5FZpLH31c/1CqiutrlVOnq0gWtXde4qtg9LIxvDUdLnG3S', 'Maco Cortes', 'Warehouse - Dipolog', 'maco.techdepot@gmail.com', '09058208455', 'Administrator', '95d9e91ba95089b52db4c74ff03f13ea.jpg', '2017-09-14 20:10:01', '2017-10-01 02:06:56', 0),
+('masss', '$2y$10$p.hUHWghTCUTSC0PJdfdW.QrmbQlwKWYmiEx/ASTRffrqdW3dLaoW', '5rt6yashdahd', 'Warehouse - Dipolog', 'maco.techdepot@gmail.coms', '09058208455', 'Administrator', '', '2017-10-01 10:00:22', NULL, 0),
+('supp', '$2y$10$2MxMwQzOeIiW9l3dOrEUI.7FxoieWM0cmEVG94NByTcAo0yr.jhnO', 'Supplier', NULL, 'supp@sup.com', '67', 'Reseller', '', '2017-10-01 10:02:54', NULL, 0),
+('test', '$2y$10$.ebM/6yhzaLnBCHVfxRpzOtgrsetbGo5g4QV/STLxsVLnPN5Bf6G6', 'Testing Assistant', NULL, 'test@test.com', '564564564', 'Administrator', '55f7f100c785d43bc3ee1bd7bcc2015b.jpg', '2017-09-14 20:12:52', '2017-09-15 01:42:41', 1),
+('testacc', '$2y$10$sPE0x.pcFdMxIMdoe0CHa.zCG6gBTwpWNcXEWoKam.bBM01IHLjmm', 'Testing Account', NULL, 'test@test.com', '1234567890', 'Reseller', '', '2017-09-23 15:43:12', '2017-09-23 07:48:21', 0);
 
 -- --------------------------------------------------------
 
@@ -829,16 +862,17 @@ INSERT INTO `users` (`username`, `password`, `name`, `location`, `brand`, `email
 --
 
 CREATE TABLE `usertypes` (
-  `title` varchar(255) NOT NULL
+  `title` varchar(255) NOT NULL,
+  `user_level` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
 --
 -- Dumping data for table `usertypes`
 --
 
-INSERT INTO `usertypes` (`title`) VALUES
-('Administrator'),
-('Supplier User');
+INSERT INTO `usertypes` (`title`, `user_level`) VALUES
+('Administrator', NULL),
+('Reseller', NULL);
 
 --
 -- Indexes for dumped tables
@@ -851,12 +885,31 @@ ALTER TABLE `ci_sessions`
   ADD KEY `ci_sessions_timestamp` (`timestamp`) USING BTREE;
 
 --
+-- Indexes for table `customers`
+--
+ALTER TABLE `customers`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `customer_address`
+--
+ALTER TABLE `customer_address`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FKCustomerAddress` (`customer_id`) USING BTREE;
+
+--
+-- Indexes for table `customer_contacts`
+--
+ALTER TABLE `customer_contacts`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FKPatientContacts` (`customer_id`) USING BTREE;
+
+--
 -- Indexes for table `exports`
 --
 ALTER TABLE `exports`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `expUser` (`user`),
-  ADD KEY `expBrand` (`brand`);
+  ADD KEY `expUser` (`user`);
 
 --
 -- Indexes for table `export_items`
@@ -872,14 +925,17 @@ ALTER TABLE `export_items`
 ALTER TABLE `imports`
   ADD PRIMARY KEY (`id`),
   ADD KEY `expUser` (`user`),
-  ADD KEY `FKImportLoc` (`location`);
+  ADD KEY `FKImportLoc` (`location`),
+  ADD KEY `FKImportSupplier` (`supplier`),
+  ADD KEY `FKImportExport` (`export_id`);
 
 --
 -- Indexes for table `import_items`
 --
 ALTER TABLE `import_items`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `InvItem` (`item_id`);
+  ADD KEY `InvItem` (`item_id`),
+  ADD KEY `FKImportID` (`import_id`);
 
 --
 -- Indexes for table `items`
@@ -954,8 +1010,7 @@ ALTER TABLE `move_items`
 --
 ALTER TABLE `requests`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `FKReqUser` (`user`),
-  ADD KEY `FKReqBrand` (`brand`);
+  ADD KEY `FKReqUser` (`user`);
 
 --
 -- Indexes for table `request_items`
@@ -971,15 +1026,16 @@ ALTER TABLE `request_items`
 ALTER TABLE `sales`
   ADD PRIMARY KEY (`id`),
   ADD KEY `FKSaleLocation` (`location`),
-  ADD KEY `FKSaleUser` (`user`);
+  ADD KEY `FKSaleUser` (`user`),
+  ADD KEY `FKCustomer` (`customer_id`);
 
 --
 -- Indexes for table `sale_items`
 --
 ALTER TABLE `sale_items`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `FKSalesId` (`sale_id`),
-  ADD KEY `FKSaleItem` (`item_id`);
+  ADD KEY `FKSaleItem` (`item_id`),
+  ADD KEY `FKSalesid` (`sale_id`);
 
 --
 -- Indexes for table `settings`
@@ -988,14 +1044,19 @@ ALTER TABLE `settings`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `supplier`
+--
+ALTER TABLE `supplier`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `title` (`title`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`username`),
   ADD KEY `FKUsertype` (`usertype`),
-  ADD KEY `FKuserbrn` (`brand`),
-  ADD KEY `name` (`name`),
-  ADD KEY `FKUserLocation` (`location`);
+  ADD KEY `FKuserloc` (`location`) USING BTREE;
 
 --
 -- Indexes for table `usertypes`
@@ -1007,6 +1068,16 @@ ALTER TABLE `usertypes`
 -- AUTO_INCREMENT for dumped tables
 --
 
+--
+-- AUTO_INCREMENT for table `customer_address`
+--
+ALTER TABLE `customer_address`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `customer_contacts`
+--
+ALTER TABLE `customer_contacts`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `exports`
 --
@@ -1036,12 +1107,12 @@ ALTER TABLE `item_brand`
 -- AUTO_INCREMENT for table `item_category`
 --
 ALTER TABLE `item_category`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `item_inventory`
 --
 ALTER TABLE `item_inventory`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 --
 -- AUTO_INCREMENT for table `item_location`
 --
@@ -1051,12 +1122,12 @@ ALTER TABLE `item_location`
 -- AUTO_INCREMENT for table `item_unit`
 --
 ALTER TABLE `item_unit`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `logs`
 --
 ALTER TABLE `logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=155;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=180;
 --
 -- AUTO_INCREMENT for table `move`
 --
@@ -1081,26 +1152,42 @@ ALTER TABLE `request_items`
 -- AUTO_INCREMENT for table `sales`
 --
 ALTER TABLE `sales`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `sale_items`
 --
 ALTER TABLE `sale_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `settings`
 --
 ALTER TABLE `settings`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
+-- AUTO_INCREMENT for table `supplier`
+--
+ALTER TABLE `supplier`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `customer_address`
+--
+ALTER TABLE `customer_address`
+  ADD CONSTRAINT `FKCustomerAddr` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`) ON UPDATE CASCADE;
+
+--
+-- Constraints for table `customer_contacts`
+--
+ALTER TABLE `customer_contacts`
+  ADD CONSTRAINT `FKCustomerContacts` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`);
 
 --
 -- Constraints for table `exports`
 --
 ALTER TABLE `exports`
-  ADD CONSTRAINT `expBrand` FOREIGN KEY (`brand`) REFERENCES `item_brand` (`title`) ON UPDATE CASCADE,
   ADD CONSTRAINT `expUser` FOREIGN KEY (`user`) REFERENCES `users` (`username`) ON UPDATE CASCADE;
 
 --
@@ -1114,7 +1201,16 @@ ALTER TABLE `export_items`
 -- Constraints for table `imports`
 --
 ALTER TABLE `imports`
-  ADD CONSTRAINT `FKImportLoc` FOREIGN KEY (`location`) REFERENCES `item_location` (`title`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `FKImportExport` FOREIGN KEY (`export_id`) REFERENCES `exports` (`id`),
+  ADD CONSTRAINT `FKImportLoc` FOREIGN KEY (`location`) REFERENCES `item_location` (`title`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `FKImportSupplier` FOREIGN KEY (`supplier`) REFERENCES `supplier` (`title`) ON UPDATE CASCADE;
+
+--
+-- Constraints for table `import_items`
+--
+ALTER TABLE `import_items`
+  ADD CONSTRAINT `FKImportID` FOREIGN KEY (`import_id`) REFERENCES `imports` (`id`),
+  ADD CONSTRAINT `FKImportItems` FOREIGN KEY (`item_id`) REFERENCES `items` (`id`);
 
 --
 -- Constraints for table `items`
@@ -1150,7 +1246,6 @@ ALTER TABLE `move_items`
 -- Constraints for table `requests`
 --
 ALTER TABLE `requests`
-  ADD CONSTRAINT `FKReqBrand` FOREIGN KEY (`brand`) REFERENCES `item_brand` (`title`) ON UPDATE CASCADE,
   ADD CONSTRAINT `FKReqUser` FOREIGN KEY (`user`) REFERENCES `users` (`username`) ON UPDATE CASCADE;
 
 --
@@ -1164,6 +1259,7 @@ ALTER TABLE `request_items`
 -- Constraints for table `sales`
 --
 ALTER TABLE `sales`
+  ADD CONSTRAINT `FKCustomer` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`),
   ADD CONSTRAINT `FKSaleLocation` FOREIGN KEY (`location`) REFERENCES `item_location` (`title`) ON UPDATE CASCADE,
   ADD CONSTRAINT `FKSaleUser` FOREIGN KEY (`user`) REFERENCES `users` (`username`) ON UPDATE CASCADE;
 
@@ -1171,15 +1267,15 @@ ALTER TABLE `sales`
 -- Constraints for table `sale_items`
 --
 ALTER TABLE `sale_items`
-  ADD CONSTRAINT `FKSaleItem` FOREIGN KEY (`item_id`) REFERENCES `items` (`id`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `FKSaleItem` FOREIGN KEY (`item_id`) REFERENCES `items` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `FKSalesid` FOREIGN KEY (`sale_id`) REFERENCES `sales` (`id`);
 
 --
 -- Constraints for table `users`
 --
 ALTER TABLE `users`
   ADD CONSTRAINT `FKUserLocation` FOREIGN KEY (`location`) REFERENCES `item_location` (`title`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `FKUsertype` FOREIGN KEY (`usertype`) REFERENCES `usertypes` (`title`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `FKuserbrn` FOREIGN KEY (`brand`) REFERENCES `item_brand` (`title`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `FKUsertype` FOREIGN KEY (`usertype`) REFERENCES `usertypes` (`title`) ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
