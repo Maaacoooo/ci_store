@@ -29,10 +29,6 @@ Class Brand_model extends CI_Model
       
             $data = array(              
                 'title'         => $this->input->post('title'),  
-                'address'       => $this->input->post('address'),  
-                'description'   => $this->input->post('desc'),  
-                'email'         => $this->input->post('email'),  
-                'contact'       => $this->input->post('contact'),  
                 'web'           => $this->input->post('web'),                                
                 'logo'          => $filename  
              );
@@ -72,11 +68,7 @@ Class Brand_model extends CI_Model
             }
       
             $data = array(           
-                'title'         => $this->input->post('title'),  
-                'address'       => $this->input->post('address'),  
-                'description'   => $this->input->post('desc'),  
-                'email'         => $this->input->post('email'),  
-                'contact'       => $this->input->post('contact'),  
+                'title'         => $this->input->post('title'),   
                 'web'           => $this->input->post('web'),                                
                 'logo'          => $filename   
              );
@@ -115,10 +107,6 @@ Class Brand_model extends CI_Model
 
             if($search) {
               $this->db->like('title', $search);
-              $this->db->or_like('description', $search);
-              $this->db->or_like('address', $search);
-              $this->db->or_like('email', $search);
-              $this->db->or_like('web', $search);
             }
 
             $this->db->where('is_deleted', 0);
@@ -140,10 +128,6 @@ Class Brand_model extends CI_Model
     function count_brands($search) {
         if($search) {
           $this->db->like('title', $search);
-          $this->db->or_like('description', $search);
-          $this->db->or_like('address', $search);
-          $this->db->or_like('email', $search);
-          $this->db->or_like('web', $search);
         }
         $this->db->where('is_deleted', 0);
         return $this->db->count_all_results("item_brand");
