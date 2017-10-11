@@ -59,7 +59,7 @@ Class Request_Model extends CI_Model {
 
 
 
-    function fetch_requests($limit, $id, $search, $brand, $status) {
+    function fetch_requests($limit, $id, $search, $status) {
 
             if(!is_null($search)) {
               $this->db->group_start();
@@ -68,9 +68,6 @@ Class Request_Model extends CI_Model {
               $this->db->group_end();
             }
 
-            if(!is_null($brand)) {
-              $this->db->where('requests.brand', $brand);
-            }
 
             if(!is_null($status)) {
               $this->db->where('requests.status', $status);
@@ -83,7 +80,6 @@ Class Request_Model extends CI_Model {
                 requests.status,
                 requests.created_at,
                 requests.updated_at,
-                requests.brand,
                 users.name as user                
             ');
             
@@ -103,7 +99,7 @@ Class Request_Model extends CI_Model {
      * Returns the total number of rows of users
      * @return int       the total rows
      */
-    function count_requests($search, $brand, $status) {
+    function count_requests($search, $status) {
         if(!is_null($search)) {
             $this->db->group_start();
             $this->db->like('requests.id', $search);

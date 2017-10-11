@@ -3,13 +3,12 @@
 Class Export_Model extends CI_Model {
 
 
-    function create($user, $brand) {
+    function create($user) {
 
         $data = array(              
                 'tracking_no' => $this->input->post('track'),                
                 'courier'     => $this->input->post('courier'),                
                 'remarks'     => $this->input->post('remarks'),                
-                'brand'       => $brand,
                 'user'        => $user,
                 'status'      => 1             
              );
@@ -71,7 +70,6 @@ Class Export_Model extends CI_Model {
                 exports.status,
                 exports.created_at,
                 exports.updated_at,
-                exports.brand,
                 users.name as user,
                 users.username
                 
@@ -84,7 +82,7 @@ Class Export_Model extends CI_Model {
 
 
 
-    function fetch_exports($limit, $id, $search, $brand, $status) {
+    function fetch_exports($limit, $id, $search, $status) {
 
             if($search) {
               $this->db->group_start();
@@ -92,10 +90,6 @@ Class Export_Model extends CI_Model {
               $this->db->or_like('exports.courier', $search);
               $this->db->or_like('exports.tracking_no', $search);
               $this->db->group_end();
-            }
-
-            if($brand) {
-              $this->db->where('exports.brand', $brand);
             }
 
             if($status) {
@@ -111,7 +105,6 @@ Class Export_Model extends CI_Model {
                 exports.status,
                 exports.created_at,
                 exports.updated_at,
-                exports.brand,
                 users.name as user                
             ');
             
@@ -131,16 +124,13 @@ Class Export_Model extends CI_Model {
      * Returns the total number of rows of users
      * @return int       the total rows
      */
-    function count_exports($search, $brand, $status) {
+    function count_exports($search, $status) {
         if($search) {
           $this->db->group_start();
           $this->db->like('exports.id', $search);
           $this->db->or_like('exports.courier', $search);
           $this->db->or_like('exports.tracking_no', $search);
           $this->db->group_end();
-        }
-        if($brand) {
-          $this->db->where('exports.brand', $brand);
         }
 
         if($status) {

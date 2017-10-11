@@ -28,15 +28,15 @@ class Dashboard extends CI_Controller {
 			if($data['user']['usertype'] == 'Administrator') {
 
 				$data['brands']				= $this->item_model->fetch_brand();
-				$data['intransit_exports'] 	= $this->export_model->fetch_exports(0, 0, 0, 0, 2);				
-				$data['pending_requests'] 	= $this->request_model->fetch_requests(0, 0, NULL, NULL, 1);				
+				$data['intransit_exports'] 	= $this->export_model->fetch_exports(0, 0, 0, 2);				
+				$data['pending_requests'] 	= $this->request_model->fetch_requests(0, 0, NULL, 1);				
 				$this->load->view('dashboard/dashboard_admin', $data);						
 
 			} else {
-				$data['pending_requests'] 	= $this->request_model->fetch_requests(0, 0, NULL, $data['user']['brand'], 2);		
-				$data['items'] = $this->export_model->fetch_export_items(0, $data['user']['username']);
-				$data['pending_exports'] = $this->export_model->fetch_exports(0, 0, 0, $data['user']['brand'], 1);
-				$data['intransit_exports'] = $this->export_model->fetch_exports(0, 0, 0, $data['user']['brand'], 2);
+				$data['pending_requests'] 	= $this->request_model->fetch_requests(0, 0, NULL, 2);		
+				$data['items'] = $this->export_model->fetch_export_items(0);
+				$data['pending_exports'] = $this->export_model->fetch_exports(0, 0, 0, 1);
+				$data['intransit_exports'] = $this->export_model->fetch_exports(0, 0, 0, 2);
 
 				$this->load->view('dashboard/dashboard_user', $data);					
 
