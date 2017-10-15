@@ -72,10 +72,12 @@
 
     /**
      * Returns a pretty ID. 
-     * @param  int       $str   the String to be prettified
+     * @param  int       $str    the String to be prettified
+     * @param  int       $digits the number of digits to fulfill
      * @return Double           returns 000001 
      */
-        return str_pad($str,5,"0",STR_PAD_LEFT);
+    function prettyID($str, $digits) {
+        return str_pad($str,$digits,"0",STR_PAD_LEFT);
     }
 
 
