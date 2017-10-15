@@ -52,6 +52,18 @@ Class Item_Model extends CI_Model {
 
                 $filepath = $path . $upload_data['file_name'];
 
+                // Set Watermark ////////////////////////////////////////////////////
+                $wm_config['quality'] = '100%';
+                $wm_config['wm_text'] = 'Copyright '.APP_NAME.' '.date('Y');
+                $wm_config['wm_type'] = 'text';
+                $wm_config['wm_font_path'] = './system/fonts/arial.ttf';
+                $wm_config['wm_font_size'] = '16';
+                $wm_config['wm_font_color'] = 'ffffff';
+                $wm_config['wm_vrt_alignment'] = 'bottom';
+                $wm_config['wm_hor_alignment'] = 'left';
+                $wm_config['source_image'] = $filepath; 
+                /////////////////////////////////////////////////////////////////////
+
                 //Update row 
                 $this->db->update('items', array('img' => $filepath), array('id'=>$item_id));
             
@@ -97,6 +109,18 @@ Class Item_Model extends CI_Model {
                 $upload_data = $this->upload->data();
 
                 $filepath = $path . $upload_data['file_name']; //overwrite variable
+
+                 // Set Watermark ////////////////////////////////////////////////////
+                $wm_config['quality'] = '100%';
+                $wm_config['wm_text'] = 'Copyright '.APP_NAME.' '.date('Y');
+                $wm_config['wm_type'] = 'text';
+                $wm_config['wm_font_path'] = './system/fonts/arial.ttf';
+                $wm_config['wm_font_size'] = '16';
+                $wm_config['wm_font_color'] = 'ffffff';
+                $wm_config['wm_vrt_alignment'] = 'bottom';
+                $wm_config['wm_hor_alignment'] = 'left';
+                $wm_config['source_image'] = $filepath; 
+                /////////////////////////////////////////////////////////////////////
             
             } 
 
@@ -234,12 +258,12 @@ Class Item_Model extends CI_Model {
 
                 $path = checkDir('./uploads/items/'.$item_id.'/gallery/'); //the path to upload
 
-                $config['upload_path'] = $path;
-                $config['allowed_types'] = 'gif|jpg|png'; 
-                $config['encrypt_name'] = TRUE;                        
+                $upl_config['upload_path'] = $path;
+                $upl_config['allowed_types'] = 'gif|jpg|png'; 
+                $upl_config['encrypt_name'] = TRUE;                        
 
-                $this->load->library('upload', $config);
-                $this->upload->initialize($config);         
+                $this->load->library('upload', $upl_config);
+                $this->upload->initialize($upl_config);         
                 
                 $field_name = "img";
                 $this->upload->do_upload($field_name);
@@ -252,6 +276,21 @@ Class Item_Model extends CI_Model {
                 'item_id' => $item_id,  
                 'img'     => $filepath  
              );
+
+            // Set Watermark ////////////////////////////////////////////////////
+            $wm_config['quality'] = '100%';
+            $wm_config['wm_text'] = 'Copyright '.APP_NAME.' '.date('Y');
+            $wm_config['wm_type'] = 'text';
+            $wm_config['wm_font_path'] = './system/fonts/arial.ttf';
+            $wm_config['wm_font_size'] = '16';
+            $wm_config['wm_font_color'] = 'ffffff';
+            $wm_config['wm_vrt_alignment'] = 'bottom';
+            $wm_config['wm_hor_alignment'] = 'left';
+            $wm_config['source_image'] = $filepath; 
+            /////////////////////////////////////////////////////////////////////
+
+            $this->image_lib->initialize($wm_config);            
+            $this->image_lib->watermark();
 
             return $this->db->insert('item_gallery', $data);   
             
