@@ -75,7 +75,12 @@ Class Item_Model extends CI_Model {
           }
 
           //Process Image Upload
-              if($_FILES['img']['name'] != NULL)  {        
+              if($_FILES['img']['name'] != NULL)  {       
+
+                //remove old img
+                if(filexist($filepath)) {
+                  unlink($filepath); //removes the file
+                } 
 
                 $path = checkDir('./uploads/items/'.$id.'/'); //the path to upload
 
