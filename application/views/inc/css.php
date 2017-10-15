@@ -21,4 +21,4 @@
   <link rel="stylesheet" href="#https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 
   <!-- Custom CSS Helpers-->
-  <link rel="stylesheet" href="<?=base_url('assets/dist/css/skins/skin-black.min.css')?>">
+  <link rel="stylesheet" href="<?=base_url('assets/custom/css/custom.css')?>">
