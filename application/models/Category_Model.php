@@ -93,6 +93,7 @@ Class Category_Model extends CI_Model {
 
              $this->db->select('*');        
              $this->db->where('id', $id);          
+             $this->db->or_where('title', $id);          
              $this->db->limit(1);
 
              $query = $this->db->get('item_category');
@@ -115,8 +116,8 @@ Class Category_Model extends CI_Model {
                 items.name,
                 items.brand,
                 items.category,
-                items.SRP,
-                items.DP,
+                items.actual_price,
+                items.dealer_price,
                 items.serial,
                 items.unit,
                 SUM(item_inventory.qty) as qty

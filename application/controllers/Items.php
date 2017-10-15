@@ -9,6 +9,7 @@ class Items extends CI_Controller {
        $this->load->model('user_model');
        $this->load->model('item_model');
        $this->load->model('brand_model');
+       $this->load->model('category_model');
 	}	
 
 
@@ -34,16 +35,10 @@ class Items extends CI_Controller {
 				$search = $_GET['search'];
 			}
 
-			//item view for !Administrator account
-			$brand = '';
-			if($data['user']['usertype'] != 'Administrator') {
-				$brand = $data['user']['brand'];
-			}
-
 			//Paginated data				            
 	   		$config['num_links'] = 5;
 			$config['base_url'] = base_url('/items/index/');
-			$config["total_rows"] = $this->item_model->count_items($search, $brand);
+			$config["total_rows"] = $this->item_model->count_items($search);
 			$config['per_page'] = 50;				
 			$this->load->config('pagination'); //LOAD PAGINATION CONFIG
 
@@ -54,7 +49,7 @@ class Items extends CI_Controller {
 		       $page = 1;		               
 		    }
 
-		    $data["results"] = $this->item_model->fetch_items($config["per_page"], $page, $search, $brand);
+		    $data["results"] = $this->item_model->fetch_items($config["per_page"], $page, $search);
 		    $str_links = $this->pagination->create_links();
 		    $data["links"] = explode('&nbsp;',$str_links );
 
@@ -84,16 +79,17 @@ class Items extends CI_Controller {
 					$this->load->view('items/list', $data);
 				} else {	
 					
-					if($brand) {
-						$act = $this->item_model->create($brand);
-					} else {
-						$act = $this->item_model->create($this->input->post('brand'));
-					}
+					//generate unique ITEM ID
+					$code = num_to_char($this->input->post('dp'));
+					$cat = prettyID($this->category_model->view($this->input->post('category'))['id'], 2);
+					$brand = prettyID($this->brand_model->view($this->input->post('brand'))['id'], 2);
 
-					//Proceed saving user				
-					if($act) {			
+					$item_id = $this->item_model->generate_ItemID($code, $cat, $brand);
+					//Proceed saving item					
+					$action = $this->item_model->create($item_id);				
+							
+					if($action) {			
 
-						$item_id = $act; //fetch last insert case Row ID
 						// Save Log Data ///////////////////				
 
 						$log[] = array(

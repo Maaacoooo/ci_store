@@ -8,6 +8,9 @@
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <?php $this->load->view('inc/css')?>
+  <script type="text/javascript">
+    
+  </script>
    
 </head>
 <body class="hold-transition skin-black sidebar-mini">
@@ -106,8 +109,8 @@
                 <th>Unit</th>
                 <th>Brand</th>
                 <th>Category</th>
-                <th>SRP</th>
-                <th>DP</th>
+                <th>Actual</th>
+                <th>Dealer</th>
                 <th>QTY</th>
               </tr>
             </thead>
@@ -119,8 +122,8 @@
                   <td><a href="<?=base_url('items/view/'.$res['id'])?>"><?=$res['unit']?></a></td>
                   <td><a href="<?=base_url('items/view/'.$res['id'])?>"><?=$res['brand']?></a></td>
                   <td><a href="<?=base_url('items/view/'.$res['id'])?>"><?=$res['category']?></a></td>
-                  <td><a href="<?=base_url('items/view/'.$res['id'])?>"><?=$res['SRP']?></a></td>
-                  <td><a href="<?=base_url('items/view/'.$res['id'])?>"><?=$res['DP']?></a></td>
+                  <td><a href="<?=base_url('items/view/'.$res['id'])?>"><?=$res['actual_price']?></a></td>
+                  <td><a href="<?=base_url('items/view/'.$res['id'])?>"><?=$res['dealer_price']?></a></td>
                   <td><a href="<?=base_url('items/view/'.$res['id'])?>"><?=$res['qty']?></a></td>
                 </tr>
               <?php endforeach; ?>
@@ -235,7 +238,13 @@
               <div class="col-sm-10">
                 <textarea name="desc" id="desc" cols="30" rows="10" class="ckeditor"><?=set_value('description')?></textarea>
               </div>
-            </div>         
+            </div>    
+            <div class="form-group">    
+                  <label for="img" class="col-sm-2 control-label">Item Image</label>    
+                  <div class="col-sm-10">
+                    <input type="file" name="img" id="img">   
+                  </div>    
+            </div>     
 
           </div>
           <!-- /.box-body -->

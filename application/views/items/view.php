@@ -90,12 +90,21 @@
           <!-- Profile Image -->
           <div class="box box-primary">
             <div class="box-body box-profile">             
-              <img class="img-responsive" src="<?=base_url('barcode.php?barcode='.$info['id'].'&width=230&text='.$info['id'])?>" alt="User profile picture">
+              <?php if (filexist($info['img']) && $info['img']): ?>
+                <center>
+                  <img class="img-responsive img-thumbnail" src="<?=base_url($info['img'])?>" alt="User profile picture">                  
+                </center>
+              <?php else: ?>
+                <img class="img-responsive" src="<?=base_url('assets/img/no_image.gif')?>" alt="User profile picture">                
+              <?php endif ?>
 
               <h3 class="profile-username text-center"><?=$info['name']?></h3>
               <p class="text-muted text-center"><?=$info['serial']?></p>
 
               <ul class="list-group list-group-unbordered">
+                <li class="list-group-item">
+                  <b>Product ID</b> <a class="pull-right"><?=$info['id']?></a>
+                </li>
                 <li class="list-group-item">
                   <b>Unit</b> <a class="pull-right"><?=$info['unit']?></a>
                 </li>
@@ -106,10 +115,10 @@
                   <b>Brand</b> <a class="pull-right"><?=$info['brand']?></a>
                 </li>
                 <li class="list-group-item">
-                  <b>SRP</b> <a class="pull-right"><?=$info['SRP']?></a>
+                  <b>Actual Price</b> <a class="pull-right"><?=$info['actual_price']?></a>
                 </li>
                 <li class="list-group-item">
-                  <b>DP</b> <a class="pull-right"><?=$info['DP']?></a>
+                  <b>Dealer's Price</b> <a class="pull-right"><?=$info['dealer_price']?></a>
                 </li>
                 <li class="list-group-item">
                   <b>Description</b>
@@ -206,7 +215,7 @@
               <!-- /.tab-pane -->
 
               <div class="tab-pane <?php if($flash_error || $flash_success || $flash_valid)echo'active'?>" id="settings">
-              <?=form_open('items/view/'.$info['id'], array('class' => 'form-horizontal'))?>                
+              <?=form_open_multipart('items/view/'.$info['id'], array('class' => 'form-horizontal'))?>                
                   <div class="form-group">
                     <label for="name" class="col-sm-2 control-label">Item Name</label>
 
@@ -275,12 +284,12 @@
                   <div class="form-group">
                     <label for="dp" class="col-sm-2 col-md-2 control-label">DP</label>
                     <div class="col-sm-10 col-md-4">
-                      <input type="text" name="dp" class="form-control" id="dp" placeholder="Dealer's Price. e.g 500.00" value="<?=$info['DP']?>" required>
+                      <input type="text" name="dp" class="form-control" id="dp" placeholder="Dealer's Price. e.g 500.00" value="<?=$info['dealer_price']?>" required>
                     </div>
 
                     <label for="srp" class="col-sm-2 col-md-2 control-label">SRP</label>
                     <div class="col-sm-10 col-md-4">
-                      <input type="text" name="srp" class="form-control" id="srp" placeholder="Retail Price. e.g 1000.00" value="<?=$info['SRP']?>" required>
+                      <input type="text" name="srp" class="form-control" id="srp" placeholder="Retail Price. e.g 1000.00" value="<?=$info['actual_price']?>" required>
                     </div>
                   </div>
                   <div class="form-group">
@@ -289,6 +298,20 @@
                       <textarea name="desc" id="desc" cols="30" rows="10" class="ckeditor"><?=$info['description']?></textarea>
                     </div>
                   </div>
+                  <div class="form-group">    
+                    <label for="img" class="col-sm-2 control-label">Item Image</label>    
+                    <div class="col-sm-3">
+                      <input type="file" name="img" id="img">   
+                    </div>
+ 
+                    <div class="col-sm-5">
+                      <div class="checkbox">
+                        <label>
+                          <input type="checkbox" name="remove_img"> Remove Image
+                        </label>
+                      </div>
+                    </div>    
+                  </div> 
                   <input type="hidden" name="id" value="<?=$this->encryption->encrypt($info['id'])?>" />                  
                   <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">

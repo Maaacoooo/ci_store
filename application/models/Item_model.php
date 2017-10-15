@@ -7,45 +7,102 @@ Class Item_Model extends CI_Model {
    /**
      * Generates ItemID
      * @return String the Distinct Item ID
+     * SECRET_PRICE_CODE-CATEGORY-BRAND-ITEM_ID
+     * ABCD-01-01-00001
      */
-    function generate_ItemID() {
+    function generate_ItemID($code, $cat, $brand) {
+
         $total_rows = $this->db->count_all('items');
-        return 'ITEM'.prettyID(($total_rows + 1));  
+        return $code.'-'.$cat.'-'.$brand.'-'.prettyID(($total_rows + 1), 5);  
     }
 
-    function create($brand) {
-        
-            $item_id = $this->generate_ItemID();
-
+    function create($item_id) {
+      
             $data = array(              
                 'id'             => $item_id,  
                 'name'           => $this->input->post('name'),  
                 'category'       => $this->input->post('category'),  
-                'brand'          => $brand,  
+                'brand'          => $this->input->post('brand'),  
                 'unit'           => $this->input->post('unit'),  
                 'description'    => $this->input->post('desc'),  
                 'serial'         => $this->input->post('serial'),
-                'SRP'            => $this->input->post('srp'),
-                'DP'             => $this->input->post('dp')
+                'actual_price'   => $this->input->post('srp'),
+                'dealer_price'   => $this->input->post('dp')
              );
+
+            $create_act = $this->db->insert('items', $data);   
+
+
+            //Process Image Upload
+              if($_FILES['img']['name'] != NULL)  {        
+
+                $path = checkDir('./uploads/items/'.$item_id.'/'); //the path to upload
+
+                $config['upload_path'] = $path;
+                $config['allowed_types'] = 'gif|jpg|png'; 
+                $config['encrypt_name'] = TRUE;                        
+
+                $this->load->library('upload', $config);
+                $this->upload->initialize($config);         
+                
+                $field_name = "img";
+                $this->upload->do_upload($field_name);
+
+                $upload_data = $this->upload->data();
+
+                $filepath = $path . $upload_data['file_name'];
+
+                //Update row 
+                $this->db->update('items', array('img' => $filepath), array('id'=>$item_id));
+            
+            } 
+
+            return $create_act;
        
-            $this->db->insert('items', $data);    
-            return $item_id;
 
     }
 
 
-    function update($id, $brand) { 
+    function update($id) { 
+
+          $filepath = $this->view($id)['img'];
+
+          if($this->input->post('remove_img')) {
+            unlink($filepath); //removes the file
+            $filepath = ''; //set to null
+          }
+
+          //Process Image Upload
+              if($_FILES['img']['name'] != NULL)  {        
+
+                $path = checkDir('./uploads/items/'.$id.'/'); //the path to upload
+
+                $config['upload_path'] = $path;
+                $config['allowed_types'] = 'gif|jpg|png'; 
+                $config['encrypt_name'] = TRUE;                        
+
+                $this->load->library('upload', $config);
+                $this->upload->initialize($config);         
+                
+                $field_name = "img";
+                $this->upload->do_upload($field_name);
+
+                $upload_data = $this->upload->data();
+
+                $filepath = $path . $upload_data['file_name']; //overwrite variable
+            
+            } 
 
             $data = array(                
                 'name'           => $this->input->post('name'),  
                 'category'       => $this->input->post('category'),  
-                'brand'          => $brand,  
+                'brand'          => $this->input->post('brand'),  
                 'unit'           => $this->input->post('unit'),  
                 'description'    => $this->input->post('desc'),  
                 'serial'         => $this->input->post('serial'),
-                'SRP'            => $this->input->post('srp'),
-                'DP'             => $this->input->post('dp')
+                'actual_price'    => $this->input->post('srp'),
+                'dealer_price'   => $this->input->post('dp'),
+                'img'            => $filepath
              );
        
             
@@ -79,7 +136,7 @@ Class Item_Model extends CI_Model {
      * @param  int      $id         the Page ID of the request. 
      * @return Array        The array of returned rows 
      */
-    function fetch_items($limit, $id, $search, $brand) {
+    function fetch_items($limit, $id, $search) {
 
             if($search) {
               $this->db->like('items.name', $search);
@@ -92,9 +149,6 @@ Class Item_Model extends CI_Model {
               }
             }
 
-            if($brand) {
-              $this->db->where('items.brand', $brand);
-            }
 
             $this->db->join('item_inventory', 'item_inventory.item_id = items.id', 'left');
             $this->db->group_by('items.id');
@@ -104,8 +158,8 @@ Class Item_Model extends CI_Model {
             items.brand,
             items.serial,
             items.category,
-            items.SRP,
-            items.DP,
+            items.actual_price,
+            items.dealer_price,
             items.description,
             items.unit,
             SUM(item_inventory.qty) as qty
@@ -128,7 +182,7 @@ Class Item_Model extends CI_Model {
      * Returns the total number of rows of users
      * @return int       the total rows
      */
-    function count_items($search, $brand) {
+    function count_items($search) {
         if($search) {
           $this->db->group_start();
           $this->db->like('name', $search);
@@ -138,9 +192,7 @@ Class Item_Model extends CI_Model {
           $this->db->or_like('id', $search);
           $this->db->group_end();
         }
-        if($brand) {
-              $this->db->where('items.brand', $brand);
-        }
+
         $this->db->where('is_deleted', 0);
         return $this->db->count_all_results("items");
     }
@@ -207,8 +259,8 @@ Class Item_Model extends CI_Model {
             items.name,
             items.brand,
             items.category,
-            items.SRP,
-            items.DP,
+            items.actual_price,
+            items.dealer_price,
             items.serial,
             items.unit,
             SUM(item_inventory.qty) as qty

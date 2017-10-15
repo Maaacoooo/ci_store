@@ -138,6 +138,7 @@ Class Brand_model extends CI_Model
 
              $this->db->select('*');        
              $this->db->where('id', $id);          
+             $this->db->or_where('title', $id);                       
              $this->db->limit(1);
 
              $query = $this->db->get('item_brand');
