@@ -68,7 +68,9 @@ Class Item_Model extends CI_Model {
           $filepath = $this->view($id)['img'];
 
           if($this->input->post('remove_img')) {
-            unlink($filepath); //removes the file
+            if(filexist($filepath)) {
+              unlink($filepath); //removes the file
+            }
             $filepath = ''; //set to null
           }
 
