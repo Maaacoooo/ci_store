@@ -122,6 +122,35 @@
 
         return TRUE;
 
+    /**
+     * Converts Decimal into Char form
+     * @param  [type] $str [description]
+     * @return [type]      [description]
+     */
+    function num_to_char($str) {
+
+        //The array of digits with its corresponding character
+        $val_arr = array(
+        '1' => 'A',
+        '2' => 'B',
+        '3' => 'C',
+        '4' => 'D',
+        '5' => 'E',
+        '6' => 'F',
+        '7' => 'G',
+        '8' => 'H',
+        '9' => 'I',
+        '0' => 'J'
+        );
+
+        $num_arr = str_split(round($str));
+
+        foreach ($num_arr as $key => $value) {
+            $num_to_char[] = $val_arr[$num_arr[$key]];
+        }
+
+        return implode("", $num_to_char);
+
     }
 
 
