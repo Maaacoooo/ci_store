@@ -217,6 +217,71 @@ Class Item_Model extends CI_Model {
              return $query->row_array();
     }
 
+    function fetch_gallery($item_id) {
+             $this->db->select('*');        
+             $this->db->where('item_id', $item_id);              
+
+             $query = $this->db->get('item_gallery');
+
+             return $query->result_array();
+    }
+
+    function upload_gallery($item_id) {
+
+        //Process Image Upload
+        if($_FILES['img']['name'] != NULL)  {       
+
+
+                $path = checkDir('./uploads/items/'.$item_id.'/gallery/'); //the path to upload
+
+                $config['upload_path'] = $path;
+                $config['allowed_types'] = 'gif|jpg|png'; 
+                $config['encrypt_name'] = TRUE;                        
+
+                $this->load->library('upload', $config);
+                $this->upload->initialize($config);         
+                
+                $field_name = "img";
+                $this->upload->do_upload($field_name);
+
+                $upload_data = $this->upload->data();
+
+                $filepath = $path . $upload_data['file_name']; //overwrite variable
+
+                $data = array(              
+                'item_id' => $item_id,  
+                'img'     => $filepath  
+             );
+
+            return $this->db->insert('item_gallery', $data);   
+            
+        }
+        return false; 
+
+    }
+
+    function view_gallery($id) {
+             $this->db->select('*');        
+             $this->db->where('id', $id);              
+
+             $query = $this->db->get('item_gallery');
+
+             return $query->row_array();
+    }
+
+    function delete_gallery($id) {
+            
+            $file = $this->view_gallery($id);
+            //check if picture exist
+            if(filexist($file['img'])) {
+              unlink($file['img']);
+            }
+
+            return $this->db->delete('item_gallery', array('id' => $id));
+    }
+
+
+
     function check_serial($id, $serial) {
 
              $this->db->select('*');        

@@ -49,9 +49,10 @@
           <?php
             //ALERT / NOTIFICATION
             //ERROR ACTION        
-            $flash_error = $this->session->flashdata('error');
-            $flash_success = $this->session->flashdata('success');
-            $flash_valid =  validation_errors();                 
+            $flash_setting = $this->session->flashdata('setting');
+            $flash_gallery = $this->session->flashdata('gallery');
+
+
             if($this->session->flashdata('error')): ?>
             <div class="alert alert-danger alert-dismissible">
               <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
@@ -139,12 +140,13 @@
         <div class="col-md-9">
           <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
-              <li <?php if(!($flash_error || $flash_success || $flash_valid))echo'class="active"'?>><a href="#inventory" data-toggle="tab">Inventory</a></li>
+              <li <?php if(!($flash_gallery || $flash_setting))echo'class="active"'?>><a href="#inventory" data-toggle="tab">Inventory</a></li>
+              <li <?php if($flash_gallery)echo'class="active"'?>><a href="#gallery" data-toggle="tab">Gallery</a></li>              
               <li><a href="#activity" data-toggle="tab">Activity Logs</a></li>
-              <li <?php if($flash_error || $flash_success || $flash_valid)echo'class="active"'?>><a href="#settings" data-toggle="tab">Settings</a></li>
+              <li <?php if($flash_setting)echo'class="active"'?>><a href="#settings" data-toggle="tab">Settings</a></li>
             </ul>
             <div class="tab-content">
-              <div class="tab-pane <?php if(!($flash_error || $flash_success || $flash_valid))echo'active'?>" id="inventory">
+              <div class="tab-pane <?php if(!($flash_gallery || $flash_setting))echo'active'?>" id="inventory">
                 <?php if ($inventory): ?>
                 <table class="table table-condensed table-bordered">
                   <thead>
@@ -175,6 +177,39 @@
                     No Item found in all Locations
                   </div>
                 <?php endif ?>
+              </div>
+              <!-- /.tab-pane -->
+
+              <div class="tab-pane <?php if($flash_gallery)echo'active'?>" id="gallery">
+                <h4 class="title">Gallery</h4>           
+                <div class="row">
+                  <?=form_open_multipart('items/upload_gallery')?>
+                  <div class="col-md-12">
+                    <div class="input-group">
+                      <input type="file" name="img" id="" class="form-control"/>
+                      <input type="hidden" name="id" value="<?=$this->encryption->encrypt($info['id'])?>" /> 
+                      <div class="input-group-btn">
+                        <button class="btn btn-default" type="submit">Upload</button>
+                      </div><!-- /.input-group-btn -->     
+                    </div><!-- /.input-group -->                    
+                  </div><!-- /.col-md-12 -->
+                  <?=form_close()?>
+                </div><!-- /.row -->     
+                <br />
+                <div class="row">
+                  <div class="col-lg-12">
+                    <?php if ($gallery): ?>
+                      <?php $x=1; foreach ($gallery as $gal): ?>
+                      <?php if($x % 6 == 1)echo '<div class="row">' ."\n";?>
+                        <div class="col-sm-2"> 
+                          <img src="<?=base_url($gal['img'])?>" alt="" class="img-responsive img-thumbnail" />
+                          <button class="btn btn-link" data-toggle="modal" data-target="#delImg<?=$gal['id']?>"><i class="fa fa-trash"></i> Delete</button>
+                        </div><!-- /.col-sm-12 -->     
+                      <?php if($x% 6 == 0 || $x == sizeof($gallery))echo "</div><!-- /.row -->\n";?>
+                      <?php $x++; endforeach; ?>
+                    <?php endif ?>
+                  </div><!-- /.col-lg-12 -->
+                </div><!-- /.row -->
               </div>
               <!-- /.tab-pane -->
 
@@ -214,7 +249,7 @@
               </div>
               <!-- /.tab-pane -->
 
-              <div class="tab-pane <?php if($flash_error || $flash_success || $flash_valid)echo'active'?>" id="settings">
+              <div class="tab-pane <?php if($flash_setting)echo'active'?>" id="settings">
               <?=form_open_multipart('items/view/'.$info['id'], array('class' => 'form-horizontal'))?>                
                   <div class="form-group">
                     <label for="name" class="col-sm-2 control-label">Item Name</label>
@@ -370,6 +405,37 @@
           </div>
           <!-- /.modal-dialog -->
         </div>
+
+        <?php if ($gallery): ?>
+        <?php foreach ($gallery as $gal): ?>
+        <div class="modal modal-danger fade" id="delImg<?=$gal['id']?>" style="display: none;">
+          <div class="modal-dialog">
+          <?=form_open('items/delete_gallery')?>
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">Delete Picture</h4>
+              </div>
+              <div class="modal-body">
+                <center>
+                  <img class="img-responsive img-thumbnail" src="<?=base_url($gal['img'])?>" alt="" style="max-width: 250px"/>
+                  <p>Are you sure to delete this picture?</p>
+                </center>
+                <input type="hidden" name="id" value="<?=$this->encryption->encrypt($gal['id'])?>" />
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-outline">Delete Picture</button>
+              </div>
+            </div>
+            <!-- /.modal-content -->
+          <?=form_close()?>
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
+        <?php endforeach ?>
+        <?php endif ?>
 
 
     <?php $this->load->view('inc/js')?>    

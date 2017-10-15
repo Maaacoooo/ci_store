@@ -135,8 +135,9 @@ class Items extends CI_Controller {
 			//Page Data 
 			$data['brands']		= $this->item_model->fetch_brand();
 			$data['units']		= $this->item_model->fetch_unit();
-			$data['category']		= $this->item_model->fetch_category();			
-			$data['inventory']		= $this->item_model->fetch_item_inventory($id);			
+			$data['category']	= $this->item_model->fetch_category();			
+			$data['gallery']	= $this->item_model->fetch_gallery($id);			
+			$data['inventory']	= $this->item_model->fetch_item_inventory($id);			
 
 			$data['info']		= $this->item_model->view($id);
 			$data['logs']		= $this->logs_model->fetch_logs('item', $id, 50);
@@ -210,9 +211,11 @@ class Items extends CI_Controller {
 						
 					
 						$this->session->set_flashdata('success', 'Succes! Item Updated!');
+						$this->session->set_flashdata('setting', 1); //used by tabs
 						redirect($_SERVER['HTTP_REFERER'], 'refresh');
 					} else {
 						//failure
+						$this->session->set_flashdata('setting', 1); //used by tabs
 						$this->session->set_flashdata('error', 'Oops! Error occured!');
 						redirect($_SERVER['HTTP_REFERER'], 'refresh');
 					}			
@@ -252,6 +255,108 @@ class Items extends CI_Controller {
 		} else {
 			return TRUE;
 		}
+	}
+
+
+	public function upload_gallery()		{
+
+		$userdata = $this->session->userdata('admin_logged_in'); //it's pretty clear it's a userdata
+
+		if($userdata)	{			
+			//FORM VALIDATION
+			$this->form_validation->set_rules('id', 'ID', 'trim|required');   
+		 
+		   if($this->form_validation->run() == FALSE)	{
+
+				$this->session->set_flashdata('error', 'An Error has Occured!');
+				redirect($_SERVER['HTTP_REFERER'], 'refresh');
+
+			} else {
+
+				$key_id = $this->encryption->decrypt($this->input->post('id')); //ID of the row				
+
+				if($this->item_model->upload_gallery($key_id)) {
+
+					$log[] = array(
+							'user' 		=> 	$userdata['username'],
+							'tag' 		=> 	'item',
+							'tag_id'	=> 	$key_id,
+							'action' 	=> 	'Uploaded a Gallery Picture'
+							);
+
+				
+						//Save log loop
+						foreach($log as $lg) {
+							$this->logs_model->create_log($lg['user'], $lg['tag'], $lg['tag_id'], $lg['action']);				
+						}		
+						////////////////////////////////////
+					$this->session->set_flashdata('gallery', 1); //used by tabs
+					$this->session->set_flashdata('success', 'Picture Uploaded');
+					redirect($_SERVER['HTTP_REFERER'], 'refresh');
+				} else {
+					$this->session->set_flashdata('gallery', 1); //used by tabs
+					$this->session->set_flashdata('error', 'Error Occured! No file uploaded');
+					redirect($_SERVER['HTTP_REFERER'], 'refresh');
+				}
+			}
+
+		} else {
+
+			$this->session->set_flashdata('error', 'You need to login!');
+			redirect('dashboard/login', 'refresh');
+		}
+
+	}
+
+	public function delete_gallery()		{
+
+		$userdata = $this->session->userdata('admin_logged_in'); //it's pretty clear it's a userdata
+
+		if($userdata)	{			
+			//FORM VALIDATION
+			$this->form_validation->set_rules('id', 'ID', 'trim|required');   
+		 
+		   if($this->form_validation->run() == FALSE)	{
+
+				$this->session->set_flashdata('error', 'An Error has Occured!');
+				redirect($_SERVER['HTTP_REFERER'], 'refresh');
+
+			} else {
+
+				$key_id = $this->encryption->decrypt($this->input->post('id')); //ID of the row			
+				$item = $this->item_model->view_gallery($key_id);	
+
+				if($this->item_model->delete_gallery($key_id)) {
+
+					$log[] = array(
+							'user' 		=> 	$userdata['username'],
+							'tag' 		=> 	'item',
+							'tag_id'	=> 	$item['item_id'],
+							'action' 	=> 	'Deleted a Gallery Picture'
+							);
+
+				
+						//Save log loop
+						foreach($log as $lg) {
+							$this->logs_model->create_log($lg['user'], $lg['tag'], $lg['tag_id'], $lg['action']);				
+						}		
+						////////////////////////////////////
+					$this->session->set_flashdata('gallery', 1); //used by tabs
+					$this->session->set_flashdata('success', 'Deleted Picture');
+					redirect($_SERVER['HTTP_REFERER'], 'refresh');
+				} else {
+					$this->session->set_flashdata('gallery', 1); //used by tabs
+					$this->session->set_flashdata('error', 'Error Occured! No file uploaded');
+					redirect($_SERVER['HTTP_REFERER'], 'refresh');
+				}
+			}
+
+		} else {
+
+			$this->session->set_flashdata('error', 'You need to login!');
+			redirect('dashboard/login', 'refresh');
+		}
+
 	}
 
 
