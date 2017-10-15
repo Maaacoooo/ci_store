@@ -89,38 +89,33 @@
 
     /**
      * Checks and Creates a directory from a String Request
-     * @param  String   $path  the path to be created; e.g: dir1/subdir1/supersub1
-     * @return Boolean  FALSE  on error
+     * @param  String   $path           the path to be created; e.g: dir1/subdir1/supersub1
+     * @param  String   $upload_folder  the main upload folder
+     * @return String   The path created
      */
-    function createDir($path) {
-
-        $upload_folder = './uploads/'; //the default upload folder
-
-        if(!is_dir($upload_folder)) {
-            mkdir($upload_folder);
-        }
+    function checkDir($path) {
 
         $exp_path = explode('/', $path);
 
         foreach ($exp_path as $key => $value) {
 
             $addr[] = $value; //compile path
-            $dir_path = $upload_folder . implode('/', $addr); //glue parts
-
-            echo $dir_path;
+            $dir_path = implode('/', $addr); //glue parts
 
             //checks if path already exist
             if(!is_dir($dir_path)) {
                 //Create a Path
-                if (mkdir($dir_path)) {
-                    echo '- Path Created ';
-                } else {
+                if (mkdir($dir_path)) {     
+                    write_file($dir_path.'/index.html', ''); //creates an index HTML for random path access security - (Is this even the correct term?) 
+                } else {               
                     return FALSE; // if error occurs
                 }
             } 
         }
 
-        return TRUE;
+        return $dir_path;
+
+    }
 
     /**
      * Converts Decimal into Char form
