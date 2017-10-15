@@ -23,12 +23,12 @@
 
     /**
      * Simply checks the existence of the file
-     * @param  String   $file   The file name.
+     * @param  String   $file   The file path.
      * @return Boolean          Returns true if exists. U NO SAY????
      */
     function filexist($file) {
 
-        if(file_exists('./uploads/'.$file)) {
+        if(file_exists($file)) {
             return TRUE;
         } else {
             return FALSE;
