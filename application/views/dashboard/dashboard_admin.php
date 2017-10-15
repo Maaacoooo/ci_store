@@ -111,7 +111,7 @@
             <tbody>
               <?php foreach ($intransit_exports as $exp): ?>
                 <tr>
-                  <td><a href="<?=base_url('exports/view/'.$exp['id'])?>">#<?=prettyID($exp['id'])?></a></td>
+                  <td><a href="<?=base_url('exports/view/'.$exp['id'])?>">#<?=prettyID($exp['id'], 5)?></a></td>
                   <td><a href="<?=base_url('exports/view/'.$exp['id'])?>"><?=$exp['courier']?></a></td>
                   <td><a href="<?=base_url('exports/view/'.$exp['id'])?>"><?=$exp['tracking_no']?></a></td>
                   <td><a href="<?=base_url('exports/view/'.$exp['id'])?>"><?=$exp['updated_at']?></a></td>
