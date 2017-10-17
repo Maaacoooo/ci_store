@@ -82,8 +82,88 @@
 
       
 
+    <div class="row">      
+      <div class="col-sm-12">
+        <!-- Default box -->
+          <div class="box box-warning">
+            <div class="box-header with-border">
+              <h3 class="box-title">Import Items</h3>
+
+              <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>      
+              </div>
+            </div>
+            <div class="box-body">
+              <div class="row">             
+                <div class="col-md-12 table-responsive">
+                  <table class="table table-bordered table-condensed">
+                    <thead>
+                      <tr>
+                        <th>Item ID</th>
+                        <th width="40%">Item Name</th>
+                        <th>Unit</th>
+                        <th>DP <small><a href="#"><i class="fa fa-question-circle-o"></i></a></small></th>
+                        <th>SRP <small><a href="#"><i class="fa fa-question-circle-o"></i></a></small></th>
+                        <th class="bg-warning">ARP <small><a href="#"><i class="fa fa-question-circle-o"></i></a></small></th>
+                        <th>Est. Fee <small><a href="#"><i class="fa fa-question-circle-o"></i></a></small></th>
+                        <th>Est. Prof <small><a href="#"><i class="fa fa-question-circle-o"></i></a></small></th>
+                        <th class="bg-info">QTY</th>
+                        <th>Sub Total <small><a href="#"><i class="fa fa-question-circle-o"></i></a></small></th>
+                      </tr>
+                    </thead>
+                    <?php if ($items): ?>
+                    <tbody>
+                      <?php foreach ($items as $t): $qty[]=$t['qty']; $sub[]=($t['qty']*$t['dealer_price']); ?>
+                        <tr>
+                          <td><?=$t['item_id']?></td>
+                          <td><?=$t['name']?></td>
+                          <td><?=$t['unit']?></td>
+                          <td class="text-red"><?=$t['dealer_price']?></td>
+                          <td class="text-green"><?=($t['dealer_price'])*1.25?></td>
+                          <td class="bg-warning strong"><?=$t['actual_price']?></td>
+                          <td class="text-yellow">00.00</td>
+                          <td class="text-blue strong"><?=decimalize(($t['actual_price'])-($t['dealer_price']))?></td>
+                          <td class="bg-info"><?=$t['qty']?></td>
+                          <td><?=decimalize($t['qty']*$t['dealer_price'])?></td>
+                        </tr>
+                      <?php endforeach ?>
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <th colspan="8" class="text-right">Total</th>
+                        <th class="bg-info text-danger"><?=array_sum($qty)?></th><!-- /.bg-success text-danger -->
+                        <th class="bg-success text-danger"><?=array_sum($sub)?></th><!-- /.bg-success text-danger -->
+                      </tr>
+                      <tr>
+                        <th colspan="9" class="text-right">Total Est. Profit</th>
+                        <th class="bg-success text-blue"><?=array_sum($sub)?></th><!-- /.bg-success text-blue -->
+                      </tr>
+                    </tfoot>
+                    <button type="submit" class="hidden"></button>
+                    <?php else: ?>
+                      <tr>
+                        <td colspan="6">
+                          <div class="alert alert-danger alert-dismissible">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            <p>Oops! No Item Found!</p>
+                          </div>
+                        </td>
+                      </tr>
+                    <?php endif ?>
+                  </table><!-- /.table table-bordered -->
+                </div><!-- /.col-md-8 -->
+              </div><!-- /.row -->
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer">
+            </div>
+            <!-- /.box-footer-->
+          </div>
+          <!-- /.box -->
+      </div><!-- /.col-md-8 div col-sm-12 -->
+    </div><!-- /.row -->
     <div class="row">
-      <div class="col-md-4 col-sm-12">
+      <div class="col-sm-12">
         <div class="row">
           <div class="col-md-12">
             <!-- Default box -->
@@ -98,7 +178,7 @@
                        <table class="table">                         
                          <tr>
                            <th>Import ID</th>
-                           <td class="bg-warning text-red">IMP #<?=prettyID($info['id'])?></td>
+                           <td class="bg-warning text-red">IMP #<?=$info['id']?></td>
                          </tr>
                          <tr>
                            <th>Verified by</th>
@@ -143,127 +223,7 @@
               <!-- /.box -->
           </div><!-- /.col-md-12 -->
         </div><!-- /.row -->
-        <div class="row">
-          <div class="col-md-12">
-            <!-- Default box -->
-              <div class="box collapsed-box">
-                <div class="box-header with-border">
-                  <h3 class="box-title">Export Details</h3>
-                  <div class="box-tools pull-right">
-                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-plus"></i></button>      
-                  </div>
-                </div>
-                <div class="box-body">
-                       <table class="table">
-                         <tr>
-                           <th>Brand / Company</th>
-                           <td class="text-blue"><?=$info['brand']?></td>
-                         </tr>
-                         <tr>
-                           <th>Export ID</th>
-                           <td class="text-blue"><a href="<?=base_url('exports/view/'.$info['export_id'])?>">EXP #<?=prettyID($info['export_id'])?></a></td>
-                         </tr>
-                         <tr>
-                           <th>Courier</th>
-                           <td class="bg-warning text-red"><?=$info['courier']?></td>
-                         </tr>
-                         <tr>
-                           <th>Tracking No.</th>
-                           <td class="bg-warning text-red"><?=$info['tracking_no']?></td>
-                         </tr>                       
-                         <tr>
-                           <th>Last Update</th>
-                           <td><em><?=$info['export_updated_at']?></em></td>
-                         </tr>
-                         <tr>
-                           <th>Date Created</th>
-                           <td><em><?=$info['export_created_at']?></em></td>
-                         </tr>
-                         <tr>
-                           <th colspan="2">Remarks</th>
-                         </tr>
-                         <tr>
-                           <td colspan="2"><?=$info['export_remarks']?></td>
-                         </tr>
-                       </table><!-- /.table -->             
-                </div>
-                <!-- /.box-body -->
-                <div class="box-footer">
-                </div>
-                <!-- /.box-footer-->
-              </div>
-              <!-- /.box -->
-          </div><!-- /.col-md-12 -->
-        </div><!-- /.row -->
-      </div><!-- /.col-md-4 col-sm-12 -->
-
-      <div class="col-md-8 div col-sm-12">
-        <!-- Default box -->
-          <div class="box box-warning">
-            <div class="box-header with-border">
-              <h3 class="box-title">Import Items</h3>
-
-              <div class="box-tools pull-right">
-                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>      
-              </div>
-            </div>
-            <div class="box-body">
-              <div class="row">             
-                <div class="col-md-12 table-responsive">
-                  <table class="table table-bordered">
-                    <thead>
-                      <tr>
-                        <th width="10%">Item ID</th>
-                        <th width="40%">Item Name</th>
-                        <th>Unit</th>
-                        <th>DP</th>
-                        <th class="bg-info">QTY</th>
-                        <th>Sub Total</th>
-                      </tr>
-                    </thead>
-                    <?php if ($items): ?>
-                    <tbody>
-                      <?php foreach ($items as $t): $qty[]=$t['qty']; $sub[]=($t['qty']*$t['DP']); ?>
-                        <tr>
-                          <td><?=$t['item_id']?></td>
-                          <td><?=$t['name']?></td>
-                          <td><?=$t['unit']?></td>
-                          <td><?=$t['DP']?></td>
-                          <td class="bg-info"><?=$t['qty']?></td>
-                          <td><?=($t['qty']*$t['DP'])?></td>
-                        </tr>
-                        <input type="hidden" name="id[]" value="<?=$this->encryption->encrypt($t['item_id'])?>" />
-                      <?php endforeach ?>
-                    </tbody>
-                    <tfoot>
-                      <tr>
-                        <th colspan="4" class="text-right">Total</th>
-                        <th class="bg-info text-danger"><?=array_sum($qty)?></th><!-- /.bg-success text-danger -->
-                        <th class="bg-success text-danger"><?=array_sum($sub)?></th><!-- /.bg-success text-danger -->
-                      </tr>
-                    </tfoot>
-                    <button type="submit" class="hidden"></button>
-                    <?php else: ?>
-                      <tr>
-                        <td colspan="6">
-                          <div class="alert alert-danger alert-dismissible">
-                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                            <p>Oops! No Item Found!</p>
-                          </div>
-                        </td>
-                      </tr>
-                    <?php endif ?>
-                  </table><!-- /.table table-bordered -->
-                </div><!-- /.col-md-8 -->
-              </div><!-- /.row -->
-            </div>
-            <!-- /.box-body -->
-            <div class="box-footer">
-            </div>
-            <!-- /.box-footer-->
-          </div>
-          <!-- /.box -->
-      </div><!-- /.col-md-8 div col-sm-12 -->
+      </div><!-- /.col-sm-12 -->
     </div><!-- /.row -->
 
       

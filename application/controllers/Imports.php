@@ -164,11 +164,11 @@ class Imports extends CI_Controller {
 
 					if ($data['info']['status'] == 1) {
 						//Updatable
-						$data['title'] = 'Verify Import #'.prettyID($data['info']['id']);						
+						$data['title'] = 'Verify Import #'.$data['info']['id'];						
 						$this->load->view('imports/update', $data);						
 					} else {
 						//View
-						$data['title'] = 'Imports #'.prettyID($data['info']['id']);						
+						$data['title'] = 'Imports #'.$data['info']['id'];						
 						$this->load->view('imports/view', $data);					
 					}
 
@@ -244,7 +244,7 @@ class Imports extends CI_Controller {
 
 			if (isset($_GET['term'])){
 		      $q = strtolower($_GET['term']);
-		      $result = $this->item_model->search($q, $user['brand']);
+		      $result = $this->item_model->search($q, NULL);
 
 		      foreach($result as $row) {
 		      	$new_row['label']=htmlentities(stripslashes($row['name'] . '(' . $row['unit'].')'));
@@ -281,16 +281,16 @@ class Imports extends CI_Controller {
 
 			} else {
 
-				$item = $this->item_model->view($this->input->post('item'))['id'];
+				$item = $this->item_model->view($this->input->post('item'));
 				$import_id = $this->encryption->decrypt($this->input->post('id'));
 
-				if($this->import_model->view_item($item, $import_id)) {
+				if($this->import_model->view_item($item['id'], $import_id)) {
 
-					$qty  = $this->import_model->view_item($item, $import_id)['qty']; //gets the value of the existing quantity
-					$action = $this->import_model->update_item_qty($item, ($qty+1), $import_id); // existing qty + 1; update quantity
+					$item_inv  = $this->import_model->view_item($item['id'], $import_id); //gets the existing data of the row
+					$action = $this->import_model->update_item_qty($item['id'], ($item_inv['qty']+1), $item_inv['dealer_price'], $item_inv['actual_price'], $import_id); // existing qty + 1; update quantity
 
 				} else {
-					$action = $this->import_model->add_item($item, 1, $import_id); //ID of the row	
+					$action = $this->import_model->add_item($item['id'], 1, $item['dealer_price'], $item['actual_price'], $import_id); //ID of the row	
 				}
 							
 
@@ -350,8 +350,10 @@ class Imports extends CI_Controller {
 				foreach ($this->input->post('id') as $key => $item) {
 		                      
 		            $qty   = $this->input->post('qty')[$key];        
+		            $srp   = $this->input->post('srp')[$key];        
+		            $dp   = $this->input->post('dp')[$key];        
 
-		           	$this->import_model->update_item_qty($this->encryption->decrypt($item), $qty, $import_id);
+		           	$this->import_model->update_item_qty($this->encryption->decrypt($item), $qty, $dp, $srp, $import_id);
              
 		        }		
 		        

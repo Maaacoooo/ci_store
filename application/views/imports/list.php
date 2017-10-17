@@ -101,8 +101,7 @@
               <table class="table">          
                 <thead>
                   <tr>
-                    <th>Import ID</th>           
-                    <th>Export ID</th>     
+                    <th>Import ID</th>               
                     <th>Verifier</th>
                     <th>Date Time</th>
                   </tr>
@@ -111,7 +110,7 @@
                   <?php foreach ($results as $res): ?>
                     <tr>
                       <td>
-                        <a href="<?=base_url('exports/view/'.$res['id'])?>">#<?=prettyID($res['id'])?></a>
+                        <a href="<?=base_url('imports/view/'.$res['id'])?>">#<?=prettyID($res['id'], 5)?></a>
                         <?php if ($res['status'] == 1): ?>
                            <span class="label bg-yellow">Pending</span>
                          <?php elseif($res['status'] == 2): ?>
@@ -119,7 +118,6 @@
                            <span class="label bg-green">Imported</span>               
                          <?php endif ?>
                       </td>                 
-                      <td><a href="<?=base_url('imports/view/'.$res['id'])?>">EXPORT #<?=prettyID($res['export_id'])?> - <?=$res['brand']?></a></td>
                       <td><a href="<?=base_url('imports/view/'.$res['id'])?>"><?=$res['user']?></a></td>
                       <td><a href="<?=base_url('imports/view/'.$res['id'])?>"><?=$res['created_at']?></a></td>                  
                     </tr>

@@ -14,13 +14,13 @@ class Items extends CI_Controller {
 
 
 
-	public function index()		{
+	public function product_list()		{
 
 		$userdata = $this->session->userdata('admin_logged_in'); //it's pretty clear it's a userdata
 
 		if($userdata)	{
 
-			$data['title'] 		= 'Item Inventory';
+			$data['title'] 		= 'Product List';
 			$data['site_title'] = APP_NAME;
 			$data['user'] 		= $this->user_model->userdetails($userdata['username']); //fetches users record
 

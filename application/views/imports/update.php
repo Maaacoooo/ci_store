@@ -97,10 +97,101 @@
 
       
 
-    <div class="row">
-      <div class="col-md-4 col-sm-12">
-        <div class="row">
-          <div class="col-md-12">
+    <div class="row">    
+      <div class="col-sm-12">
+        <!-- Default box -->
+          <div class="box box-warning">
+            <div class="box-header with-border">
+              <h3 class="box-title">Verify Import Items</h3>
+              <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>      
+              </div>
+            </div>
+            <div class="box-body">
+              <div class="row">            
+                <div class="col-md-12 table-responsive">
+                  <?=form_open('imports/add_item')?>
+                    <div class="input-group">
+                      <input type="text" name="item" id="item" placeholder="Scan Barcode / Type to Search / Input ITEM ID or Serial..." class="form-control">
+                      <input type="hidden" name="id" value="<?=$this->encryption->encrypt($info['id'])?>" />
+                      <div class="input-group-btn">
+                        <button type="submit" class="btn btn-default"><i class="fa fa-shopping-cart"></i> Add Item</button>
+                      </div>
+                      <!-- /btn-group -->                
+                    </div>
+                  <?=form_close()?>
+                  <?=form_open('imports/update_items')?>
+                    <input type="hidden" name="imp_id" value="<?=$this->encryption->encrypt($info['id'])?>" />
+                    <table class="table table-bordered">
+                      <thead>
+                        <tr>
+                          <th>Batch ID</th>
+                          <th width="40%">Item Name</th>
+                          <th>Unit</th>
+                          <th>DP <small><a href="#"><i class="fa fa-question-circle-o"></i></a></small></th>
+                          <th>SRP <small><a href="#"><i class="fa fa-question-circle-o"></i></a></small></th>
+                          <th class="bg-warning">ARP <small><a href="#"><i class="fa fa-question-circle-o"></i></a></small></th>
+                          <th>Est. Fee <small><a href="#"><i class="fa fa-question-circle-o"></i></a></small></th>
+                          <th>Est. Prof <small><a href="#"><i class="fa fa-question-circle-o"></i></a></small></th>
+                          <th class="bg-info">QTY</th>
+                          <th>Sub Total <small><a href="#"><i class="fa fa-question-circle-o"></i></a></small></th>
+                        </tr>
+                      </thead>
+                      <?php if ($items): ?>
+                      <tbody>
+                        <?php foreach ($items as $t): $qty[]=$t['qty']; $sub[]=($t['qty']*$t['dealer_price']); ?>
+                          <tr>
+                            <td><?=$t['item_id']?></td>
+                            <td><?=$t['name']?></td>
+                            <td><?=$t['unit']?></td>
+                            <td class="text-red"><input type="text" name="dp[]" value="<?=$t['dealer_price']?>" style="width: 60px"/></td>
+                            <td class="text-green"><?=($t['dealer_price'])*1.25?></td>
+                            <td class="bg-warning strong"><input type="text" name="srp[]" value="<?=$t['actual_price']?>" style="width: 60px"/></td>
+                            <td class="text-yellow">00.00</td>
+                            <td class="text-blue strong"><?=decimalize(($t['actual_price'])-($t['dealer_price']))?></td>
+                            <td><input type="number" name="qty[]" value="<?=$t['qty']?>" style="width: 60px"/></td>
+                            <td><?=decimalize($t['qty']*$t['dealer_price'])?></td>
+                          </tr>
+                          <input type="hidden" name="id[]" value="<?=$this->encryption->encrypt($t['item_id'])?>" />
+                        <?php endforeach ?>
+                      </tbody>
+                      <tfoot>
+                        <tr>
+                          <th colspan="8" class="text-right">Total</th>
+                          <th class="bg-success text-danger"><?=array_sum($qty)?></th><!-- /.bg-success text-danger -->
+                          <th class="bg-success text-danger"><?=array_sum($sub)?></th><!-- /.bg-success text-danger -->
+                        </tr>
+                      </tfoot>
+                      <button type="submit" class="hidden"></button>
+                      <?php else: ?>
+                        <tr>
+                          <td colspan="8">
+                            <div class="alert alert-info alert-dismissible">
+                              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                              <p>Add an item</p>
+                            </div>
+                          </td>
+                        </tr>
+                      <?php endif ?>
+                    </table><!-- /.table table-bordered -->
+                    <?=form_close()?>
+                    <button type="button" class="btn btn-success btn-lg pull-right" data-toggle="modal" data-target="#modalVerify">
+                       <i class="fa fa-check-square-o"></i> Finalize Import
+                    </button>
+                </div><!-- /.col-md-8 -->
+              </div><!-- /.row -->
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer">
+            </div>
+            <!-- /.box-footer-->
+          </div>
+          <!-- /.box -->
+      </div><!-- /.col-md-8 div col-sm-12 -->
+    </div><!-- /.row -->
+
+    <div class="row"> 
+          <div class="col-md-6">
             <!-- Default box -->
               <div class="box box-primary">
                 <div class="box-header with-border">
@@ -113,7 +204,7 @@
                        <table class="table">                         
                          <tr>
                            <th>Import ID</th>
-                           <td class="bg-warning text-red">IMP #<?=prettyID($info['id'])?></td>
+                           <td class="bg-warning text-red">IMP #<?=$info['id']?></td>
                          </tr>
                          <tr>
                            <th>Verified by</th>
@@ -152,11 +243,10 @@
                 <!-- /.box-footer-->
               </div>
               <!-- /.box -->
-          </div><!-- /.col-md-12 -->
-        </div><!-- /.row -->
-        <div class="row">
-          <div class="col-md-12">
-            <!-- Default box -->
+          </div><!-- /.col-md-6 -->
+          <div class="col-md-6">  
+            <?php if ($info['export_id']): ?>
+               <!-- Default box -->
               <div class="box collapsed-box">
                 <div class="box-header with-border">
                   <h3 class="box-title">Export Details</h3>
@@ -172,7 +262,7 @@
                          </tr>
                          <tr>
                            <th>Export ID</th>
-                           <td class="text-blue"><a href="<?=base_url('exports/view/'.$info['export_id'])?>">EXP #<?=prettyID($info['export_id'])?></a></td>
+                           <td class="text-blue"><a href="<?=base_url('exports/view/'.$info['export_id'])?>">EXP #<?=$info['export_id']?></a></td>
                          </tr>
                          <tr>
                            <th>Courier</th>
@@ -204,93 +294,9 @@
                 <!-- /.box-footer-->
               </div>
               <!-- /.box -->
-          </div><!-- /.col-md-12 -->
-        </div><!-- /.row -->
-      </div><!-- /.col-md-4 col-sm-12 -->
-
-      <div class="col-md-8 div col-sm-12">
-        <!-- Default box -->
-          <div class="box box-warning">
-            <div class="box-header with-border">
-              <h3 class="box-title">Verify Import Items</h3>
-              <div class="box-tools pull-right">
-                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>      
-              </div>
-            </div>
-            <div class="box-body">
-              <div class="row">            
-                <div class="col-md-12 table-responsive">
-                  <?=form_open('imports/add_item')?>
-                    <div class="input-group">
-                      <input type="text" name="item" id="item" placeholder="Scan Barcode / Type to Search / Input ITEM ID or Serial..." class="form-control">
-                      <input type="hidden" name="id" value="<?=$this->encryption->encrypt($info['id'])?>" />
-                      <div class="input-group-btn">
-                        <button type="submit" class="btn btn-default"><i class="fa fa-shopping-cart"></i> Add Item</button>
-                      </div>
-                      <!-- /btn-group -->                
-                    </div>
-                  <?=form_close()?>
-                  <?=form_open('imports/update_items')?>
-                    <input type="hidden" name="imp_id" value="<?=$this->encryption->encrypt($info['id'])?>" />
-                    <table class="table table-bordered">
-                      <thead>
-                        <tr>
-                          <th width="10%">Item ID</th>
-                          <th width="40%">Item Name</th>
-                          <th>Unit</th>
-                          <th>DP</th>
-                          <th>QTY</th>
-                          <th>Sub Total</th>
-                        </tr>
-                      </thead>
-                      <?php if ($items): ?>
-                      <tbody>
-                        <?php foreach ($items as $t): $qty[]=$t['qty']; $sub[]=($t['qty']*$t['DP']); ?>
-                          <tr>
-                            <td><?=$t['item_id']?></td>
-                            <td><?=$t['name']?></td>
-                            <td><?=$t['unit']?></td>
-                            <td><?=$t['DP']?></td>
-                            <td><input type="number" name="qty[]" value="<?=$t['qty']?>" style="width: 60px"/></td>
-                            <td><?=($t['qty']*$t['DP'])?></td>
-                          </tr>
-                          <input type="hidden" name="id[]" value="<?=$this->encryption->encrypt($t['item_id'])?>" />
-                        <?php endforeach ?>
-                      </tbody>
-                      <tfoot>
-                        <tr>
-                          <th colspan="4" class="text-right">Total</th>
-                          <th class="bg-success text-danger"><?=array_sum($qty)?></th><!-- /.bg-success text-danger -->
-                          <th class="bg-success text-danger"><?=array_sum($sub)?></th><!-- /.bg-success text-danger -->
-                        </tr>
-                      </tfoot>
-                      <button type="submit" class="hidden"></button>
-                      <?php else: ?>
-                        <tr>
-                          <td colspan="6">
-                            <div class="alert alert-info alert-dismissible">
-                              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                              <p>Add an item</p>
-                            </div>
-                          </td>
-                        </tr>
-                      <?php endif ?>
-                    </table><!-- /.table table-bordered -->
-                    <?=form_close()?>
-                    <button type="button" class="btn btn-success btn-lg pull-right" data-toggle="modal" data-target="#modalVerify">
-                       <i class="fa fa-check-square-o"></i> Finalize Import
-                    </button>
-                </div><!-- /.col-md-8 -->
-              </div><!-- /.row -->
-            </div>
-            <!-- /.box-body -->
-            <div class="box-footer">
-            </div>
-            <!-- /.box-footer-->
-          </div>
-          <!-- /.box -->
-      </div><!-- /.col-md-8 div col-sm-12 -->
-    </div><!-- /.row -->
+          <?php endif ?>
+        </div><!-- /.col-md-6 -->
+      </div><!-- /.row -->
 
       <div class="modal modal fade" id="modalVerify">
           <div class="modal-dialog">

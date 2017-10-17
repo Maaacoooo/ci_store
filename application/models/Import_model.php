@@ -60,7 +60,6 @@ Class Import_Model extends CI_Model {
                 imports.export_id,
                 users.name as user,
                 users.username,
-                exports.brand,
                 exports.courier,
                 exports.tracking_no,
                 exports.remarks as export_remarks,
@@ -88,7 +87,6 @@ Class Import_Model extends CI_Model {
                 imports.status,
                 imports.created_at,
                 imports.updated_at,
-                exports.brand,
                 exports.id as export_id,
                 users.name as user                
             ');
@@ -111,9 +109,6 @@ Class Import_Model extends CI_Model {
      */
     function count_imports($search) {
 
-        if($search) {
-              $this->db->like('exports.brand', $search);
-        }
         $this->db->join('exports', 'exports.id = imports.export_id', 'left');
         return $this->db->count_all_results("imports");
     }
@@ -132,25 +127,30 @@ Class Import_Model extends CI_Model {
      * @param [type] $qty       [description]
      * @param [type] $export_id [description]
      */
-    function add_item($item, $qty, $import_id) {
+    function add_item($item, $qty, $dp, $srp, $import_id) {
 
             $data = array(              
-                'item_id'     => $item,  
-                'import_id'   => $import_id,  
-                'qty'         => $qty,         
+                'item_id'       => $item,  
+                'import_id'     => $import_id,  
+                'dealer_price'  => $dp,  
+                'actual_price'  => $srp,  
+                'import_id'     => $import_id,  
+                'qty'           => $qty         
              );
        
             return $this->db->insert('import_items', $data);    
 
     }
 
-    function update_item_qty($item, $qty, $import_id) {
+    function update_item_qty($item, $qty, $dp, $srp, $import_id) {
 
             //if $qty > 0 - update row 
             if($qty) {
               
               $data = array(              
-                'qty'    => $qty                    
+                'qty'           => $qty,                    
+                'dealer_price'  => $dp,                    
+                'actual_price'  => $srp                    
              );
             
               $this->db->where('item_id', $item);
@@ -186,11 +186,11 @@ Class Import_Model extends CI_Model {
             $this->db->select('
             import_items.id,
             import_items.qty,
+            import_items.actual_price,
+            import_items.dealer_price,
             items.id as item_id,
             items.name,
             items.category,
-            items.SRP,
-            items.DP,
             items.serial,
             items.unit
             ');          
