@@ -85,7 +85,7 @@
       <!-- Default box -->
       <div class="box box-primary">
         <div class="box-header with-border">
-          <h3 class="box-title">Product List <span class="badge"><?=$total_result?></span></h3>
+          <h3 class="box-title">Inventory Batch List <span class="badge"><?=$total_result?></span></h3>
           <div class="box-tools pull-right">            
             <?=form_open('items', array('method' => 'get', 'class' => 'input-group input-group-sm', 'style' => 'width: 150px;'))?>
               <input type="text" name="search" class="form-control pull-right" placeholder="Search...">
@@ -104,27 +104,48 @@
             <?php if ($results): ?>
             <thead>
               <tr>
-                <th>ID</th>
+                <th>Batch ID</th>
+                <th>Item ID</th>
                 <th>Item Name</th>
                 <th>Unit</th>
                 <th>Brand</th>
                 <th>Category</th>
-                <th>Actual</th>
-                <th>Dealer</th>
+                <th>Location</th>
+                <th class="bg-warning">Dealer</th>
+                <th class="bg-success">Actual</th>
                 <th>QTY</th>
               </tr>
             </thead>
             <tbody>
               <?php foreach ($results as $res): ?>
                 <tr>
+                  <td><a href="<?=base_url('items/view/'.$res['id'])?>"><?=$res['batch_id']?></a></td>
                   <td><a href="<?=base_url('items/view/'.$res['id'])?>"><?=$res['id']?></a></td>
                   <td><a href="<?=base_url('items/view/'.$res['id'])?>"><?=$res['name']?></a></td>
                   <td><a href="<?=base_url('items/view/'.$res['id'])?>"><?=$res['unit']?></a></td>
                   <td><a href="<?=base_url('items/view/'.$res['id'])?>"><?=$res['brand']?></a></td>
                   <td><a href="<?=base_url('items/view/'.$res['id'])?>"><?=$res['category']?></a></td>
-                  <td><a href="<?=base_url('items/view/'.$res['id'])?>"><?=$res['actual_price']?></a></td>
-                  <td><a href="<?=base_url('items/view/'.$res['id'])?>"><?=$res['dealer_price']?></a></td>
-                  <td><a href="<?=base_url('items/view/'.$res['id'])?>"><?=$res['qty']?></a></td>
+                  <td><a class="text-danger" href="<?=base_url('items/view/'.$res['id'])?>"><?=$res['location']?></a></td>
+                  <td class="bg-warning"><a href="<?=base_url('items/view/'.$res['id'])?>"><?=$res['dealer_price']?></a></td>
+                  <td class="bg-success"><a href="<?=base_url('items/view/'.$res['id'])?>"><?=$res['actual_price']?></a></td>
+                  <td>
+                    <a href="<?=base_url('items/view/'.$res['id'])?>">                    
+                      <?php if ($res['qty'] <= 10): ?>
+                          <span class="text-red strong">
+                            <?=$res['qty']?>
+                            <i class="fa fa-exclamation-circle"></i>                       
+                          </span>
+                      <?php elseif($res['qty'] <= 30): ?>
+                          <span class="text-yellow">
+                            <?=$res['qty']?>                  
+                          </span>
+                      <?php else: ?>
+                          <span class="text-green">
+                            <?=$res['qty']?>                  
+                          </span>
+                      <?php endif ?>
+                    </a>
+                  </td>
                 </tr>
               <?php endforeach; ?>
             </tbody>              
@@ -144,118 +165,6 @@
         <!-- /.box-footer-->
       </div>
       <!-- /.box -->
-
-
-      <div class="box <?php if(!validation_errors())echo "collapsed-box"; else echo "box-danger";?>">
-        <div class="box-header with-border">
-          <h3 class="box-title">Register New Product</h3>
-          <div class="box-tools pull-right">
-              <button type="button" class="btn btn-default btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-plus"></i></button>            
-          </div><!-- /.box-tools pull-right -->
-        </div>
-        <!-- /.box-header -->
-        <!-- form start -->
-        <?=form_open_multipart('items', array('class' => 'form-horizontal'))?>
-          <div class="box-body">
-            <div class="form-group">
-              <label for="name" class="col-sm-2 control-label">Item Name</label>
-
-              <div class="col-sm-10">
-                <input type="text" name="name" class="form-control" id="name" placeholder="Item Name..." value="<?=set_value('name')?>" >
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="serial" class="col-sm-2 control-label">Serial No. / Control No.</label>
-
-              <div class="col-sm-10">
-                <input type="text" name="serial" class="form-control" id="serial" placeholder="Serial No. " value="<?=set_value('serial')?>" >
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="name" class="col-sm-2 col-md-2 control-label">Unit</label>
-              <div class="col-sm-10 col-md-2">        
-                  <select name="unit" class="form-control" required="">
-                    <option disabled="" selected="">Select Unit...</option>
-                     <?php 
-                        if($units):
-                        foreach($units as $unit):
-                      ?>
-                      <option value="<?=$unit['title']?>" <?php if($unit['title']==set_value('unit'))echo'selected';?>><?=$unit['title']?></option>
-                      <?php
-                        endforeach;
-                        endif;
-                      ?>
-                  </select>       
-               </div>
-
-              <label for="name" class="col-sm-2 col-md-2 control-label">Category</label>
-              <div class="col-sm-10 col-md-2">        
-                  <select name="category" class="form-control" required="">
-                    <option disabled="" selected="">Select Category...</option>
-                     <?php 
-                        if($category):
-                        foreach($category as $cat):
-                      ?>
-                      <option value="<?=$cat['title']?>" <?php if($cat['title']==set_value('category'))echo'selected';?>><?=$cat['title']?></option>
-                      <?php
-                        endforeach;
-                        endif;
-                      ?>
-                  </select>       
-               </div>
-
-              <?php if ($user['usertype'] == 'Administrator'): ?>
-              <label for="brand" class="col-sm-2 col-md-2 control-label">Brand</label>
-              <div class="col-sm-10 col-md-2">        
-                  <select name="brand" class="form-control" required>
-                    <option disabled="" selected="">Select Brand...</option>
-                     <?php 
-                        if($brands):
-                        foreach($brands as $brn):
-                      ?>
-                      <option value="<?=$brn['title']?>" <?php if($brn['title']==set_value('brand'))echo'selected';?>><?=$brn['title']?></option>
-                      <?php
-                        endforeach;
-                        endif;
-                      ?>
-                  </select>       
-               </div>
-              <?php endif ?>
-            </div>
-            <div class="form-group">
-              <label for="dp" class="col-sm-2 col-md-2 control-label">DP</label>
-              <div class="col-sm-10 col-md-4">
-                <input type="text" name="dp" class="form-control" id="dp" placeholder="Dealer's Price. e.g 500.00" value="<?=set_value('dp')?>">
-              </div>
-
-              <label for="srp" class="col-sm-2 col-md-2 control-label">SRP</label>
-              <div class="col-sm-10 col-md-4">
-                <input type="text" name="srp" class="form-control" id="srp" placeholder="Retail Price. e.g 1000.00" value="<?=set_value('srp')?>">
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="desc" class="col-sm-2 control-label">Description</label>
-              <div class="col-sm-10">
-                <textarea name="desc" id="desc" cols="30" rows="10" class="ckeditor"><?=set_value('description')?></textarea>
-              </div>
-            </div>    
-            <div class="form-group">    
-                  <label for="img" class="col-sm-2 control-label">Item Image</label>    
-                  <div class="col-sm-10">
-                    <input type="file" name="img" id="img">   
-                  </div>    
-            </div>     
-
-          </div>
-          <!-- /.box-body -->
-          <div class="box-footer">
-            <button type="submit" class="btn btn-info pull-right">Register New Item</button>
-          </div>
-          <!-- /.box-footer -->
-        <?=form_close()?>
-      </div>
-
-
 
     </section>
     <!-- /.content -->

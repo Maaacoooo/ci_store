@@ -13,6 +13,60 @@ class Items extends CI_Controller {
 	}	
 
 
+	public function index()		{
+
+		$userdata = $this->session->userdata('admin_logged_in'); //it's pretty clear it's a userdata
+
+		if($userdata)	{
+
+			$data['title'] 		= 'Total Inventory';
+			$data['site_title'] = APP_NAME;
+			$data['user'] 		= $this->user_model->userdetails($userdata['username']); //fetches users record
+
+			//Search 
+			$search = '';
+			if(isset($_GET['search'])) {
+				$search = $_GET['search'];
+			}
+
+			//Paginated data				            
+	   		$config['num_links'] = 5;
+			$config['base_url'] = base_url('/items/index/');
+			$config["total_rows"] = $this->item_model->count_inventory_items($search);
+			$config['per_page'] = 50;				
+			$this->load->config('pagination'); //LOAD PAGINATION CONFIG
+
+			$this->pagination->initialize($config);
+		    if($this->uri->segment(3)){
+		       $page = ($this->uri->segment(3)) ;
+		  	}	else 	{
+		       $page = 1;		               
+		    }
+
+		    $data["results"] = $this->item_model->fetch_inventory_items($config["per_page"], $page, $search);
+		    $str_links = $this->pagination->create_links();
+		    $data["links"] = explode('&nbsp;',$str_links );
+
+		    //ITEM NUMBERING
+		    $data['per_page'] = $config['per_page'];
+		    $data['page'] = $page;
+
+		    //GET TOTAL RESULT
+		    $data['total_result'] = $config["total_rows"];
+		    //END PAGINATION		
+		    
+			$this->load->view('items/inventory_list', $data);
+		    
+		
+			
+		
+		} else {
+
+			$this->session->set_flashdata('error', 'You need to login!');
+			redirect('dashboard/login', 'refresh');
+		}
+
+	}
 
 	public function product_list()		{
 
@@ -37,7 +91,7 @@ class Items extends CI_Controller {
 
 			//Paginated data				            
 	   		$config['num_links'] = 5;
-			$config['base_url'] = base_url('/items/index/');
+			$config['base_url'] = base_url('/items/product_list/');
 			$config["total_rows"] = $this->item_model->count_items($search);
 			$config['per_page'] = 50;				
 			$this->load->config('pagination'); //LOAD PAGINATION CONFIG
@@ -76,7 +130,7 @@ class Items extends CI_Controller {
 			
 
 			if($this->form_validation->run() == FALSE)	{
-					$this->load->view('items/list', $data);
+					$this->load->view('items/product_list', $data);
 				} else {	
 					
 					//generate unique ITEM ID

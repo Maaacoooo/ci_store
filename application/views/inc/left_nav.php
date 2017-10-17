@@ -40,6 +40,7 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="<?=base_url('items')?>"><i class="fa fa-flask"></i> <span>Total Item Inventory</span></a></li>
+            <li><a href="<?=base_url('items/product_list')?>"><i class="fa fa-flask"></i> <span>Product List</span></a></li>
             <li><a href="<?=base_url('categories')?>"><i class="fa fa-list"></i> <span>Item Categories</span></a></li>
             <li><a href="<?=base_url('units')?>"><i class="fa fa-certificate"></i> <span>Item Units</span></a></li>
           </ul>

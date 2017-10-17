@@ -151,6 +151,7 @@
                 <table class="table table-condensed table-bordered">
                   <thead>
                     <tr>
+                      <th>Batch ID</th>
                       <th>Location</th>
                       <th>QTY</th>
                     </tr>
@@ -159,14 +160,15 @@
                     <?php foreach ($inventory as $inv): ?>
                     <?php $qty[] = $inv['qty']; ?>
                     <tr>
-                      <td><?=$inv['title']?></td>
+                      <td><?=$inv['batch_id']?></td>
+                      <td><?=$inv['location']?></td>
                       <td><?=$inv['qty']?></td>                     
                     </tr>
                     <?php endforeach ?>
                   </tbody>
                   <tfoot>
                     <tr>
-                      <td class="text-right bold">Total Items</td>
+                      <td colspan="2" class="text-right bold">Total Items</td>
                       <td><?=array_sum($qty)?></td>
                     </tr>
                   </tfoot>

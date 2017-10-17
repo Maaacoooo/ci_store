@@ -334,24 +334,85 @@ Class Item_Model extends CI_Model {
     }
 
 
+  /////////////////////////////////////////////////////////////
+  /// INVENTORY
+  ////////////////////////////////////////////////////////////
+  
+  function fetch_inventory_items($limit, $id, $search) {
+
+            if($search) {
+              $this->db->like('items.name', $search);
+              $this->db->or_like('items.category', $search);
+              $this->db->or_like('items.description', $search);
+              $this->db->or_like('items.serial', $search);
+              $this->db->or_like('items.id', $search);
+                if($brand) {
+                  $this->db->having('items.brand', $brand);
+              }
+            }
+
+
+            $this->db->join('items', 'items.id = item_inventory.item_id', 'left');
+            $this->db->group_by('item_inventory.batch_id');
+            $this->db->select('
+            items.id,
+            items.name,
+            items.brand,
+            items.serial,
+            items.category,
+            items.description,
+            items.unit,
+            item_inventory.batch_id,
+            item_inventory.actual_price,
+            item_inventory.dealer_price,            
+            item_inventory.location,
+            item_inventory.qty
+            ');
+            
+
+            $this->db->where('items.is_deleted', 0);
+            $this->db->where('item_inventory.qty >', 0);
+            $this->db->limit($limit, (($id-1)*$limit));
+
+            $query = $this->db->get("item_inventory");
+
+            if ($query->num_rows() > 0) {
+                return $query->result_array();
+            }
+            return false;
+
+    }
+
+    /**
+     * Returns the total number of rows of users
+     * @return int       the total rows
+     */
+    function count_inventory_items($search) {
+        if($search) {
+          $this->db->group_start();
+          $this->db->like('name', $search);
+          $this->db->or_like('category', $search);
+          $this->db->or_like('description', $search);
+          $this->db->or_like('serial', $search);
+          $this->db->or_like('id', $search);
+          $this->db->group_end();
+        }
+
+        $this->db->where('is_deleted', 0);
+        return $this->db->count_all_results("items");
+    }
+
+
     /**
      * Fetches the quantity of the item in each location
      * @param  [type] $id [description]
      * @return [type]     [description]
      */
-    function fetch_item_inventory($id) {
+    function fetch_item_inventory($id) {      
 
-            $this->db->join('item_inventory', 'item_inventory.location = item_location.title', 'left');
-            $this->db->join('items', 'items.id = item_inventory.item_id', 'left');
-            $this->db->group_by('item_location.id');
-            $this->db->select('
-                item_location.title,
-                SUM(item_inventory.qty) as qty
-            ');            
+            $this->db->where('item_id', $id);
 
-            $this->db->where('items.id', $id);
-
-            $query = $this->db->get("item_location");
+            $query = $this->db->get("item_inventory");
 
             if ($query->num_rows() > 0) {
                 return $query->result_array();
@@ -387,6 +448,10 @@ Class Item_Model extends CI_Model {
             return false;
 
     }
+
+
+
+    /////////////////////////////////////////////////////////////////////////
 
 
     //////////////
