@@ -1,12 +1,5 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); 
 
-	function salt_pepper($str)		{
-		//HELPER FOR HASHING
-    	$salt      = 'r&r1d0%E160m<v|';
-        $pepper    = 'nXG)4sNT5m&<E+5';
-        return md5($salt.$str.$pepper);
-    }
-
     /**
      * This provides an encrypted and/or unreadable data.
      * @param  String   $str    Any string to be encrypted.
@@ -37,6 +30,11 @@
     }
 
 
+    /**
+     * Removes unnecessary characters.
+     * @param  [type] $str [description]
+     * @return [type]      [description]
+     */
     function safelink($str) {
        return preg_replace("/[^a-zA-Z]/", "", $str);
     }
@@ -81,6 +79,11 @@
     }
 
 
+    /**
+     * Returns a decimal form
+     * @param  [type] $str [description]
+     * @return [type]      [description]
+     */
     function decimalize($str) {
         return sprintf("%1\$.2f", $str);
     }
@@ -145,6 +148,25 @@
         }
 
         return implode("", $num_to_char);
+
+    }
+
+
+    /**
+     * Gets the Row ID 
+     * @param  String      $str     the ID of the item. i.e    ABCD-01-01-00001 
+     * @return String               the actual ROW ID          1;
+     */
+    function getRowID($str) {
+        $str = explode("-", $str);
+
+        if(sizeof($str) > 1) {
+            sscanf($str[(sizeof($str)-1)], "%d", $result);
+        } else {
+            sscanf($str[0], "ITEM%d", $result);
+        }
+
+        return $result;
 
     }
 
