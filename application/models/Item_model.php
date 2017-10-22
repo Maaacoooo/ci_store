@@ -369,7 +369,7 @@ Class Item_Model extends CI_Model {
             item_inventory.qty
             ');
             
-
+            
             $this->db->where('items.is_deleted', 0);
             $this->db->where('item_inventory.qty >', 0);
             $this->db->limit($limit, (($id-1)*$limit));
@@ -389,17 +389,19 @@ Class Item_Model extends CI_Model {
      */
     function count_inventory_items($search) {
         if($search) {
-          $this->db->group_start();
-          $this->db->like('name', $search);
-          $this->db->or_like('category', $search);
-          $this->db->or_like('description', $search);
-          $this->db->or_like('serial', $search);
-          $this->db->or_like('id', $search);
-          $this->db->group_end();
-        }
+              $this->db->like('items.name', $search);
+              $this->db->or_like('items.category', $search);
+              $this->db->or_like('items.description', $search);
+              $this->db->or_like('items.serial', $search);
+              $this->db->or_like('items.id', $search);
+                if($brand) {
+                  $this->db->having('items.brand', $brand);
+              }
+            }
 
-        $this->db->where('is_deleted', 0);
-        return $this->db->count_all_results("items");
+        $this->db->join('items', 'items.id = item_inventory.item_id', 'left');
+        $this->db->where('items.is_deleted', 0);
+        return $this->db->count_all_results("item_inventory");
     }
 
 
