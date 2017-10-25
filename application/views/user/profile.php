@@ -101,7 +101,7 @@
           <div class="box box-primary">
             <div class="box-body box-profile">             
               <?php if (filexist($user['img']) && $user['img']): ?>
-                <img class="profile-user-img img-responsive img-circle" src="<?=base_url('uploads/'.$user['img'])?>" alt="User profile picture">
+                <img class="profile-user-img img-responsive img-circle" src="<?=base_url($user['img'])?>" alt="User profile picture">
               <?php else: ?>
                 <img class="profile-user-img img-responsive img-circle" src="<?=base_url('assets/img/no_image.gif')?>" alt="User profile picture">                
               <?php endif ?>

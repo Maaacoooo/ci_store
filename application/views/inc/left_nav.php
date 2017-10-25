@@ -4,7 +4,7 @@
       <div class="user-panel">
         <div class="pull-left image">
           <?php if (filexist($user['img']) && $user['img']): ?>
-            <img src="<?=base_url('uploads/'.$user['img'])?>" class="img-circle" alt="User Image">
+            <img src="<?=base_url($user['img'])?>" class="img-circle" alt="User Image">
           <?php else: ?>
             <img src="<?=base_url('assets/img/no_image.gif')?>" class="img-circle" alt="User Image">                
           <?php endif ?>

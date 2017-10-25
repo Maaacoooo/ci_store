@@ -225,13 +225,14 @@ Class User_model extends CI_Model
             //Process Image Upload
               if($_FILES['img']['name'] != NULL)  { 
 
-
                 //Deletes the old photo
                 if(!filexist($filename)) {
                   unlink('./uploads/'.$filename); 
                 }
 
-                $config['upload_path'] = './uploads/';
+                $path = checkDir('./uploads/users/'.$user.'/'); //the path to upload
+
+                $config['upload_path'] = $path;
                 $config['allowed_types'] = 'gif|jpg|png'; 
                 $config['encrypt_name'] = TRUE;                        
 
@@ -240,10 +241,23 @@ Class User_model extends CI_Model
                 
                 $field_name = "img";
                 $this->upload->do_upload($field_name);
-                $data2 = array('upload_data' => $this->upload->data());
-                foreach ($data2 as $key => $value) {     
-                  $filename = $value['file_name'];
-                }
+
+                $upload_data = $this->upload->data();
+
+                $filename = $path . $upload_data['file_name'];
+
+                // Set Watermark ////////////////////////////////////////////////////
+                $wm_config['quality'] = '100%';
+                $wm_config['wm_text'] = 'Copyright '.APP_NAME.' '.date('Y');
+                $wm_config['wm_type'] = 'text';
+                $wm_config['wm_font_path'] = './system/fonts/arial.ttf';
+                $wm_config['wm_font_size'] = '16';
+                $wm_config['wm_font_color'] = 'ffffff';
+                $wm_config['wm_vrt_alignment'] = 'bottom';
+                $wm_config['wm_hor_alignment'] = 'left';
+                $wm_config['source_image'] = $filename; 
+                /////////////////////////////////////////////////////////////////////
+
                 
             }
       
