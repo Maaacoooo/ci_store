@@ -152,8 +152,10 @@
                   <thead>
                     <tr>
                       <th>Batch ID</th>
-                      <th>Location</th>
-                      <th>QTY</th>
+                      <th>Location / Storage</th>
+                      <th class="text-yellow">Dealer</th>
+                      <th class="text-green">Actual</th>
+                      <th class="bg-info">QTY</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -162,13 +164,15 @@
                     <tr>
                       <td><?=$inv['batch_id']?></td>
                       <td><?=$inv['location']?></td>
-                      <td><?=$inv['qty']?></td>                     
+                      <td class="text-yellow bg-warning"><?=$inv['dealer_price']?></td>
+                      <td class="text-green bg-success"><?=$inv['actual_price']?></td>
+                      <td class="bg-info"><?=$inv['qty']?></td>                     
                     </tr>
                     <?php endforeach ?>
                   </tbody>
                   <tfoot>
-                    <tr>
-                      <td colspan="2" class="text-right bold">Total Items</td>
+                    <tr class="strong text-red">
+                      <td colspan="4" class="text-right bold">Total Items</td>
                       <td><?=array_sum($qty)?></td>
                     </tr>
                   </tfoot>
