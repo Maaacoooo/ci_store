@@ -93,7 +93,6 @@
                 </button>  
               </div> 
             <?=form_close()?> 
-
           </div>
         </div>
         <div class="box-body <?php if($results)echo 'table-responsive no-padding';?>">
@@ -137,6 +136,7 @@
         </div>
         <!-- /.box-body -->
         <div class="box-footer">
+          <button class="btn btn-success" data-target="#modalCreate" data-toggle="modal"><i class="fa fa-cart-arrow-down"></i> Import Items</button>
           <div class="pull-right">
             <?php foreach ($links as $link) { echo $link; } ?>
           </div><!-- /.pull-right -->
@@ -145,9 +145,6 @@
         <!-- /.box-footer-->
       </div>
       <!-- /.box -->
-
-
-
     </section>
     <!-- /.content -->
   </div>
@@ -159,6 +156,65 @@
 
 </div>
 <!-- ./wrapper -->
+
+<!-- Modals -->
+    <div class="modal fade" id="modalCreate" style="display: none;">
+          <div class="modal-dialog">
+          <?=form_open('imports')?>
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">Create an Import Queue</h4>
+              </div>
+              <div class="modal-body">
+                <div class="form-group">
+                  <label for="supplier" class="control-label">Supplier / Source</label>      
+                  <select name="supplier" class="form-control" required="">
+                    <option disabled="" <?php if(!set_value('supplier'))echo'selected';?>>Select Supplier...</option>
+                      <?php 
+                        if($suppliers):
+                        foreach($suppliers as $suppl):
+                      ?>
+                      <option value="<?=$suppl['title']?>" <?php if($suppl['title']==set_value('supplier'))echo'selected';?>><?=$suppl['title']?></option>
+                      <?php
+                         endforeach;
+                         endif;
+                       ?>
+                  </select>       
+                </div><!-- /.form-group -->
+                <div class="form-group">
+                  <label for="location" class="control-label">Location to Import</label>      
+                  <select name="location" class="form-control" required="">
+                    <option disabled="" <?php if(!set_value('supplier'))echo'selected';?>>Select Location...</option>
+                      <?php 
+                        if($locations):
+                        foreach($locations as $loc):
+                      ?>
+                      <option value="<?=$loc['title']?>" <?php if($loc['title']==set_value('location'))echo'selected';?>><?=$loc['title']?></option>
+                      <?php
+                         endforeach;
+                         endif;
+                       ?>
+                  </select>       
+                </div><!-- /.form-group -->
+                <div class="form-group">
+                    <label for="desc" class="control-label">Remarks</label>              
+                    <textarea name="remarks" id="remarks" cols="30" rows="10" class="ckeditor"></textarea>              
+                  </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-success">Import</button>
+              </div>
+            </div>
+            <!-- /.modal-content -->
+          <?=form_close()?>
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
+
+<!-- End Modals -->
 
     <?php $this->load->view('inc/js')?>    
     <script src="<?=base_url('assets/bower_components/ckeditor/ckeditor.js')?>"></script>

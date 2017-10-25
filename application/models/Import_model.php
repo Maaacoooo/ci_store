@@ -3,7 +3,20 @@
 Class Import_Model extends CI_Model {
 
 
-    function create($export_id, $user) {
+    function create($user) {
+        $data = array(      
+                'supplier'    => $this->input->post('supplier'),
+                'location'    => $this->input->post('location'),
+                'remarks'     => $this->input->post('remarks'),              
+                'status'      => 1,
+                'user'        => $user             
+             );
+       
+           return $this->db->insert('imports', $data);    
+    } 
+
+
+    function import_export($export_id, $user) {
 
       //Update Export Status
       $export = array(                          
@@ -188,6 +201,7 @@ Class Import_Model extends CI_Model {
             import_items.qty,
             import_items.actual_price,
             import_items.dealer_price,
+            import_items.batch_id,
             items.id as item_id,
             items.name,
             items.category,
@@ -205,32 +219,6 @@ Class Import_Model extends CI_Model {
             return false;
 
     }
-
-
-
-    /**
-     * Adds an item to the actual inventory
-     * @param [type] $item     [description]
-     * @param [type] $qty      [description]
-     * @param [type] $tag      [description]
-     * @param [type] $tag_id   [description]
-     * @param [type] $location [description]
-     */
-    function add_inventory($item, $qty, $tag, $tag_id, $location) {
-
-            $data = array(              
-                'item_id'    => $item,  
-                'tag'        => $tag,  
-                'tag_id'     => $tag_id,  
-                'qty'        => $qty,  
-                'location'   => $location       
-             );
-       
-            return $this->db->insert('item_inventory', $data);    
-
-    }
-
-
 
   
 

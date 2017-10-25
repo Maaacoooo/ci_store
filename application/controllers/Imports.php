@@ -9,6 +9,8 @@ class Imports extends CI_Controller {
        $this->load->model('location_model');
        $this->load->model('import_model');
        $this->load->model('user_model');
+       $this->load->model('supplier_model');
+       $this->load->model('inventory_model');
 	}	
 
 	public function index()		{
@@ -21,6 +23,10 @@ class Imports extends CI_Controller {
 			$data['site_title'] = APP_NAME;
 			$data['user'] 		= $this->user_model->userdetails($userdata['username']); //fetches users record
 
+			//Page Data
+			$data['suppliers']	= $this->supplier_model->fetch_suppliers(NULL, NULL, NULL);
+			$data['locations']	= $this->location_model->fetch_locations(NULL, NULL, NULL);
+
 			//Access Control
 			if($data['user']['usertype'] == 'Administrator') {
 				//Search 
@@ -29,7 +35,7 @@ class Imports extends CI_Controller {
 					$search = $_GET['search'];
 				}	
 
-				//Paginated data				            
+				//Paginated data //////////////////////////////////////////////////				            
 		   		$config['num_links'] = 5;
 				$config['base_url'] = base_url('/imports/index/');
 				$config["total_rows"] = $this->import_model->count_imports($search);
@@ -53,9 +59,47 @@ class Imports extends CI_Controller {
 
 			    //GET TOTAL RESULT
 			    $data['total_result'] = $config["total_rows"];
-			    //END PAGINATION		
+			    //END PAGINATION	//////////////////////////////////////////////
+			    
+			    //FORM VALIDATION
+				$this->form_validation->set_rules('supplier', 'Supplier', 'required|trim');    
+		 
+				   if($this->form_validation->run() == FALSE)	{
+
+				   		//Load View 
+						$this->load->view('imports/list', $data);						
+
+					} else {
+
+						if($this->import_model->create($userdata['username'])) {		
+
+							$import_id = $this->db->insert_id(); //get the import ID
+
+							// LOGS DATA //////////////////////////////
+							$log[] = array(
+									'user' 		=> 	$userdata['username'],
+									'tag' 		=> 	'import',
+									'tag_id'	=> 	$import_id,
+									'action' 	=> 	'Created an Import Queue'
+									);
+
+						
+								//Save log loop
+								foreach($log as $lg) {
+									$this->logs_model->create_log($lg['user'], $lg['tag'], $lg['tag_id'], $lg['action']);				
+								}		
+							////////////////////////////////////
+
+							$this->session->set_flashdata('success', 'Import ready for verification');
+							redirect('imports/view/'.$import_id, 'refresh');
+
+						} else {
+							$this->session->set_flashdata('error', 'An Error has Occured! Check items and inputs.');
+							redirect($_SERVER['HTTP_REFERER'], 'refresh');
+						}
+					}
+			    	
 			
-				$this->load->view('imports/list', $data);
 			} else {
 				show_error('Oops! Your account does not have the privilege to view the content. Please Contact the Administrator', 403, 'Access Denied!');				
 			}
@@ -69,7 +113,66 @@ class Imports extends CI_Controller {
 
 	}
 
-	public function create()		{
+
+	public function create()
+	{
+		$userdata = $this->session->userdata('admin_logged_in'); //it's pretty clear it's a userdata
+
+		if($userdata)	{
+			
+			//FORM VALIDATION
+			$this->form_validation->set_rules('supplier', 'Supplier', 'required|trim');    
+		 
+		   if($this->form_validation->run() == FALSE)	{
+
+				$this->session->set_flashdata('error', 'An Error has Occured!');
+				redirect($_SERVER['HTTP_REFERER'], 'refresh');
+
+			} else {
+
+				$export_id = $this->encryption->decrypt($this->input->post('id')); //ID of the row
+
+				if($this->import_model->create($user['username'])) {		
+
+					$import_id = $this->db->insert_id(); //get the import ID
+
+					// LOGS DATA //////////////////////////////
+					$log[] = array(
+							'user' 		=> 	$userdata['username'],
+							'tag' 		=> 	'import',
+							'tag_id'	=> 	$import_id,
+							'action' 	=> 	'Created an Import Queue'
+							);
+
+				
+						//Save log loop
+						foreach($log as $lg) {
+							$this->logs_model->create_log($lg['user'], $lg['tag'], $lg['tag_id'], $lg['action']);				
+						}		
+					////////////////////////////////////
+
+					$this->session->set_flashdata('success', 'Import ready for verification');
+					redirect('imports/view/'.$import_id, 'refresh');
+
+				} else {
+					$this->session->set_flashdata('error', 'An Error has Occured! Check items and inputs.');
+					redirect($_SERVER['HTTP_REFERER'], 'refresh');
+				}
+			}
+
+		} else {
+
+			$this->session->set_flashdata('error', 'You need to login!');
+			redirect('dashboard/login', 'refresh');
+		}
+	}
+
+
+	/**
+	 * Imports the Export of the Supplier
+	 * @return [type] [description]
+	 */
+	public function import_export()		{
 
 		$userdata = $this->session->userdata('admin_logged_in'); //it's pretty clear it's a userdata
 		$user = $this->user_model->userdetails($userdata['username']); //fetches users record
@@ -180,7 +283,7 @@ class Imports extends CI_Controller {
 
 						// SAVE TO INVENTORY
 						foreach ($data['items'] as $inv) {
-							$this->import_model->add_inventory($inv['item_id'], $inv['qty'], 'import', $key_id, $location['title']);
+							$this->inventory_model->add_inventory($inv['item_id'], $inv['qty'], 'import', $key_id, $location['title'], $inv['actual_price'], $inv['dealer_price']);
 						}
 
 						// SAVE LOG ////////////////////////////////////////
@@ -195,7 +298,7 @@ class Imports extends CI_Controller {
 							'user' 		=> 	$userdata['username'],
 							'tag' 		=> 	'location',
 							'tag_id'	=> 	$location['id'],
-							'action' 	=> 	'Imported Items - IMP #' . prettyID($key_id)
+							'action' 	=> 	'Imported Items - IMP #' . prettyID($key_id, 4)
 						);
 
 				
