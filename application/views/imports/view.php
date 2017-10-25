@@ -99,6 +99,7 @@
                   <table class="table table-bordered table-condensed">
                     <thead>
                       <tr>
+                        <th>Batch ID</th>
                         <th>Item ID</th>
                         <th width="40%">Item Name</th>
                         <th>Unit</th>
@@ -115,6 +116,7 @@
                     <tbody>
                       <?php foreach ($items as $t): $qty[]=$t['qty']; $sub[]=($t['qty']*$t['dealer_price']); ?>
                         <tr>
+                          <td><?=$t['batch_id']?></td>
                           <td><?=$t['item_id']?></td>
                           <td><?=$t['name']?></td>
                           <td><?=$t['unit']?></td>

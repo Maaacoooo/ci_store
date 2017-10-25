@@ -95,7 +95,6 @@
         </div><!-- /.col-xs-12 -->
       </div><!-- /.row -->
 
-      
 
     <div class="row">    
       <div class="col-sm-12">
@@ -128,7 +127,7 @@
                           <th>Batch ID</th>
                           <th width="40%">Item Name</th>
                           <th>Unit</th>
-                          <th>DP <small><a href="#"><i class="fa fa-question-circle-o"></i></a></small></th>
+                          <th>DP <small><a href="#" data-toggle="tooltip" data-placement="right" title="Tooltip on right"><i class="fa fa-question-circle-o"></i></a></small></th>
                           <th>SRP <small><a href="#"><i class="fa fa-question-circle-o"></i></a></small></th>
                           <th class="bg-warning">ARP <small><a href="#"><i class="fa fa-question-circle-o"></i></a></small></th>
                           <th>Est. Fee <small><a href="#"><i class="fa fa-question-circle-o"></i></a></small></th>
@@ -191,7 +190,7 @@
     </div><!-- /.row -->
 
     <div class="row"> 
-          <div class="col-md-6">
+          <div class="col-md-4">
             <!-- Default box -->
               <div class="box box-primary">
                 <div class="box-header with-border">
@@ -243,8 +242,37 @@
                 <!-- /.box-footer-->
               </div>
               <!-- /.box -->
-          </div><!-- /.col-md-6 -->
-          <div class="col-md-6">  
+          </div><!-- /.col-md-4 -->
+          <div class="col-md-4">  
+               <!-- Default box -->
+              <div class="box box-warning">
+                <div class="box-header with-border">
+                  <h3 class="box-title">Expenses and Fees</h3>
+                  <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>      
+                  </div>
+                </div>
+                <div class="box-body">
+                  <table class="table table-condensed table-bordered">
+                    <thead>
+                      <tr>
+                        <th>Fee</th>
+                        <th>Amount</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      
+                    </tbody>
+                  </table><!-- /.table table-condensed table-bordered -->               
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer">
+                </div>
+                <!-- /.box-footer-->
+              </div>
+              <!-- /.box -->
+          </div><!-- /.col-md-4 -->
+          <div class="col-md-4">  
             <?php if ($info['export_id']): ?>
                <!-- Default box -->
               <div class="box collapsed-box">
@@ -295,7 +323,7 @@
               </div>
               <!-- /.box -->
           <?php endif ?>
-        </div><!-- /.col-md-6 -->
+        </div><!-- /.col-md-4 -->
       </div><!-- /.row -->
 
       <div class="modal modal fade" id="modalVerify">
