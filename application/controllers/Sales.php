@@ -311,7 +311,7 @@ echo $txt;
 			
 			//FORM VALIDATION
 			$this->form_validation->set_rules('id[]', 'ID', 'trim|required');     
-			$this->form_validation->set_rules('qty[]', 'Quantity', 'trim|required');   
+			$this->form_validation->set_rules('qty[]', 'Quantity', 'trim|required|callback_check_quantity');   
 			$this->form_validation->set_rules('disc[]', 'Discounts', 'trim');   
 		 
 		   if($this->form_validation->run() == FALSE)	{
@@ -343,6 +343,26 @@ echo $txt;
 			$this->session->set_flashdata('error', 'You need to login!');
 			redirect('dashboard/login', 'refresh');
 		}
+		
+	}
+
+	function check_quantity() {
+
+		$userdata = $this->session->userdata('admin_logged_in'); //it's pretty clear it's a userdata
+		$user = $this->user_model->userdetails($userdata['username']); //fetches users record
+
+		foreach ($this->input->post('qty') as $key => $qty) {
+			$item_id = $this->encryption->decrypt($this->input->post('id')[$key]);
+			$inv_qty = $this->item_model->check_item_inventory($item_id, $user['location']); //fetches qty
+
+			if($this->input->post('qty')[$key] > $inv_qty['qty']) {
+				$this->session->set_flashdata('warning', 'Check Quantity of <span class="badge bg-blue">' . $inv_qty['item_id'] . '</span> Current Items in Stock: <span class="badge bg-red">'. $inv_qty['qty'] . '</span>');
+				return FALSE;
+			} 
+		}
+
+		return TRUE;
+		
 		
 	}
 

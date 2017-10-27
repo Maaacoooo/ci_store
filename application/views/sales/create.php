@@ -70,6 +70,16 @@
                        
         <?php 
             endif; //error end
+            //WARNING ACTION                          
+            if($this->session->flashdata('warning')): ?>
+            <div class="alert alert-warning alert-dismissible">
+              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+              <h4><i class="icon fa fa-check"></i> Uhoh!</h4>
+              <?=$this->session->flashdata('warning')?>
+            </div>
+        <?php 
+
+            endif; //error end
             //SUCCESS ACTION                          
             if($this->session->flashdata('success')): ?>
             <div class="alert alert-success alert-dismissible">
@@ -185,8 +195,8 @@
             <div class="box-body">
             <?=form_open('sales/create')?>
              <div class="form-group">
-                <label for="location">Storage Location</label>
-                <select name="location" id="location" class="form-control" required>
+                <label for="location">Store / Storage Location</label>
+                <select name="location" id="location" class="form-control" required disabled>
                   <?php if ($locations): ?>
                   <?php foreach ($locations as $loc): ?>
                   <option value="<?=$loc['title']?>" <?php if($loc['title'] == $user['location'])echo 'selected';?>><?=$loc['title']?></option>

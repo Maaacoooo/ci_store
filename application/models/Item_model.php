@@ -277,4 +277,29 @@ Class Item_Model extends CI_Model {
             
             return $query->result_array();
   }
+
+
+    /**
+     * Returns the Quantity of a distinct Item in a distinct location
+     * @param  [type] $id       [description]
+     * @param  [type] $location [description]
+     * @return [type]           [description]
+     */
+    function check_item_inventory($id, $location) {
+
+            $this->db->select('
+              item_id,
+              SUM(item_inventory.qty) as qty
+            ');            
+
+            $this->db->where('item_id', $id);
+            $this->db->where('location', $location);
+
+            $query = $this->db->get("item_inventory");
+     
+            return $query->row_array();
+          
+            
+
+    }
 }
