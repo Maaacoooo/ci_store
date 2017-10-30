@@ -9,6 +9,7 @@ class Imports extends CI_Controller {
        $this->load->model('location_model');
        $this->load->model('import_model');
        $this->load->model('user_model');
+       $this->load->model('inventory_model');
 	}	
 
 	public function index()		{
@@ -180,7 +181,7 @@ class Imports extends CI_Controller {
 
 						// SAVE TO INVENTORY
 						foreach ($data['items'] as $inv) {
-							$this->import_model->add_inventory($inv['item_id'], $inv['qty'], 'import', $key_id, $location['title']);
+							$this->inventory_model->add_inventory($inv['item_id'], $inv['qty'], 'import', $key_id, $location['title']);
 						}
 
 						// SAVE LOG ////////////////////////////////////////
