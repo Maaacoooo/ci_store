@@ -417,16 +417,16 @@ class Requests extends CI_Controller {
 
 			} else {
 
-				$item = $this->item_model->view($this->input->post('item'))['id'];
+				$item = $this->item_model->view($this->input->post('item'));
 				$req_id = $this->encryption->decrypt($this->input->post('id'));
 
-				if($this->request_model->view_item($item, $req_id)) {
+				if($this->request_model->view_item($item['id'], $req_id)) {
 
-					$qty  = $this->request_model->view_item($item, $req_id)['qty']; //gets the value of the existing quantity
-					$action = $this->request_model->update_item_qty($item, ($qty+1), $req_id, $user['username']); // existing qty + 1; update quantity
+					$qty  = $this->request_model->view_item($item['id'], $req_id)['qty']; //gets the value of the existing quantity
+					$action = $this->request_model->update_item_qty($item['id'], ($qty+1), $req_id, $user['username']); // existing qty + 1; update quantity
 
 				} else {
-					$action = $this->request_model->add_item($item, 1, $req_id); //ID of the row	
+					$action = $this->request_model->add_item($item['id'], 1, $item['dp'], $req_id); //ID of the row	
 				}
 							
 

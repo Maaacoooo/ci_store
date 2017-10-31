@@ -137,10 +137,11 @@ Class Request_Model extends CI_Model {
      * @param [type] $export_id [description]
      * @param [type] $user      [description]
      */
-    function add_item($item, $qty, $request_id) {
+    function add_item($item, $qty, $dp, $request_id) {
 
             $data = array(              
                 'item_id'     => $item,  
+                'dp'          => $dp,
                 'request_id'  => $request_id,  
                 'qty'         => $qty           
              );
@@ -194,8 +195,7 @@ Class Request_Model extends CI_Model {
             items.id as item_id,
             items.name,
             items.category,
-            items.SRP,
-            items.DP,
+            request_items.dp,
             items.serial,
             items.unit
             ');          
@@ -240,6 +240,7 @@ Class Request_Model extends CI_Model {
             foreach ($items as $i) {
                     $data = array(              
                     'item_id'     => $i['item_id'],  
+                    'dp'          => $i['dp'],  
                     'export_id'   => $export_id,  
                     'qty'         => $i['qty'],  
                     'user'        => $user               
