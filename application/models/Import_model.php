@@ -132,25 +132,28 @@ Class Import_Model extends CI_Model {
      * @param [type] $qty       [description]
      * @param [type] $export_id [description]
      */
-    function add_item($item, $qty, $import_id) {
+    function add_item($item, $qty, $dp, $srp, $import_id) {
 
             $data = array(              
                 'item_id'     => $item,  
                 'import_id'   => $import_id,  
                 'qty'         => $qty,         
+                'dp'          => $dp,
+                'srp'         => $srp
              );
        
             return $this->db->insert('import_items', $data);    
 
     }
 
-    function update_item_qty($item, $qty, $import_id) {
+    function update_item_qty($item, $qty, $srp, $import_id) {
 
             //if $qty > 0 - update row 
             if($qty) {
               
               $data = array(              
-                'qty'    => $qty                    
+                'qty'    => $qty,                    
+                'srp'    => $srp,                    
              );
             
               $this->db->where('item_id', $item);
@@ -189,8 +192,8 @@ Class Import_Model extends CI_Model {
             items.id as item_id,
             items.name,
             items.category,
-            items.SRP,
-            items.DP,
+            import_items.srp,
+            import_items.dp,
             items.serial,
             items.unit
             ');          

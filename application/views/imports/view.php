@@ -216,6 +216,7 @@
                         <th width="10%">Item ID</th>
                         <th width="40%">Item Name</th>
                         <th>Unit</th>
+                        <th>SRP</th>
                         <th>DP</th>
                         <th class="bg-info">QTY</th>
                         <th>Sub Total</th>
@@ -223,21 +224,22 @@
                     </thead>
                     <?php if ($items): ?>
                     <tbody>
-                      <?php foreach ($items as $t): $qty[]=$t['qty']; $sub[]=($t['qty']*$t['DP']); ?>
+                      <?php foreach ($items as $t): $qty[]=$t['qty']; $sub[]=($t['qty']*$t['dp']); ?>
                         <tr>
                           <td><?=$t['item_id']?></td>
                           <td><?=$t['name']?></td>
                           <td><?=$t['unit']?></td>
-                          <td><?=$t['DP']?></td>
+                          <td><?=$t['dp']?></td>
+                          <td><?=$t['srp']?></td>
                           <td class="bg-info"><?=$t['qty']?></td>
-                          <td><?=($t['qty']*$t['DP'])?></td>
+                          <td><?=($t['qty']*$t['dp'])?></td>
                         </tr>
                         <input type="hidden" name="id[]" value="<?=$this->encryption->encrypt($t['item_id'])?>" />
                       <?php endforeach ?>
                     </tbody>
                     <tfoot>
                       <tr>
-                        <th colspan="4" class="text-right">Total</th>
+                        <th colspan="5" class="text-right">Total</th>
                         <th class="bg-info text-danger"><?=array_sum($qty)?></th><!-- /.bg-success text-danger -->
                         <th class="bg-success text-danger"><?=array_sum($sub)?></th><!-- /.bg-success text-danger -->
                       </tr>

@@ -55,6 +55,12 @@
                 Note that <strong class="text-danger">AFTER SUBMITTING</strong>, you <strong class="text-danger">CANNOT UNDO</strong> any input given.
               </p>
           </div>
+          <div class="callout callout-info">
+              <h4>Change of Item Price</h4>
+              <p>
+                Please be noted that changing the <strong class="text-danger">SRP</strong> will reflect on the database but does not affect the other existing inventory batches.<br />
+              </p>
+          </div>
         </div><!-- /.col-sm-12 -->
       </div><!-- /.row -->
 
@@ -232,34 +238,36 @@
                   <?=form_close()?>
                   <?=form_open('imports/update_items')?>
                     <input type="hidden" name="imp_id" value="<?=$this->encryption->encrypt($info['id'])?>" />
-                    <table class="table table-bordered">
+                    <table class="table table-bordered table-condensed">
                       <thead>
                         <tr>
                           <th width="10%">Item ID</th>
                           <th width="40%">Item Name</th>
                           <th>Unit</th>
                           <th>DP</th>
+                          <th>SRP</th>
                           <th>QTY</th>
-                          <th>Sub Total</th>
+                          <th>Total DP</th>
                         </tr>
                       </thead>
                       <?php if ($items): ?>
                       <tbody>
-                        <?php foreach ($items as $t): $qty[]=$t['qty']; $sub[]=($t['qty']*$t['DP']); ?>
+                        <?php foreach ($items as $t): $qty[]=$t['qty']; $sub[]=($t['qty']*$t['dp']); ?>
                           <tr>
                             <td><?=$t['item_id']?></td>
                             <td><?=$t['name']?></td>
                             <td><?=$t['unit']?></td>
-                            <td><?=$t['DP']?></td>
-                            <td><input type="number" name="qty[]" value="<?=$t['qty']?>" style="width: 60px"/></td>
-                            <td><?=($t['qty']*$t['DP'])?></td>
+                            <td class="text-red"><?=$t['dp']?></td>
+                            <td><input type="number" name="srp[]" value="<?=$t['srp']?>" style="width: 60px" required/></td>                      
+                            <td><input type="number" name="qty[]" value="<?=$t['qty']?>" style="width: 60px" required/></td>
+                            <td><?=($t['qty']*$t['dp'])?></td>
                           </tr>
                           <input type="hidden" name="id[]" value="<?=$this->encryption->encrypt($t['item_id'])?>" />
                         <?php endforeach ?>
                       </tbody>
                       <tfoot>
                         <tr>
-                          <th colspan="4" class="text-right">Total</th>
+                          <th colspan="5" class="text-right">Total</th>
                           <th class="bg-success text-danger"><?=array_sum($qty)?></th><!-- /.bg-success text-danger -->
                           <th class="bg-success text-danger"><?=array_sum($sub)?></th><!-- /.bg-success text-danger -->
                         </tr>

@@ -97,7 +97,7 @@ class Imports extends CI_Controller {
 					//loop export_items
 					foreach ($export_items as $exp) {
 						//Copy export_items to import_items
-						$this->import_model->add_item($exp['item_id'], $exp['qty'], $import_id);
+						$this->import_model->add_item($exp['item_id'], $exp['qty'], $exp['dp'], $exp['srp'], $import_id);
 					}
 
 					// LOGS DATA //////////////////////////////
@@ -179,9 +179,19 @@ class Imports extends CI_Controller {
 
 					if($this->import_model->update($key_id, $location['title'])) {	
 
-						// SAVE TO INVENTORY
+						// LOOP IMPORT ITEMS
 						foreach ($data['items'] as $inv) {
-							$this->inventory_model->add_inventory($inv['item_id'], $inv['qty'], 'import', $key_id, $location['title']);
+							//Save to Actual Inventory
+							$batch_id = $this->inventory_model->add_inventory($inv['item_id'], $inv['qty'], $location['title'], $inv['srp'], $inv['dp']);
+							//Save Item Logs
+							$log[] = array(
+							'user' 		=> 	$userdata['username'],
+							'tag' 		=> 	'item',
+							'tag_id'	=> 	$inv['item_id'],
+							'action' 	=> 	'Updated Inventory - Batch ' . $batch_id
+							);
+							//Update Item Information
+							$this->item_model->update_prices($inv['item_id'], $inv['srp'], $inv['dp']);
 						}
 
 						// SAVE LOG ////////////////////////////////////////
@@ -338,6 +348,7 @@ class Imports extends CI_Controller {
 			//FORM VALIDATION
 			$this->form_validation->set_rules('id[]', 'ID', 'trim|required');     
 			$this->form_validation->set_rules('qty[]', 'Quantity', 'trim|required');   
+			$this->form_validation->set_rules('srp[]', 'SRP', 'trim|required');   
 		 
 		   if($this->form_validation->run() == FALSE)	{
 
@@ -351,8 +362,9 @@ class Imports extends CI_Controller {
 				foreach ($this->input->post('id') as $key => $item) {
 		                      
 		            $qty   = $this->input->post('qty')[$key];        
+		            $srp   = $this->input->post('srp')[$key];        
 
-		           	$this->import_model->update_item_qty($this->encryption->decrypt($item), $qty, $import_id);
+		           	$this->import_model->update_item_qty($this->encryption->decrypt($item), $qty, $srp, $import_id);
              
 		        }		
 		        
