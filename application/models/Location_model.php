@@ -114,17 +114,18 @@ Class Location_Model extends CI_Model {
     function fetch_inventory($limit, $id, $location) {
 
             $this->db->join('items', 'items.id = item_inventory.item_id', 'left');
-            $this->db->group_by('item_inventory.item_id');
             $this->db->select('
                 items.id,
                 items.name,
                 items.brand,
                 items.category,
-                items.SRP,
-                items.DP,
+                item_inventory.batch_id,
+                item_inventory.srp,
+                item_inventory.dp,
                 items.serial,
                 items.unit,
-                SUM(item_inventory.qty) as qty
+                item_inventory.qty,
+                items.critical_level
             ');            
             $this->db->limit($limit, (($id-1)*$limit));            
             $this->db->where('item_inventory.location', $location);

@@ -110,28 +110,38 @@
                 <div class="tab-content">
                   <div class="tab-pane <?php if(!($this->session->flashdata('flash_loc')))echo'active'?>" id="items">
                     <?php if ($results): ?>
-                    <table class="table table-condensed table-bordered">
+                    <table class="table table-condensed table-bordered table-hover">
                       <thead>
                         <tr>
+                          <th>Batch ID</th>
                           <th>ID</th>
                           <th>Item Name</th>
                           <th>Category</th>
                           <th>Unit</th>
-                          <th>DP</th>
-                          <th>SRP</th>
+                          <th class="bg-warning">DP</th>
+                          <th class="bg-success">SRP</th>
                           <th>QTY</th>
                         </tr>
                       </thead>
                       <tbody>
                         <?php foreach ($results as $item): ?>
                         <tr>
+                          <td><a href="<?=base_url('items/view/'.$item['id'])?>"><?=$item['batch_id']?></a></td>
                           <td><a href="<?=base_url('items/view/'.$item['id'])?>"><?=$item['id']?></a></td>
                           <td><a href="<?=base_url('items/view/'.$item['id'])?>"><?=$item['name']?></a></td>
                           <td><a href="<?=base_url('items/view/'.$item['id'])?>"><?=$item['category']?></a></td>
                           <td><a href="<?=base_url('items/view/'.$item['id'])?>"><?=$item['unit']?></a></td>
-                          <td><a href="<?=base_url('items/view/'.$item['id'])?>"><?=$item['DP']?></a></td>
-                          <td><a href="<?=base_url('items/view/'.$item['id'])?>"><?=$item['SRP']?></a></td>
-                          <td><a href="<?=base_url('items/view/'.$item['id'])?>"><?=$item['qty']?></a></td>
+                          <td><a class="text-yellow strong" href="<?=base_url('items/view/'.$item['id'])?>"><?=$item['dp']?></a></td>
+                          <td><a class="text-success strong" href="<?=base_url('items/view/'.$item['id'])?>"><?=$item['srp']?></a></td>
+                          <td><a href="<?=base_url('items/view/'.$item['id'])?>">
+                            <?php if ($item['qty'] <= 10 || $item['qty'] <= $item['critical_level']): ?>
+                              <span class="badge bg-red"><?=$item['qty']?></span>                    
+                            <?php elseif($item['qty'] <= 20 || $item['qty'] <= ($item['critical_level']*1.3)): ?>                                      
+                              <span class="badge bg-yellow"><?=$item['qty']?></span>
+                            <?php else: ?>
+                              <?=$item['qty']?>
+                            <?php endif ?>
+                            </a></td>
                         </tr>
                         <?php endforeach ?>
                       </tbody>

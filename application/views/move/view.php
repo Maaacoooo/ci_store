@@ -139,14 +139,14 @@
                 </thead>
                 <?php if ($items): ?>
                 <tbody>
-                  <?php foreach ($items as $t): $qty[]=$t['qty']; $sub[]=($t['qty']*$t['DP']); ?>
+                  <?php foreach ($items as $t): $qty[]=$t['qty']; $sub[]=($t['qty']*$t['dp']); ?>
                     <tr>
                       <td><?=$t['item_id']?></td>
                       <td><?=$t['name']?></td>
                       <td><?=$t['unit']?></td>
-                      <td><?=$t['DP']?></td>
+                      <td><?=$t['dp']?></td>
                       <td class="bg-info"><?=$t['qty']?></td>
-                      <td><?=($t['qty']*$t['DP'])?></td>
+                      <td><?=($t['qty']*$t['dp'])?></td>
                     </tr>
                     <input type="hidden" name="id[]" value="<?=$this->encryption->encrypt($t['item_id'])?>" />
                   <?php endforeach ?>

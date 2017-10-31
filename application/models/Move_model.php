@@ -205,7 +205,7 @@ Class Move_Model extends CI_Model {
      function view_item($item, $loc_id, $user) {
 
             $this->db->select('*');        
-            $this->db->where('item_id', $item);
+            $this->db->where('batch_id', $item);
             $this->db->where('user', $user);
             $this->db->where('loc_id', $loc_id);        
             $this->db->limit(1);
@@ -225,17 +225,15 @@ Class Move_Model extends CI_Model {
      */
     function fetch_move_items($location_id, $user, $move_id) {
 
-            $this->db->join('items', 'items.id = move_items.item_id', 'left');
+            $this->db->join('item_inventory', 'item_inventory.batch_id = move_items.batch_id', 'left');
+            $this->db->join('items', 'items.id = item_inventory.item_id', 'left');
             $this->db->select('
             move_items.id,
-            move_items.qty,
-            items.id as item_id,
             items.name,
             items.category,
-            items.SRP,
-            items.DP,
             items.serial,
-            items.unit
+            items.unit,
+            items.critical_level
             ');          
            
             $this->db->where('move_items.move_id', $move_id);

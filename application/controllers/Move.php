@@ -275,14 +275,12 @@ class Move extends CI_Controller {
 	 * @param  [type] $item [description]
 	 * @return [type]       [description]
 	 */
-	function check_item($item) {
+	function check_item($batch) {
 
-		$userdata = $this->session->userdata('admin_logged_in'); //it's pretty clear it's a userdata
-		$user = $this->user_model->userdetails($userdata['username']); //fetches users record
 		$id = $this->encryption->decrypt($this->input->post('id'));
 		$location = $this->location_model->view($id);
 
-		if($this->item_model->view($item) && $this->move_model->check_item($item, $location['title'])) {
+		if($this->inventory_model->view_item($batch)) {
 			return TRUE;
 		} else {
 			$this->form_validation->set_message('check_item', 'No Item Record Found!');		
