@@ -43,9 +43,7 @@ Class Item_Model extends CI_Model {
                 'brand'          => $brand,  
                 'unit'           => $this->input->post('unit'),  
                 'description'    => $this->input->post('desc'),  
-                'serial'         => $this->input->post('serial'),
-                'SRP'            => $this->input->post('srp'),
-                'DP'             => $this->input->post('dp')
+                'serial'         => $this->input->post('serial')
              );
        
             
@@ -53,6 +51,28 @@ Class Item_Model extends CI_Model {
             return $this->db->update('items', $data);          
         
     }
+
+
+    /**
+     * Updates the Prices upon import
+     * @param  [type] $id  [description]
+     * @param  [type] $srp [description]
+     * @param  [type] $dp  [description]
+     * @return [type]      [description]
+     */
+    function update_prices($id, $srp, $dp) { 
+
+            $data = array(                
+                'srp'            => $srp,
+                'dp'             => $dp
+             );       
+            
+            $this->db->where('id', $id);
+            return $this->db->update('items', $data);          
+    }
+
+
+
 
 
         /**
@@ -104,10 +124,9 @@ Class Item_Model extends CI_Model {
             items.brand,
             items.serial,
             items.category,
-            items.SRP,
-            items.DP,
             items.description,
             items.unit,
+            items.critical_level,
             SUM(item_inventory.qty) as qty
             ');
             
@@ -178,17 +197,17 @@ Class Item_Model extends CI_Model {
      */
     function fetch_item_inventory($id) {
 
-            $this->db->join('item_inventory', 'item_inventory.location = item_location.title', 'left');
-            $this->db->join('items', 'items.id = item_inventory.item_id', 'left');
-            $this->db->group_by('item_location.id');
             $this->db->select('
-                item_location.title,
-                SUM(item_inventory.qty) as qty
+                item_inventory.batch_id,
+                item_inventory.location,
+                item_inventory.srp,
+                item_inventory.dp,
+                item_inventory.qty
             ');            
 
-            $this->db->where('items.id', $id);
+            $this->db->where('item_id', $id);
 
-            $query = $this->db->get("item_location");
+            $query = $this->db->get("item_inventory");
 
             if ($query->num_rows() > 0) {
                 return $query->result_array();
