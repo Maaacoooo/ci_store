@@ -35,8 +35,8 @@
         <?=$title?>        
       </h1>
       <ol class="breadcrumb">
-        <li><a href="#">Home</a></li>
-        <li><a href="#">Examples</a></li>
+        <li><a href="<?=base_url()?>">Dashboard</a></li>
+        <li><a href="<?=base_url('items')?>">Item Inventory</a></li>
         <li class="active"><?=$title?></li>
       </ol>
     </section>
@@ -106,10 +106,7 @@
                   <b>Brand</b> <a class="pull-right"><?=$info['brand']?></a>
                 </li>
                 <li class="list-group-item">
-                  <b>SRP</b> <a class="pull-right"><?=$info['SRP']?></a>
-                </li>
-                <li class="list-group-item">
-                  <b>DP</b> <a class="pull-right"><?=$info['DP']?></a>
+                  <b>Critical Level</b> <a class="badge bg-red pull-right"><?=$info['critical_level']?></a>
                 </li>
                 <li class="list-group-item">
                   <b>Description</b>
@@ -140,7 +137,10 @@
                 <table class="table table-condensed table-bordered">
                   <thead>
                     <tr>
+                      <th>Batch ID</th>
                       <th>Location</th>
+                      <th class="bg-warning">DP</th>
+                      <th class="bg-success">SRP</th>
                       <th>QTY</th>
                     </tr>
                   </thead>
@@ -148,14 +148,25 @@
                     <?php foreach ($inventory as $inv): ?>
                     <?php $qty[] = $inv['qty']; ?>
                     <tr>
-                      <td><?=$inv['title']?></td>
-                      <td><?=$inv['qty']?></td>                     
+                      <td><?=$inv['batch_id']?></td>
+                      <td><?=$inv['location']?></td>
+                      <td class="text-yellow"><?=$inv['dp']?></td>
+                      <td class="text-green"><?=$inv['srp']?></td>
+                      <td>
+                        <?php if ($inv['qty'] <= 10 || $inv['qty'] <= $info['critical_level']): ?>
+                          <span class="badge bg-red"><?=$inv['qty']?></span>                    
+                        <?php elseif($inv['qty'] <= 20 || $inv['qty'] <= ($info['critical_level']*1.3)): ?>                                      
+                          <span class="badge bg-yellow"><?=$inv['qty']?></span>
+                        <?php else: ?>
+                          <?=$inv['qty']?>
+                        <?php endif ?>
+                      </td>                     
                     </tr>
                     <?php endforeach ?>
                   </tbody>
                   <tfoot>
                     <tr>
-                      <td class="text-right bold">Total Items</td>
+                      <td colspan="4" class="text-right bold">Total Items</td>
                       <td><?=array_sum($qty)?></td>
                     </tr>
                   </tfoot>
@@ -217,8 +228,13 @@
                   <div class="form-group">
                     <label for="serial" class="col-sm-2 control-label">Serial No. / Control No.</label>
 
-                    <div class="col-sm-10">
+                    <div class="col-sm-10 col-md-6">
                       <input type="text" name="serial" class="form-control" id="serial" placeholder="Serial No. " value="<?=$info['serial']?>" >
+                    </div>
+
+                    <label for="critical_level" class="col-sm-2 col-md-2 control-label">Critical Level</label>
+                    <div class="col-sm-10 col-md-2">
+                      <input type="text" name="critical_level" class="form-control" id="critical_level" placeholder="Critical Qty..." value="<?=$info['critical_level']?>" required>
                     </div>
                   </div>
                   <div class="form-group">
@@ -271,17 +287,6 @@
                         </select>       
                      </div>  
                     <?php endif ?>
-                  </div>
-                  <div class="form-group">
-                    <label for="dp" class="col-sm-2 col-md-2 control-label">DP</label>
-                    <div class="col-sm-10 col-md-4">
-                      <input type="text" name="dp" class="form-control" id="dp" placeholder="Dealer's Price. e.g 500.00" value="<?=$info['DP']?>" required>
-                    </div>
-
-                    <label for="srp" class="col-sm-2 col-md-2 control-label">SRP</label>
-                    <div class="col-sm-10 col-md-4">
-                      <input type="text" name="srp" class="form-control" id="srp" placeholder="Retail Price. e.g 1000.00" value="<?=$info['SRP']?>" required>
-                    </div>
                   </div>
                   <div class="form-group">
                     <label for="desc" class="col-sm-2 control-label">Description</label>
