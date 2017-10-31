@@ -147,6 +147,7 @@
               <?=form_open('exports/add_item')?>
                 <div class="input-group">
                   <input type="text" name="item" id="item" placeholder="Scan Barcode / Type to Search / Input ITEM ID or Serial..." class="form-control">
+                  <input type="hidden" name="exp_id" value="<?=$this->encryption->encrypt(0)?>" />                  
                   <div class="input-group-btn">
                     <button type="submit" class="btn btn-default"><i class="fa fa-shopping-cart"></i> Add Item</button>
                   </div>
@@ -155,6 +156,7 @@
               <?=form_close()?>
               <?=form_open('exports/update_items')?>
               <table class="table table-bordered">
+                <input type="hidden" name="exp_id" value="<?=$this->encryption->encrypt(0)?>" />                 
                 <thead>
                   <tr>
                     <th width="10%">Item ID</th>
@@ -167,14 +169,14 @@
                 </thead>
                 <?php if ($items): ?>
                 <tbody>
-                  <?php foreach ($items as $t): $qty[]=$t['qty']; $sub[]=($t['qty']*$t['DP']); ?>
+                  <?php foreach ($items as $t): $qty[]=$t['qty']; $sub[]=($t['qty']*$t['dp']); ?>
                     <tr>
                       <td><?=$t['item_id']?></td>
                       <td><?=$t['name']?></td>
                       <td><?=$t['unit']?></td>
-                      <td><?=$t['DP']?></td>
-                      <td><input type="number" name="qty[]" value="<?=$t['qty']?>" style="width: 60px"/></td>
-                      <td><?=($t['qty']*$t['DP'])?></td>
+                      <td><input type="number" name="dp[]" value="<?=$t['dp']?>" style="width: 60px" required/></td>                      
+                      <td><input type="number" name="qty[]" value="<?=$t['qty']?>" style="width: 60px" required/></td>
+                      <td><?=($t['qty']*$t['dp'])?></td>
                     </tr>
                     <input type="hidden" name="id[]" value="<?=$this->encryption->encrypt($t['item_id'])?>" />
                   <?php endforeach ?>

@@ -456,6 +456,7 @@ class Exports extends CI_Controller {
 			
 			//FORM VALIDATION
 			$this->form_validation->set_rules('item', 'Item', 'trim|required|callback_check_item');   
+			$this->form_validation->set_rules('exp_id', 'Export ID', 'trim|required');   
 		 
 		   if($this->form_validation->run() == FALSE)	{
 
@@ -464,16 +465,16 @@ class Exports extends CI_Controller {
 
 			} else {
 
-				$item = $this->item_model->view($this->input->post('item'))['id'];
-				$export_id = $this->encryption->decrypt($this->input->post('id'));
+				$item = $this->item_model->view($this->input->post('item'));
+				$export_id = $this->encryption->decrypt($this->input->post('exp_id'));
 
-				if($this->export_model->view_item($item, $export_id, $user['username'])) {
+				if($this->export_model->view_item($item['id'], $export_id, $user['username'])) {
 
-					$qty  = $this->export_model->view_item($item, $export_id, $user['username'])['qty']; //gets the value of the existing quantity
-					$action = $this->export_model->update_item_qty($item, ($qty+1), $export_id, $user['username']); // existing qty + 1; update quantity
+					$exp_item  = $this->export_model->view_item($item['id'], $export_id, $user['username']); //gets the value of the existing quantity
+					$action = $this->export_model->update_item_qty($item['id'], ($exp_item['qty']+1), $exp_item['dp'], $export_id, $user['username']); // existing qty + 1; update quantity
 
 				} else {
-					$action = $this->export_model->add_item($item, 1, '', $user['username']); //ID of the row	
+					$action = $this->export_model->add_item($item['id'], 1, $item['dp'], $export_id, $user['username']); //ID of the row	
 				}
 							
 
@@ -521,6 +522,7 @@ class Exports extends CI_Controller {
 			//FORM VALIDATION
 			$this->form_validation->set_rules('id[]', 'ID', 'trim|required');     
 			$this->form_validation->set_rules('qty[]', 'Quantity', 'trim|required');   
+			$this->form_validation->set_rules('dp[]', 'DP', 'trim|required');   
 		 
 		   if($this->form_validation->run() == FALSE)	{
 
@@ -534,8 +536,9 @@ class Exports extends CI_Controller {
 				foreach ($this->input->post('id') as $key => $item) {
 		                      
 		            $qty   = $this->input->post('qty')[$key];        
+		            $dp   = $this->input->post('dp')[$key];        
 
-		           	$this->export_model->update_item_qty($this->encryption->decrypt($item), $qty, $export_id, $userdata['username']);
+		           	$this->export_model->update_item_qty($this->encryption->decrypt($item), $qty, $dp, $export_id, $userdata['username']);
              
 		        }		
 		        

@@ -165,12 +165,13 @@ Class Export_Model extends CI_Model {
      * @param [type] $export_id [description]
      * @param [type] $user      [description]
      */
-    function add_item($item, $qty, $export_id, $user) {
+    function add_item($item, $qty, $dp, $export_id, $user) {
 
             $data = array(              
                 'item_id'     => $item,  
                 'export_id'   => $export_id,  
                 'qty'         => $qty,  
+                'dp'          => $dp,  
                 'user'        => $user               
              );
        
@@ -178,13 +179,14 @@ Class Export_Model extends CI_Model {
 
     }
 
-    function update_item_qty($item, $qty, $export_id, $user) {
+    function update_item_qty($item, $qty, $dp, $export_id, $user) {
 
             //if $qty > 0 - update row 
             if($qty) {
               
               $data = array(              
-                'qty'    => $qty                    
+                'qty'    => $qty,                    
+                'dp'    => $dp                    
              );
             
               $this->db->where('item_id', $item);
@@ -226,8 +228,8 @@ Class Export_Model extends CI_Model {
             items.id as item_id,
             items.name,
             items.category,
-            items.SRP,
-            items.DP,
+            items.srp,
+            export_items.dp,
             items.serial,
             items.unit
             ');          
