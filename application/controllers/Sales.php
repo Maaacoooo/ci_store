@@ -12,12 +12,6 @@ class Sales extends CI_Controller {
        $this->load->model('sales_model');
 	}	
 
-	public function test() {
-$number = 123;
-$txt = sprintf("%1\$.2f",$number);
-echo $txt;
-	}
-
 
 
 	public function index()		{
