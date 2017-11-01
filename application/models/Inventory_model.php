@@ -162,6 +162,7 @@ Class Inventory_Model extends CI_Model {
             ');
             
 
+            $this->db->where('item_inventory.qty >', 0);
             $this->db->where('items.is_deleted', 0);
             $this->db->limit($limit, (($id-1)*$limit));
 
@@ -191,6 +192,7 @@ Class Inventory_Model extends CI_Model {
         if($brand) {
               $this->db->where('items.brand', $brand);
         }
+        $this->db->where('item_inventory.qty >', 0);
         $this->db->where('is_deleted', 0);
         $this->db->join('items', 'items.id = item_inventory.item_id', 'left');
 

@@ -129,6 +129,7 @@ Class Location_Model extends CI_Model {
             ');            
             $this->db->limit($limit, (($id-1)*$limit));            
             $this->db->where('item_inventory.location', $location);
+            $this->db->where('item_inventory.qty >', 0);
 
             $query = $this->db->get("item_inventory");
 
@@ -140,11 +141,14 @@ Class Location_Model extends CI_Model {
     }
 
     function count_inventory($location) {
+
         $this->db->join('items', 'items.id = item_inventory.item_id', 'left');
-        $this->db->group_by('item_inventory.item_id');
+        
         $this->db->where('items.is_deleted', 0);
+        $this->db->where('item_inventory.qty >', 0);
         $this->db->where('item_inventory.location', $location);
         $this->db->select('items.id'); 
+
         return $this->db->count_all_results("item_inventory");
     }
 
