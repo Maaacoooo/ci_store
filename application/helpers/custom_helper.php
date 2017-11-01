@@ -185,6 +185,60 @@
 
 
 
+
+    /**
+     * Generates a Pretty Spaced Table useful for Logs or File writing
+     * @param  Array   $data    An array consisting of Row and Columns 
+     * @return String           This returns a single String for the whole table
+     */
+    function magictable($data) {
+        
+        $size_row = sizeof($data);
+        $size_col = sizeof($data[0]);
+
+        // SET THE COLUMN SIZES
+        for ($z=0; $z < $size_col; $z++) { 
+            $col_size[$z] = 0;
+        }
+
+        // GET THE MAX NUMBER OF CHARACTER //////////////////////////
+        $spaces = 0;
+
+        foreach ($data as $item) {
+            for ($z=0; $z < $size_col; $z++) { 
+
+                $char = sizeof(str_split($item[$z])); //count the characters of the string
+
+                if($col_size[$z] < $char) {
+                    $col_size[$z] = $char; //override space data
+                }
+            }
+        }
+        // COMPILE COLUMNS WITH WHITESPACES
+        foreach ($data as $item) {
+            for ($z=0; $z < $size_col; $z++) { 
+
+                $col_data = $item[$z];    
+
+                $white_space = $col_size[$z] - sizeof(str_split($item[$z])); //the white spaces;
+
+                for ($n=1; $n <= $white_space; $n++) { 
+                    $col_data .= " ";
+                }
+                $col_result[] = $col_data;
+            }
+            $row_result[] = implode(' | ',$col_result);
+            $col_result = array(); //reset data
+        }
+
+        //Return String
+        return implode("\n", $row_result);
+    }
+
+
+
+
+
   
 
 
