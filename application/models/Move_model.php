@@ -115,40 +115,28 @@ Class Move_Model extends CI_Model {
             $this->db->or_like('items.description', $q);
             $this->db->or_like('items.serial', $q);
             $this->db->or_like('items.id', $q);
+            $this->db->or_like('item_inventory.batch_id', $q);
             $this->db->group_end();
 
             $this->db->select('
             items.id,
             items.name,
-            items.unit
-              ');
+            items.unit,
+            item_inventory.batch_id,
+            item_inventory.qty,
+            item_inventory.dp,
+            item_inventory.srp
+            ');
 
             $this->db->join('items', 'items.id = item_inventory.item_id', 'left');
-            $this->db->group_by('item_inventory.item_id');
             $this->db->where('item_inventory.location', $location);
-
+            $this->db->where('item_inventory.qty >', 0);            
             $this->db->limit(15);
             $query = $this->db->get('item_inventory');
             
             return $query->result_array();
     }
 
-    function check_item($item, $location) {
-
-            $this->db->select('
-            items.id,
-            items.name,
-            items.unit
-              ');
-
-            $this->db->join('items', 'items.id = item_inventory.item_id', 'left');
-            $this->db->group_by('item_inventory.item_id');
-            $this->db->where('item_inventory.location', $location);
-            $this->db->where('item_inventory.item_id', $item);
-            $query = $this->db->get('item_inventory');
-            
-            return $query->row_array();
-    }
 
 
 
@@ -162,12 +150,14 @@ Class Move_Model extends CI_Model {
      * @param [type] $export_id [description]
      * @param [type] $user      [description]
      */
-    function add_item($item, $qty, $loc_id, $user) {
+    function add_item($item, $qty, $loc_id, $user, $dp, $srp) {
 
             $data = array(              
-                'item_id'     => $item,  
+                'batch_id'    => $item,  
                 'loc_id'      => $loc_id,  
                 'qty'         => $qty,  
+                'dp'          => $dp,  
+                'srp'         => $srp,  
                 'user'        => $user               
              );
        
@@ -184,7 +174,7 @@ Class Move_Model extends CI_Model {
                 'qty'    => $qty                    
              );
             
-              $this->db->where('item_id', $item);
+              $this->db->where('batch_id', $item);
               $this->db->where('user', $user);
               $this->db->where('move_id', $move_id);
               $this->db->where('loc_id', $loc_id);
@@ -192,7 +182,7 @@ Class Move_Model extends CI_Model {
 
             } else {
             
-              $this->db->where('item_id', $item);
+              $this->db->where('batch_id', $item);
               $this->db->where('user', $user);
               $this->db->where('move_id', $move_id);
               $this->db->where('loc_id', $loc_id);
@@ -228,7 +218,12 @@ Class Move_Model extends CI_Model {
             $this->db->join('item_inventory', 'item_inventory.batch_id = move_items.batch_id', 'left');
             $this->db->join('items', 'items.id = item_inventory.item_id', 'left');
             $this->db->select('
+            items.id as item_id,
+            move_items.batch_id,
             move_items.id,
+            move_items.qty,
+            move_items.dp,
+            move_items.srp,
             items.name,
             items.category,
             items.serial,

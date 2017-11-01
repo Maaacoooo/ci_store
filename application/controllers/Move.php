@@ -9,6 +9,7 @@ class Move extends CI_Controller {
        $this->load->model('move_model');
        $this->load->model('import_model');
        $this->load->model('user_model');
+       $this->load->model('inventory_model');
 	}	
 
 	public function index()		{
@@ -101,8 +102,11 @@ class Move extends CI_Controller {
 
 					if($this->input->post('destination')) {
 						foreach ($items as $i) {
-							$this->import_model->add_inventory($i['item_id'], $i['qty'], 'move', $move_id, $location_to); // add to actual inventory to destination
-							$this->import_model->add_inventory($i['item_id'], (($i['qty'])*-1), 'move', $move_id, $location_from); // remove item from actual inventory from
+							//Update Inventory from Sending Location
+							$this->inventory_model->add_inventory($i['item_id'], ($i['qty']*-1), $location_from, $i['srp'], $i['dp']);
+							//Update Inventory of Destination 
+							$this->inventory_model->add_inventory($i['item_id'], $i['qty'], $location_to, $i['srp'], $i['dp']);
+							
 						}
 
 						//Create Log Data
@@ -204,8 +208,8 @@ class Move extends CI_Controller {
 		      $result = $this->move_model->autocomplete_items($q, $location['title']);
 
 		      foreach($result as $row) {
-		      	$new_row['label']=htmlentities(stripslashes($row['name'] . '(' . $row['unit'].')'));
-	            $new_row['value']=htmlentities(stripslashes($row['id']));
+		      	$new_row['label']=htmlentities(stripslashes($row['batch_id'] . ' - ' . $row['name'] . ' (In Stock: ' . $row['qty']. ' ' . $row['unit']).' | DP:'. $row['dp'] . ' | SRP:' . $row['srp'] .')');
+	            $new_row['value']=htmlentities(stripslashes($row['batch_id']));
 	            $row_set[] = $new_row; //build an array
 	          }
 	          echo json_encode($row_set); //format the array into json data     
@@ -233,23 +237,28 @@ class Move extends CI_Controller {
 		 
 		   if($this->form_validation->run() == FALSE)	{
 
-				$this->session->set_flashdata('error', 'An Error has Occured!');
+		   		//Default Error Message if there is no existing Error Session Data
+		   		if(!($this->session->flashdata('error') || $this->session->flashdata('warning'))) {		   			
+					$this->session->set_flashdata('error', 'An Error has Occured!');
+		   		}
+
+		   		//Tab Activator
 				$this->session->set_flashdata('loc_item', '1');				
 
 				redirect($_SERVER['HTTP_REFERER'], 'refresh');
 
 			} else {
 
-				$item = $this->item_model->view($this->input->post('item'))['id'];
-				$location_id = $this->encryption->decrypt($this->input->post('id'));
+				$location = $this->location_model->view($this->encryption->decrypt($this->input->post('id'))); //get the location details
+				$item = $this->inventory_model->view_item($this->input->post('item'), $location['title']); //get the inventort details
 
-				if($this->move_model->view_item($item, $location_id, $user['username'])) {
+				if($this->move_model->view_item($item['batch_id'], $location['id'], $user['username'])) {
 
-					$qty  = $this->move_model->view_item($item, $location_id, $user['username'])['qty']; //gets the value of the existing quantity
-					$action = $this->move_model->update_item_qty($item, ($qty+1), $location_id, $user['username']); // existing qty + 1; update quantity
+					$qty  = $this->move_model->view_item($item['batch_id'], $location['id'], $user['username'])['qty']; //gets the value of the existing quantity
+					$action = $this->move_model->update_item_qty($item['batch_id'], ($qty+1), $location['id'], 0, $user['username']); // existing qty + 1; update quantity
 
 				} else {
-					$action = $this->move_model->add_item($item, 1, $location_id, $user['username']); //ID of the row	
+					$action = $this->move_model->add_item($item['batch_id'], 1, $location['id'], $user['username'], $item['dp'], $item['srp']); //ID of the row	
 				}
 							
 
@@ -271,19 +280,21 @@ class Move extends CI_Controller {
 
 
 	/**
-	 * Checks if ITEM Exist
+	 * Checks if ITEM Exist in the Storage Inventory
 	 * @param  [type] $item [description]
 	 * @return [type]       [description]
 	 */
 	function check_item($batch) {
 
 		$id = $this->encryption->decrypt($this->input->post('id'));
-		$location = $this->location_model->view($id);
+		$location = $this->location_model->view($id)['title'];
 
-		if($this->inventory_model->view_item($batch)) {
+		$item = $this->inventory_model->view_item($batch, $location);
+
+		if($item['qty'] > 0) {
 			return TRUE;
 		} else {
-			$this->form_validation->set_message('check_item', 'No Item Record Found!');		
+			$this->session->set_flashdata('error', 'No Item Record Found!');		
 			return FALSE;
 		}
 	}
@@ -297,11 +308,18 @@ class Move extends CI_Controller {
 			
 			//FORM VALIDATION
 			$this->form_validation->set_rules('id[]', 'ID', 'trim|required');     
-			$this->form_validation->set_rules('qty[]', 'Quantity', 'trim|required');   
+			$this->form_validation->set_rules('qty[]', 'Quantity', 'trim|required|callback_check_quantity');   
 		 
 		   if($this->form_validation->run() == FALSE)	{
-				$this->session->set_flashdata('loc_item', '1');				
-				$this->session->set_flashdata('error', 'An Error has Occured!');
+
+				//Default Error Message if there is no existing Error Session Data
+		   		if(!($this->session->flashdata('error') || $this->session->flashdata('warning'))) {		   			
+					$this->session->set_flashdata('error', 'An Error has Occured!');
+		   		}
+
+		   		//Tab Activator
+				$this->session->set_flashdata('loc_item', '1');	
+
 				redirect($_SERVER['HTTP_REFERER'], 'refresh');
 
 			} else {
@@ -327,6 +345,34 @@ class Move extends CI_Controller {
 			$this->session->set_flashdata('error', 'You need to login!');
 			redirect('dashboard/login', 'refresh');
 		}
+		
+	}
+
+
+	/**
+	 * Checks the Current Quantity 
+	 * @return [type] [description]
+	 */
+	function check_quantity() {
+
+		$userdata = $this->session->userdata('admin_logged_in'); //it's pretty clear it's a userdata
+		$user = $this->user_model->userdetails($userdata['username']); //fetches users record
+
+		foreach ($this->input->post('qty') as $key => $qty) {
+			// POST DATA 
+			$batch_id = $this->encryption->decrypt($this->input->post('id')[$key]);
+			//Inventory Data
+			$inv_qty = $this->inventory_model->view_item($batch_id, $user['location']); //fetches qty
+
+			if($this->input->post('qty')[$key] > $inv_qty['qty']) {
+				//returns false on Error
+				$this->session->set_flashdata('warning', 'Check Quantity of <span class="badge bg-blue">' . $inv_qty['batch_id'] . '</span> Current Items in Stock: <span class="badge bg-red">'. $inv_qty['qty'] . '</span>');
+				return FALSE;
+			} 
+		}
+
+		return TRUE;
+		
 		
 	}
 

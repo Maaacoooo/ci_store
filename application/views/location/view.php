@@ -60,9 +60,18 @@
               <h4><i class="icon fa fa-ban"></i> Oops!</h4>
               <?=$this->session->flashdata('error')?>
             </div>
-                       
-        <?php 
+          <?php 
             endif; //error end
+            //WARNING ACTION                          
+            if($this->session->flashdata('warning')): ?>
+            <div class="alert alert-warning alert-dismissible">
+              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+              <h4><i class="icon fa fa-check"></i> Uhoh!</h4>
+              <?=$this->session->flashdata('warning')?>
+            </div>
+                 
+        <?php 
+            endif; //error warning
             //SUCCESS ACTION                          
             if($this->session->flashdata('success')): ?>
             <div class="alert alert-success alert-dismissible">
@@ -247,7 +256,7 @@
                 <div class="col-md-12 table-responsive">
                   <?=form_open('move/add_item')?>
                     <div class="input-group">
-                      <input type="text" name="item" id="item" placeholder="Scan Barcode / Type to Search / Input ITEM ID or Serial..." class="form-control">
+                      <input type="text" name="item" id="item" placeholder="Scan Barcode / Type to Search / Input ITEM ID or Serial..." class="form-control" <?php if(!$this->session->flashdata('loc_item'))echo'autofocus'; ?>>
                       <input type="hidden" name="id" value="<?=$this->encryption->encrypt($info['id'])?>" />
                       <div class="input-group-btn">
                         <button type="submit" class="btn btn-default"><i class="fa fa-shopping-cart"></i> Add Item</button>
@@ -260,31 +269,35 @@
                     <table class="table table-bordered">
                       <thead>
                         <tr>
+                          <th width="10%">Batch ID</th>
                           <th width="10%">Item ID</th>
                           <th width="40%">Item Name</th>
                           <th>Unit</th>
                           <th>DP</th>
+                          <th>SRP</th>
                           <th>QTY</th>
-                          <th>Sub Total</th>
+                          <th>Total DP</th>
                         </tr>
                       </thead>
                       <?php if ($items): ?>
                       <tbody>
-                        <?php foreach ($items as $t): $qty[]=$t['qty']; $sub[]=($t['qty']*$t['DP']); ?>
+                        <?php foreach ($items as $t): $qty[]=$t['qty']; $sub[]=($t['qty']*$t['dp']); ?>
                           <tr>
+                            <td><?=$t['batch_id']?></td>
                             <td><?=$t['item_id']?></td>
                             <td><?=$t['name']?></td>
                             <td><?=$t['unit']?></td>
-                            <td><?=$t['DP']?></td>
+                            <td class="text-red"><?=$t['dp']?></td>
+                            <td class="text-green"><?=$t['srp']?></td>
                             <td><input type="number" name="qty[]" value="<?=$t['qty']?>" style="width: 60px"/></td>
-                            <td><?=($t['qty']*$t['DP'])?></td>
+                            <td><?=($t['qty']*$t['dp'])?></td>
                           </tr>
-                          <input type="hidden" name="id[]" value="<?=$this->encryption->encrypt($t['item_id'])?>" />
+                          <input type="hidden" name="id[]" value="<?=$this->encryption->encrypt($t['batch_id'])?>" />
                         <?php endforeach ?>
                       </tbody>
                       <tfoot>
                         <tr>
-                          <th colspan="4" class="text-right">Total</th>
+                          <th colspan="6" class="text-right">Total</th>
                           <th class="bg-success text-danger"><?=array_sum($qty)?></th><!-- /.bg-success text-danger -->
                           <th class="bg-success text-danger"><?=array_sum($sub)?></th><!-- /.bg-success text-danger -->
                         </tr>
@@ -368,30 +381,34 @@
                 <table class="table table-bordered">
                       <thead>
                         <tr>
+                          <th width="15%">Batch ID</th>
                           <th width="10%">Item ID</th>
                           <th width="40%">Item Name</th>
                           <th>Unit</th>
                           <th>DP</th>
+                          <th>SRP</th>
                           <th>QTY</th>
                           <th>Sub Total</th>
                         </tr>
                       </thead>
                       <?php if ($items): ?>
                       <tbody>
-                        <?php foreach ($items as $t): $qty[]=$t['qty']; $sub[]=($t['qty']*$t['DP']); ?>
+                        <?php foreach ($items as $t): $qty[]=$t['qty']; $sub[]=($t['qty']*$t['dp']); ?>
                           <tr>
+                            <td><?=$t['batch_id']?></td>
                             <td><?=$t['item_id']?></td>
                             <td><?=$t['name']?></td>
                             <td><?=$t['unit']?></td>
-                            <td><?=$t['DP']?></td>
+                            <td class="text-red"><?=$t['dp']?></td>
+                            <td class="text-green"><?=$t['srp']?></td>
                             <td><?=$t['qty']?></td>
-                            <td><?=($t['qty']*$t['DP'])?></td>
+                            <td><?=($t['qty']*$t['dp'])?></td>
                           </tr>                          
                         <?php endforeach ?>
                       </tbody>
                       <tfoot>
                         <tr>
-                          <th colspan="4" class="text-right">Total</th>
+                          <th colspan="6" class="text-right">Total</th>
                           <th class="bg-success text-danger"><?=array_sum($qty)?></th><!-- /.bg-success text-danger -->
                           <th class="bg-success text-danger"><?=array_sum($sub)?></th><!-- /.bg-success text-danger -->
                         </tr>
