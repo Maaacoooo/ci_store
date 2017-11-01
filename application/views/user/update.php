@@ -126,7 +126,7 @@
             </ul>
             <div class="tab-content">
               <div class="tab-pane <?php if(!($flash_error || $flash_success || $flash_valid))echo'active'?>" id="activity">
-                <h4 class="title">Last 50 Activity</h4>
+                <h4 class="title">Last 50 Activity <small class="pull-right"><a href="<?=base_url('users/update/'.$info['username'].'/download_logs')?>"><i class="fa fa-download"></i> Download all Logs</a></small></h4>
                 <?php if ($logs): ?>
                 <table class="table table-condensed">
                   <thead>

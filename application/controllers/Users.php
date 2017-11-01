@@ -146,6 +146,22 @@ class Users extends CI_Controller {
 			$data['logs']		= $this->logs_model->fetch_user_logs($id, 50);
 			$data['title'] 		= $data['info']['name'];
 
+			//Download Log Data 
+			if ($this->uri->segment(4) == 'download_logs') {
+
+				$log_data = $this->logs_model->fetch_user_logs($id, NULL);
+
+		        foreach ($log_data as $lg) {
+		        	$logs[] = (explode(';', (implode(";", $lg))));
+		        }
+
+		        $upload_path = checkDir('./uploads/logs/'.$id.'/');
+		        $file_path = $upload_path.$id.'_'.date('Y-m-d_H-i-s').'.log';
+
+		        write_file($file_path, magictable($logs));
+		        force_download($file_path, NULL);
+			}
+
 			//Validate if record exist
 			 //IF NO ID OR NO RESULT, REDIRECT
 				if(!$id || !$data['info'] || $data['info']['is_deleted']) {
