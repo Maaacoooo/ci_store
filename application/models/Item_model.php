@@ -26,7 +26,8 @@ Class Item_Model extends CI_Model {
                 'description'    => $this->input->post('desc'),  
                 'serial'         => $this->input->post('serial'),
                 'SRP'            => $this->input->post('srp'),
-                'DP'             => $this->input->post('dp')
+                'DP'             => $this->input->post('dp'),
+                'critical_level' => $this->input->post('critical_level')
              );
        
             $this->db->insert('items', $data);    
@@ -43,7 +44,8 @@ Class Item_Model extends CI_Model {
                 'brand'          => $brand,  
                 'unit'           => $this->input->post('unit'),  
                 'description'    => $this->input->post('desc'),  
-                'serial'         => $this->input->post('serial')
+                'serial'         => $this->input->post('serial'),
+                'critical_level' => $this->input->post('critical_level')
              );
        
             
