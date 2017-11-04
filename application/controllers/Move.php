@@ -106,7 +106,14 @@ class Move extends CI_Controller {
 							$this->inventory_model->add_inventory($i['item_id'], ($i['qty']*-1), $location_from, $i['srp'], $i['dp']);
 							//Update Inventory of Destination 
 							$this->inventory_model->add_inventory($i['item_id'], $i['qty'], $location_to, $i['srp'], $i['dp']);
-							
+
+							//Save Inventory Logs
+							$log[] = array(
+							'user' 		=> 	$userdata['username'],
+							'tag' 		=> 	'inventory',
+							'tag_id'	=> 	$batch_id,
+							'action' 	=> 	'Moved ' . $inv['qty'] . ' items from ' . $location_from . ' to ' . $location_to
+							);
 						}
 
 						//Create Log Data
