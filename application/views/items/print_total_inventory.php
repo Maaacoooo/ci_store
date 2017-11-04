@@ -14,7 +14,7 @@
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
-<body onload="window.print();">
+<body onload="#window.print();">
 <div class="wrapper">
   <!-- Main content -->
   <section class="invoice">
@@ -36,12 +36,14 @@
         <table class="table table-striped">
           <thead>
           <tr>
-            <th></th>
+              <th></th>
+              <th>Batch ID</th>
+              <th>Location</th>
               <th>Item ID</th>
               <th>Name</th>
-              <th>Serial</th>
               <th>Category</th>
               <th>Brand</th>
+              <th>Unit</th>
               <th>DP</th>
               <th>SRP</th>
               <th>QTY</th>
@@ -52,14 +54,24 @@
             <?php foreach ($items as $item): $qty[]=$item['qty'];?>
             <tr>
               <td class="text-center"><?=$x++?>.</td>
+              <td><?=$item['batch_id']?></td>
+              <td><?=$item['location']?></td>
               <td><?=$item['id']?></td>
               <td><?=$item['name']?></td>
-              <td><?=$item['serial']?></td>
               <td><?=$item['category']?></td>
               <td><?=$item['brand']?></td>
-              <td><?=$item['DP']?></td>
-              <td><?=$item['SRP']?></td>
-              <td><?=$item['qty']?></td>              
+              <td class="text-blue"><?=$item['unit']?></td>
+              <td class="text-red"><?=$item['DP']?></td>
+              <td class="text-green"><?=$item['SRP']?></td>
+              <td>
+                <?php if ($item['qty'] <= 10 || $item['qty'] <= $item['critical_level']): ?>
+                  <span class="badge bg-red"><?=$item['qty']?></span>                    
+                <?php elseif($item['qty'] <= 20 || $item['qty'] <= ($item['critical_level']*1.3)): ?>                                      
+                  <span class="badge bg-yellow"><?=$item['qty']?></span>
+                <?php else: ?>
+                  <?=$item['qty']?>
+                <?php endif ?>
+              </td>              
             </tr>
             <?php endforeach ?>
             <?php else: ?>
@@ -90,7 +102,7 @@
           <table class="table">
             <tr>
               <th style="width:50%">Total Quantity:</th>
-              <td><?=array_sum($qty)?></td>
+              <td><h3 class="text-red"><?=array_sum($qty)?></h3></td>
             </tr>            
           </table>
         </div>

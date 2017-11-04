@@ -390,8 +390,8 @@ class Items extends CI_Controller {
 			$data['user'] = $this->user_model->userdetails($userdata['username']); //fetches users record
 
 			//Page Data 
-			$data['items']		= $this->item_model->total_inventory();
-			$data['total_items'] = $this->item_model->count_items('', '');
+			$data['items']		= $this->inventory_model->fetch_items(NULL, NULL, NULL, NULL);
+			$data['total_items'] = $this->inventory_model->count_items(NULL, NULL);
 			$data['title'] 		= 'Total Inventory Report';
 
 		

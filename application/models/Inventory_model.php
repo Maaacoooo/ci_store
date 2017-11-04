@@ -164,6 +164,7 @@ Class Inventory_Model extends CI_Model {
 
             $this->db->where('item_inventory.qty >', 0);
             $this->db->where('items.is_deleted', 0);
+            $this->db->order_by('item_inventory.location');
             $this->db->limit($limit, (($id-1)*$limit));
 
             $query = $this->db->get("item_inventory");
