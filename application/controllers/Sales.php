@@ -43,7 +43,7 @@ class Sales extends CI_Controller {
 				//Paginated data				            
 		   		$config['num_links'] = 5;
 				$config['base_url'] = base_url('/sales/index/');
-				$config["total_rows"] = $this->sales_model->count_sales($search, $date);
+				$config["total_rows"] = $this->sales_model->count_sales($search, $date, NULL);
 				$config['per_page'] = 20;				
 				$this->load->config('pagination'); //LOAD PAGINATION CONFIG
 
@@ -54,7 +54,7 @@ class Sales extends CI_Controller {
 			       $page = 1;		               
 			    }
 
-			    $data["results"] = $this->sales_model->fetch_sales($config["per_page"], $page, $search, $date);
+			    $data["results"] = $this->sales_model->fetch_sales($config["per_page"], $page, $search, $date, NULL);
 			    $str_links = $this->pagination->create_links();
 			    $data["links"] = explode('&nbsp;',$str_links );
 
@@ -104,8 +104,8 @@ class Sales extends CI_Controller {
 				$data['title'] 		= 'Summary Sales Report -' . $date;
 
 
-				$config["total_rows"] = $this->sales_model->count_sales('', $date);
-			    $data["results"] = $this->sales_model->fetch_sales(0, 0, '', $date);
+				$config["total_rows"] = $this->sales_model->count_sales('', $date, 2);
+			    $data["results"] = $this->sales_model->fetch_sales(0, 0, '', $date, 2);
 
 			    //GET TOTAL RESULT
 			    $data['total_result'] = $config["total_rows"];

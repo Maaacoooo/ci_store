@@ -89,7 +89,7 @@ Class Sales_Model extends CI_Model {
 
 
 
-    function fetch_sales($limit, $id, $search, $date) {
+    function fetch_sales($limit, $id, $search, $date, $status) {
 
             if($search) {
               $this->db->like('sales.customer', $search);
@@ -108,6 +108,10 @@ Class Sales_Model extends CI_Model {
                 users.name as user,
                 SUM((item_inventory.srp * sale_items.qty) - (sale_items.discount * sale_items.qty)) as totalAmt                
             ');
+
+            if(!is_null($status)) {
+              $this->db->where('sales.status', $status);
+            }
 
             if(($date)) {
                $arr_date = (explode("-",$date));
@@ -140,11 +144,15 @@ Class Sales_Model extends CI_Model {
      * Returns the total number of rows of users
      * @return int       the total rows
      */
-    function count_sales($search, $date) {
+    function count_sales($search, $date, $status) {
 
         if($search) {
               $this->db->like('sales.customer', $search);
         }
+
+        if(!is_null($status)) {
+              $this->db->where('sales.status', $status);
+          }
 
          if(($date)) {
                $arr_date = (explode("-",$date));
