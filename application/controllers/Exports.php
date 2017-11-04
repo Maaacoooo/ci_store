@@ -364,7 +364,7 @@ class Exports extends CI_Controller {
 					}			
 					
 				}	
-			} elseif($data['user']['usertype'] == 'Administrator') {
+			} elseif($data['user']['usertype'] == 'Administrator' || $data['user']['brand'] == $data['info']['brand']) {
 				//View
 				$data['items'] = $this->export_model->fetch_export_items($id, $data['info']['username']);				
 				$data['title'] = 'Export #'.prettyID($data['info']['id']);						
