@@ -221,8 +221,8 @@
                 <h3 class="text-success" id="change"><?=decimalize($info['amount_tendered'] - array_sum($sub))?></h3>
               </div><!-- /.form-group -->
               <div class="form-group">
-                <button class="btn btn-block btn-lg btn-success"><i class="fa fa-money"></i> Update Sale</button>
-              </div><!-- /.form-group -->
+                <button class="btn btn-block btn-lg btn-success" type="submit"><i class="fa fa-money"></i> Update Sale</button>
+              </div><!-- /.form-group -->              
               <input type="hidden" name="id" value="<?=$this->encryption->encrypt($info['id'])?>" />
             <?=form_close()?>
             </div>

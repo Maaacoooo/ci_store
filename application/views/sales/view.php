@@ -183,6 +183,18 @@
                    <td class="text-green bg-warning"><strong><?=($info['amount_tendered'] - (array_sum($sub)))?></strong></td>
                  </tr>
                  <tr>
+                   <th>Sale Satus</th>
+                   <td>
+                     <?php if ($info['status'] == 1): ?>
+                      <span class="label bg-yellow">Pending</span>
+                     <?php elseif($info['status'] == 2): ?>
+                      <span class="label bg-green">Served</span>
+                     <?php elseif($info['status'] == 0): ?>
+                      <span class="label bg-black">Cancelled</span>
+                     <?php endif ?>
+                   </td>
+                 </tr>
+                 <tr>
                    <th>Prepared by</th>
                    <td class="text-blue"><?=$info['user']?></td>
                  </tr>
@@ -200,6 +212,11 @@
                 <tr>
                    <td colspan="2">
                      <a href="<?=base_url('sales/update/'.$info['id'])?>" class="btn btn-lg btn-flat btn-block btn-warning">Update Sale</a>
+                   </td>
+                 </tr>
+                 <tr>
+                   <td colspan="2">
+                      <button class="btn btn-block btn-sm btn-link" type="button" data-toggle="modal" data-target="#modalCancel"><i class="fa fa-trash"></i> Cancel Sale</button>
                    </td>
                  </tr>
                  <?php endif ?>
@@ -241,6 +258,37 @@
               <div class="modal-footer">
                 <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-success">Verify Sale</button>
+              </div>
+            </div>
+            <!-- /.modal-content -->
+           <?=form_close()?>
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->   
+
+
+      <div class="modal modal fade" id="modalCancel">
+          <div class="modal-dialog">
+          <?=form_open('sales/verify')?>
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"><i class="fa fa-trash"></i> Cancel Sale</h4>
+              </div>
+              <div class="modal-body">
+                <p>
+                Are you sure to <span class="strong text-red">CANCEL</span> this Sale? <br />
+                Items listed will not be reflected in the actual inventory<br />
+                Note that <strong class="text-danger">AFTER SUBMITTING</strong>, you <strong class="text-danger">CANNOT UNDO</strong> this action.
+                </p>
+            
+              </div>
+               <input type="hidden" name="id" value="<?=$this->encryption->encrypt($info['id'])?>" />              
+               <input type="hidden" name="status" value="<?=$this->encryption->encrypt(0)?>" />              
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-danger btn-flat"><i class="fa fa-trash"></i> Cancel Sale</button>
               </div>
             </div>
             <!-- /.modal-content -->

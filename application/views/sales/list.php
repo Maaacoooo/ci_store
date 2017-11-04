@@ -128,6 +128,9 @@
                       <td><a href="<?=base_url('sales/view/'.$res['id'])?>">#<?=prettyID($res['id'])?>
                         <?php if ($res['status'] == 1): ?>
                           <span class="label label-warning">PENDING</span>
+                        <?php elseif ($res['status'] == 0):?>
+                          <span class="label bg-black">Cancelled</span>                          
+                        
                         <?php endif ?>
                       </a></td>   
                       <td><a href="<?=base_url('sales/view/'.$res['id'])?>"><?=$res['user']?></a></td>             
@@ -174,7 +177,8 @@
                 <h4 class="modal-title">Print Sales Report</h4>
               </div>
               <div class="modal-body">
-                <p>When printing a Summary Sales Report, select the range of date.</p>
+                <p>When printing a Summary Sales Report, select the range of date.<br>
+                Pending and Cancelled Sales are excluded in the report</p>
                 <div class="input-group">
                   <div class="input-group-addon">
                     <i class="fa fa-calendar"></i>
