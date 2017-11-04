@@ -70,6 +70,11 @@ class Imports extends CI_Controller {
 
 	}
 
+
+	/**
+	 * Copies an Export to Import
+	 * @return [type] [description]
+	 */
 	public function create()		{
 
 		$userdata = $this->session->userdata('admin_logged_in'); //it's pretty clear it's a userdata
@@ -189,6 +194,14 @@ class Imports extends CI_Controller {
 							'tag' 		=> 	'item',
 							'tag_id'	=> 	$inv['item_id'],
 							'action' 	=> 	'Updated Inventory - Batch ' . $batch_id
+							);
+
+							//Save Inventory Logs
+							$log[] = array(
+							'user' 		=> 	$userdata['username'],
+							'tag' 		=> 	'inventory',
+							'tag_id'	=> 	$batch_id,
+							'action' 	=> 	'Imported ' . $inv['qty'] . ' items in ' . $location['title']
 							);
 							//Update Item Information
 							$this->item_model->update_prices($inv['item_id'], $inv['srp'], $inv['dp']);
