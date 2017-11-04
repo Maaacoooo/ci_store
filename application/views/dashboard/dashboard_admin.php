@@ -135,7 +135,7 @@
       <!-- /.box -->
 
 
-      <!-- Default box -->
+      <!-- Pending Request box -->
       <div class="box box-warning">
         <div class="box-header with-border">
           <h3 class="box-title">Pending Requests</h3>
@@ -162,6 +162,61 @@
                   <td><a href="<?=base_url('requests/view/'.$pen_req['id'])?>"><?=$pen_req['brand']?></a></td>
                   <td><a href="<?=base_url('requests/view/'.$pen_req['id'])?>"><?=$pen_req['created_at']?></a></td>
                   <td><a href="<?=base_url('requests/view/'.$pen_req['id'])?>"><?=$pen_req['user']?></a></td>
+                </tr>
+              <?php endforeach ?>
+            </tbody>
+          </table><!-- /.table table-condensed table-striped -->  
+          <?php else: ?>
+            <div class="callout callout-warning">
+              <h4>No Pending Requests</h4>
+              <p>You have no Pending Requests.</p>
+            </div>
+          <?php endif ?>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer">
+        </div>
+        <!-- /.box-footer-->
+      </div>
+      <!-- /.box -->
+
+
+      <!-- Default box -->
+      <div class="box box-danger">
+        <div class="box-header with-border">
+          <h3 class="box-title">Critical Inventory</h3>
+          <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>      
+          </div>
+        </div>
+        <div class="box-body">
+          <?php if ($items): ?>
+          <table class="table table-condensed table-striped table-hover">
+            <thead>
+              <tr>
+                <th>Batch ID</th>
+                <th>Item ID</th>
+                <th>Location</th>
+                <th>Brand</th>
+                <th>Category</th>
+                <th>Unit</th>
+                <th>DP</th>
+                <th>SRP</th>
+                <th>QTY</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php foreach ($items as $item): ?>
+                <tr>
+                  <td><a href="<?=base_url('items/view/'.$item['id'].'/batch/'.$item['batch_id'])?>"><?=$item['batch_id']?></a></td>
+                  <td><a href="<?=base_url('items/view/'.$item['id'].'/batch/'.$item['batch_id'])?>"><?=$item['id']?></a></td>
+                  <td><a href="<?=base_url('items/view/'.$item['id'].'/batch/'.$item['batch_id'])?>"><?=$item['location']?></a></td>
+                  <td><a href="<?=base_url('items/view/'.$item['id'].'/batch/'.$item['batch_id'])?>"><?=$item['brand']?></a></td>
+                  <td><a href="<?=base_url('items/view/'.$item['id'].'/batch/'.$item['batch_id'])?>"><?=$item['category']?></a></td>
+                  <td><a href="<?=base_url('items/view/'.$item['id'].'/batch/'.$item['batch_id'])?>"><?=$item['unit']?></a></td>
+                  <td><a class="text-red" href="<?=base_url('items/view/'.$item['id'].'/batch/'.$item['batch_id'])?>"><?=$item['dp']?></a></td>
+                  <td><a class="text-green" href="<?=base_url('items/view/'.$item['id'].'/batch/'.$item['batch_id'])?>"><?=$item['srp']?></a></td>
+                  <td><a href="<?=base_url('items/view/'.$item['id'].'/batch/'.$item['batch_id'])?>"><span class="badge bg-red"><?=$item['qty']?></span></a></td>
                 </tr>
               <?php endforeach ?>
             </tbody>

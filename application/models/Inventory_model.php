@@ -201,6 +201,39 @@ Class Inventory_Model extends CI_Model {
 
 
 
+    function critical_inventory() {
+
+            $this->db->join('item_inventory', 'item_inventory.item_id = items.id', 'left');
+            $this->db->select('
+            items.id,
+            items.name,
+            items.brand,
+            items.serial,
+            items.category,
+            item_inventory.srp,
+            item_inventory.dp,
+            items.description,
+            items.unit,
+            items.critical_level,
+            item_inventory.qty,
+            item_inventory.location,
+            item_inventory.batch_id
+            ');
+            
+
+            $this->db->where('item_inventory.qty <= items.critical_level');
+            $this->db->where('items.is_deleted', 0);
+            $query = $this->db->get("items");
+
+            if ($query->num_rows() > 0) {
+                return $query->result_array();
+            }
+            return false;
+
+    }
+
+
+
   
 
 }

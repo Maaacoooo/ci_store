@@ -10,6 +10,7 @@ class Dashboard extends CI_Controller {
        $this->load->model('export_model');
        $this->load->model('item_model');
        $this->load->model('request_model');
+       $this->load->model('inventory_model');
 	}	
 
 
@@ -29,7 +30,9 @@ class Dashboard extends CI_Controller {
 
 				$data['brands']				= $this->item_model->fetch_brand();
 				$data['intransit_exports'] 	= $this->export_model->fetch_exports(0, 0, 0, 0, 2);				
-				$data['pending_requests'] 	= $this->request_model->fetch_requests(0, 0, NULL, NULL, 1);				
+				$data['pending_requests'] 	= $this->request_model->fetch_requests(0, 0, NULL, NULL, 1);		
+				$data['items']				= $this->inventory_model->critical_inventory();
+
 				$this->load->view('dashboard/dashboard_admin', $data);						
 
 			} else {
