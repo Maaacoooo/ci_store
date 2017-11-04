@@ -148,7 +148,9 @@
                     <?php foreach ($inventory as $inv): ?>
                     <?php $qty[] = $inv['qty']; ?>
                     <tr>
-                      <td><?=$inv['batch_id']?></td>
+                      <td>
+                        <a href="<?=current_url().'/batch/'.$inv['batch_id']?>"><?=$inv['batch_id']?></a>
+                      </td>
                       <td><?=$inv['location']?></td>
                       <td class="text-yellow"><?=$inv['dp']?></td>
                       <td class="text-green"><?=$inv['srp']?></td>

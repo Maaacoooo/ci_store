@@ -116,16 +116,16 @@
             <tbody>
               <?php foreach ($results as $res): ?>
                 <tr>
-                  <td><a href="<?=base_url('items/view/'.$res['id'])?>"><?=$res['batch_id']?></a></td>
-                  <td><a class="text-info strong" href="<?=base_url('items/view/'.$res['id'])?>"><?=$res['location']?></a></td>
-                  <td><a href="<?=base_url('items/view/'.$res['id'])?>"><?=$res['id']?></a></td>
-                  <td><a href="<?=base_url('items/view/'.$res['id'])?>"><?=$res['name']?></a></td>
-                  <td><a href="<?=base_url('items/view/'.$res['id'])?>"><?=$res['unit']?></a></td>
-                  <td><a href="<?=base_url('items/view/'.$res['id'])?>"><?=$res['brand']?></a></td>
-                  <td><a href="<?=base_url('items/view/'.$res['id'])?>"><?=$res['category']?></a></td>
-                  <td><a class="text-green strong" href="<?=base_url('items/view/'.$res['id'])?>"><?=$res['SRP']?></a></td>
-                  <td><a class="text-yellow strong" href="<?=base_url('items/view/'.$res['id'])?>"><?=$res['DP']?></a></td>
-                  <td><a href="<?=base_url('items/view/'.$res['id'])?>">
+                  <td><a href="<?=base_url('items/view/'.$res['id'].'/batch/'.$res['batch_id'])?>"><?=$res['batch_id']?></a></td>
+                  <td><a class="text-info strong" href="<?=base_url('items/view/'.$res['id'].'/batch/'.$res['batch_id'])?>"><?=$res['location']?></a></td>
+                  <td><a href="<?=base_url('items/view/'.$res['id'].'/batch/'.$res['batch_id'])?>"><?=$res['id']?></a></td>
+                  <td><a href="<?=base_url('items/view/'.$res['id'].'/batch/'.$res['batch_id'])?>"><?=$res['name']?></a></td>
+                  <td><a href="<?=base_url('items/view/'.$res['id'].'/batch/'.$res['batch_id'])?>"><?=$res['unit']?></a></td>
+                  <td><a href="<?=base_url('items/view/'.$res['id'].'/batch/'.$res['batch_id'])?>"><?=$res['brand']?></a></td>
+                  <td><a href="<?=base_url('items/view/'.$res['id'].'/batch/'.$res['batch_id'])?>"><?=$res['category']?></a></td>
+                  <td><a class="text-green strong" href="<?=base_url('items/view/'.$res['id'].'/batch/'.$res['batch_id'])?>"><?=$res['SRP']?></a></td>
+                  <td><a class="text-yellow strong" href="<?=base_url('items/view/'.$res['id'].'/batch/'.$res['batch_id'])?>"><?=$res['DP']?></a></td>
+                  <td><a href="<?=base_url('items/view/'.$res['id'].'/batch/'.$res['batch_id'])?>">
                     <?php if ($res['qty'] <= 10 || $res['qty'] <= $res['critical_level']): ?>
                       <span class="badge bg-red"><?=$res['qty']?></span>                    
                     <?php elseif($res['qty'] <= 20 || $res['qty'] <= ($res['critical_level']*1.3)): ?>                                      

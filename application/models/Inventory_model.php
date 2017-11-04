@@ -222,6 +222,7 @@ Class Inventory_Model extends CI_Model {
             
 
             $this->db->where('item_inventory.qty <= items.critical_level');
+            $this->db->where('item_inventory.qty >', 0);
             $this->db->where('items.is_deleted', 0);
             $query = $this->db->get("items");
 

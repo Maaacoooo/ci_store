@@ -66,58 +66,8 @@ class Items extends CI_Controller {
 		    $data['total_result'] = $config["total_rows"];
 		    //END PAGINATION		
 		
-			//Form Validation for user
-			$this->form_validation->set_rules('name', 'Item Name', 'trim|required'); 
-			$this->form_validation->set_rules('serial', 'Serial No', 'trim|is_unique[items.serial]'); 
-			$this->form_validation->set_rules('category', 'Category', 'trim|required');  
-			$this->form_validation->set_rules('unit', 'Unit', 'trim|required'); 			
-			$this->form_validation->set_rules('desc', 'Description', 'trim'); 
-			$this->form_validation->set_rules('srp', 'SRP', 'trim|decimal'); 
-			$this->form_validation->set_rules('dp', 'DP', 'trim|decimal'); 
-
-			if($data['user']['usertype'] == 'Administrator') {
-				$this->form_validation->set_rules('brand', 'Brand', 'trim|required'); 				
-			}
-			
-
-			if($this->form_validation->run() == FALSE)	{
-					$this->load->view('items/inventory', $data);
-				} else {	
-					
-					if($brand) {
-						$act = $this->item_model->create($brand);
-					} else {
-						$act = $this->item_model->create($this->input->post('brand'));
-					}
-
-					//Proceed saving user				
-					if($act) {			
-
-						$item_id = $act; //fetch last insert case Row ID
-						// Save Log Data ///////////////////				
-
-						$log[] = array(
-							'user' 		=> 	$userdata['username'],
-							'tag' 		=> 	'item',
-							'tag_id'	=> 	$item_id,
-							'action' 	=> 	'Product Registration'
-							);
-
+			$this->load->view('items/inventory', $data);
 				
-						//Save log loop
-						foreach($log as $lg) {
-							$this->logs_model->create_log($lg['user'], $lg['tag'], $lg['tag_id'], $lg['action']);				
-						}		
-						////////////////////////////////////
-					
-						$this->session->set_flashdata('success', 'Product Registered!');
-						redirect($_SERVER['HTTP_REFERER'], 'refresh');
-					} else {
-						//failure
-						$this->session->set_flashdata('error', 'Error occured!');
-						redirect($_SERVER['HTTP_REFERER'], 'refresh');
-					}		
-			}
 		
 		} else {
 
@@ -257,7 +207,6 @@ class Items extends CI_Controller {
 			$data['inventory']		= $this->item_model->fetch_item_inventory($id);			
 
 			$data['info']		= $this->item_model->view($id);
-			$data['logs']		= $this->logs_model->fetch_logs('item', $id, 50);
 			$data['title'] 		= $data['info']['name'];
 			
 
@@ -294,7 +243,16 @@ class Items extends CI_Controller {
 					//Check URI Request 
 					if($this->uri->segment(4) == 'barcode') {
 						$this->load->view('items/print_barcode', $data);						
+					} elseif($this->uri->segment(4) == 'batch') {
+						//Batch View
+						$batch_id 			= $this->uri->segment(5);
+						$data['batch']		= $this->inventory_model->view_item($batch_id, NULL);
+						$data['logs']		= $this->logs_model->fetch_logs('inventory', $batch_id, 50);
+						$this->load->view('items/batch_view', $data);
+
 					} elseif(!$this->uri->segment(4)) {
+						//Item View
+						$data['logs']		= $this->logs_model->fetch_logs('item', $id, 50);
 						$this->load->view('items/view', $data);
 					} else {
 						show_404();
@@ -445,6 +403,69 @@ class Items extends CI_Controller {
 			} else {
 				show_error('Oops! Your account does not have the privilege to view the content. Please Contact the Administrator', 403, 'Access Denied!');				
 			}		
+
+		} else {
+
+			$this->session->set_flashdata('error', 'You need to login!');
+			redirect('dashboard/login', 'refresh');
+		}
+
+	}
+
+
+
+	public function rebatch()		{
+
+		$userdata = $this->session->userdata('admin_logged_in'); //it's pretty clear it's a userdata
+
+		if($userdata)	{
+			
+			//FORM VALIDATION
+			$this->form_validation->set_rules('id', 'ID', 'trim|required');   
+		 
+		   if($this->form_validation->run() == FALSE)	{
+
+				$this->session->set_flashdata('error', 'An Error has Occured!');
+				redirect($_SERVER['HTTP_REFERER'], 'refresh');
+
+			} else {
+
+				$key_id = $this->encryption->decrypt($this->input->post('id')); //ID of the row				
+				$batch 	= $this->inventory_model->view_item($key_id, NULL); 
+				$qty 	= $this->input->post('qty'); 
+				$srp 	= $this->input->post('srp'); 
+				$dp 	= $this->input->post('dp'); 
+
+				//Subract inventory from current batch
+				$this->inventory_model->add_inventory($batch['item_id'], ($qty*-1), $batch['location'], $batch['srp'], $batch['dp']);
+				//Add inventory to new batch
+				$new_batch = $this->inventory_model->add_inventory($batch['item_id'], ($qty), $batch['location'], $srp, $dp);
+				
+
+				$log[] = array(
+							'user' 		=> 	$userdata['username'],
+							'tag' 		=> 	'inventory',
+							'tag_id'	=> 	$key_id,
+							'action' 	=> 	'Rebatched ' . $qty . ' items to Batch ' . $new_batch
+							);
+
+				$log[] = array(
+							'user' 		=> 	$userdata['username'],
+							'tag' 		=> 	'inventory',
+							'tag_id'	=> 	$new_batch,
+							'action' 	=> 	'Rebatched ' . $qty . ' items from Batch ' . $key_id
+							);
+
+				
+						//Save log loop
+						foreach($log as $lg) {
+							$this->logs_model->create_log($lg['user'], $lg['tag'], $lg['tag_id'], $lg['action']);				
+						}		
+						////////////////////////////////////
+					$this->session->set_flashdata('success', 'Successfully Rebatched!');
+					redirect($_SERVER['HTTP_REFERER'], 'refresh');
+				
+			}
 
 		} else {
 
