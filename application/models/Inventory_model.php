@@ -127,7 +127,7 @@ Class Inventory_Model extends CI_Model {
      * @param  int      $id         the Page ID of the request. 
      * @return Array        The array of returned rows 
      */
-    function fetch_items($limit, $id, $search, $brand) {
+    function fetch_items($limit, $id, $search) {
 
             if($search) {
               $this->db->like('items.name', $search);
@@ -135,13 +135,7 @@ Class Inventory_Model extends CI_Model {
               $this->db->or_like('items.description', $search);
               $this->db->or_like('items.serial', $search);
               $this->db->or_like('items.id', $search);
-                if($brand) {
-                  $this->db->having('items.brand', $brand);
-              }
-            }
-
-            if($brand) {
-              $this->db->where('items.brand', $brand);
+                
             }
 
             $this->db->join('items', 'items.id = item_inventory.item_id', 'left');
@@ -180,7 +174,7 @@ Class Inventory_Model extends CI_Model {
      * Returns the total number of rows of users
      * @return int       the total rows
      */
-    function count_items($search, $brand) {
+    function count_items($search) {
         if($search) {
           $this->db->group_start();
           $this->db->like('name', $search);
@@ -190,9 +184,7 @@ Class Inventory_Model extends CI_Model {
           $this->db->or_like('id', $search);
           $this->db->group_end();
         }
-        if($brand) {
-              $this->db->where('items.brand', $brand);
-        }
+
         $this->db->where('item_inventory.qty >', 0);
         $this->db->where('is_deleted', 0);
         $this->db->join('items', 'items.id = item_inventory.item_id', 'left');

@@ -12,72 +12,7 @@ class Items extends CI_Controller {
        $this->load->model('inventory_model');
 	}	
 
-
 	public function index()		{
-
-		$userdata = $this->session->userdata('admin_logged_in'); //it's pretty clear it's a userdata
-
-		if($userdata)	{
-
-			$data['title'] 		= 'Item Inventory';
-			$data['site_title'] = APP_NAME;
-			$data['user'] 		= $this->user_model->userdetails($userdata['username']); //fetches users record
-
-			//Fetch Data
-			$data['brands']		= $this->item_model->fetch_brand();
-			$data['units']		= $this->item_model->fetch_unit();
-			$data['category']		= $this->item_model->fetch_category();
-
-			//Search 
-			$search = '';
-			if(isset($_GET['search'])) {
-				$search = $_GET['search'];
-			}
-
-			//item view for !Administrator account
-			$brand = '';
-			if($data['user']['usertype'] != 'Administrator') {
-				$brand = $data['user']['brand'];
-			}
-
-			//Paginated data				            
-	   		$config['num_links'] = 5;
-			$config['base_url'] = base_url('/items/index/');
-			$config["total_rows"] = $this->inventory_model->count_items($search, $brand);
-			$config['per_page'] = 50;				
-			$this->load->config('pagination'); //LOAD PAGINATION CONFIG
-
-			$this->pagination->initialize($config);
-		    if($this->uri->segment(3)){
-		       $page = ($this->uri->segment(3)) ;
-		  	}	else 	{
-		       $page = 1;		               
-		    }
-
-		    $data["results"] = $this->inventory_model->fetch_items($config["per_page"], $page, $search, $brand);
-		    $str_links = $this->pagination->create_links();
-		    $data["links"] = explode('&nbsp;',$str_links );
-
-		    //ITEM NUMBERING
-		    $data['per_page'] = $config['per_page'];
-		    $data['page'] = $page;
-
-		    //GET TOTAL RESULT
-		    $data['total_result'] = $config["total_rows"];
-		    //END PAGINATION		
-		
-			$this->load->view('items/inventory', $data);
-				
-		
-		} else {
-
-			$this->session->set_flashdata('error', 'You need to login!');
-			redirect('dashboard/login', 'refresh');
-		}
-
-	}
-
-	public function list()		{
 
 		$userdata = $this->session->userdata('admin_logged_in'); //it's pretty clear it's a userdata
 
@@ -106,7 +41,7 @@ class Items extends CI_Controller {
 
 			//Paginated data				            
 	   		$config['num_links'] = 5;
-			$config['base_url'] = base_url('/items/list/');
+			$config['base_url'] = base_url('/items/index/');
 			$config["total_rows"] = $this->item_model->count_items($search, $brand);
 			$config['per_page'] = 50;				
 			$this->load->config('pagination'); //LOAD PAGINATION CONFIG
@@ -188,6 +123,70 @@ class Items extends CI_Controller {
 			$this->session->set_flashdata('error', 'You need to login!');
 			redirect('dashboard/login', 'refresh');
 		}
+
+	}
+
+
+	public function inventory()		{
+
+		$userdata = $this->session->userdata('admin_logged_in'); //it's pretty clear it's a userdata
+
+		if($userdata)	{
+
+			$data['title'] 		= 'Item Inventory';
+			$data['site_title'] = APP_NAME;
+			$data['user'] 		= $this->user_model->userdetails($userdata['username']); //fetches users record
+
+			//Fetch Data
+			$data['brands']		= $this->item_model->fetch_brand();
+			$data['units']		= $this->item_model->fetch_unit();
+			$data['category']		= $this->item_model->fetch_category();
+
+			//Search 
+			$search = '';
+			if(isset($_GET['search'])) {
+				$search = $_GET['search'];
+			}
+
+			//Paginated data				            
+	   		$config['num_links'] = 5;
+			$config['base_url'] = base_url('/items/inventory/');
+			$config["total_rows"] = $this->inventory_model->count_items($search);
+			$config['per_page'] = 50;				
+			$this->load->config('pagination'); //LOAD PAGINATION CONFIG
+
+			$this->pagination->initialize($config);
+		    if($this->uri->segment(3)){
+		       $page = ($this->uri->segment(3)) ;
+		  	}	else 	{
+		       $page = 1;		               
+		    }
+
+		    $data["results"] = $this->inventory_model->fetch_items($config["per_page"], $page, $search);
+		    $str_links = $this->pagination->create_links();
+		    $data["links"] = explode('&nbsp;',$str_links );
+
+		    //ITEM NUMBERING
+		    $data['per_page'] = $config['per_page'];
+		    $data['page'] = $page;
+
+		    //GET TOTAL RESULT
+		    $data['total_result'] = $config["total_rows"];
+		    //END PAGINATION		
+			
+			if($data['user']['usertype'] == 'Administrator') {
+				$this->load->view('items/inventory', $data);
+			} else {
+				show_error('Oops! You do not have the privilege to view the content! Please contact the System Administrator', 403);
+			}
+				
+		
+		} else {
+
+			$this->session->set_flashdata('error', 'You need to login!');
+			redirect('dashboard/login', 'refresh');
+		}		
+		
 
 	}
 
