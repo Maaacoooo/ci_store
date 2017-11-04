@@ -10,6 +10,8 @@ class Sales extends CI_Controller {
        $this->load->model('item_model');
        $this->load->model('location_model');
        $this->load->model('sales_model');
+       $this->load->model('move_model');
+       $this->load->model('inventory_model');
 	}	
 
 
@@ -125,6 +127,10 @@ class Sales extends CI_Controller {
 	}
 
 
+	/**
+	 * Only Creates a Sales Queue / Pending for Verification
+	 * @return [type] [description]
+	 */
 	public function create()		{
 
 		$userdata = $this->session->userdata('admin_logged_in'); //it's pretty clear it's a userdata
@@ -138,8 +144,7 @@ class Sales extends CI_Controller {
 			$data['locations']  = $this->location_model->fetch_locations(0, 0, 0);
 		
 			//Form Validation for user
-			$this->form_validation->set_rules('customer', 'Customer Name', 'trim|required'); 
-			$this->form_validation->set_rules('location', 'Location', 'trim|required'); 
+			$this->form_validation->set_rules('customer', 'Customer Name', 'trim|required');  
 			$this->form_validation->set_rules('remarks', 'Remarks', 'trim'); 
 			$this->form_validation->set_rules('amt_tendered', 'Amount Tendered', 'trim|required|decimal'); 
 
@@ -147,31 +152,21 @@ class Sales extends CI_Controller {
 			if($data['user']['usertype'] == 'Administrator') {
 
 				if($this->form_validation->run() == FALSE)	{
-					$this->load->view('sales/create', $data);
-				} else {	
+					//Check Location data
+					if($data['user']['location']) {
+						$this->load->view('sales/create', $data);
+					} else {
+						show_error('Oops! Please set User designated Store Location. You may set the location <a href="' . base_url('users/update/'.$data['user']['username']) .'">HERE.</a>', 403);
+					}
+				} else {					
+
+					//Proceed Saving Sale Queue
+					$sale_id = $this->sales_model->create($userdata['username'], $data['user']['location']);
 					
-					$sale_id = $this->sales_model->create($userdata['username']);
-
-					//Proceed saving sale				
-					if($sale_id) {			
-
-						// Save Log Data ///////////////////				
-
-						$log[] = array(
-							'user' 		=> 	$userdata['username'],
-							'tag' 		=> 	'sale',
-							'tag_id'	=> 	$sale_id,
-							'action' 	=> 	'Purchased by ' . $this->input->post('customer')
-							);
-
-				
-						//Save log loop
-						foreach($log as $lg) {
-							$this->logs_model->create_log($lg['user'], $lg['tag'], $lg['tag_id'], $lg['action']);				
-						}		
-						////////////////////////////////////
+					//On Success
+					if($sale_id) {							
 					
-						$this->session->set_flashdata('success', 'Purchase Success!');
+						$this->session->set_flashdata('success', 'Sale Queue Generated! Pending for Verification Process.');
 						redirect('sales/view/'.$sale_id, 'refresh');
 					} else {
 						//failure
@@ -181,6 +176,86 @@ class Sales extends CI_Controller {
 				}
 			} else {
 				show_error('Oops! Your account does not have the privilege to view the content. Please Contact the Administrator', 403, 'Access Denied!');
+			}
+
+		} else {
+
+			$this->session->set_flashdata('error', 'You need to login!');
+			redirect('dashboard/login', 'refresh');
+		}
+
+	}
+
+	/**
+	 * Verifies Sale and Update Inventory
+	 * @return [type] [description]
+	 */
+	public function verify()		{
+
+		$userdata = $this->session->userdata('admin_logged_in'); //it's pretty clear it's a userdata
+
+		if($userdata)	{
+			
+			//FORM VALIDATION
+			$this->form_validation->set_rules('id', 'ID', 'trim|required');   
+			$this->form_validation->set_rules('status', 'Status', 'trim|required');   
+		 
+		   if($this->form_validation->run() == FALSE)	{
+				$this->session->set_flashdata('error', 'An Error has Occured!');
+				redirect($_SERVER['HTTP_REFERER'], 'refresh');
+
+			} else {
+				$id 	= $this->encryption->decrypt($this->input->post('id'));
+				$status = $this->encryption->decrypt($this->input->post('status'));
+
+				$info = $this->sales_model->view($id);
+
+				$items = $this->sales_model->fetch_sale_items($id, NULL); //fetch all items in the Move Items
+
+				if($this->sales_model->verify($id, $status)) {
+					
+					if($status == 2) {
+						//proceed to purchase
+						foreach ($items as $i) {
+							//Update Inventory from Sending Location
+							$batch_id = $this->inventory_model->add_inventory($i['item_id'], ($i['qty']*-1), $info['location'], $i['srp'], $i['dp']);
+							//Save Inventory Logs
+							$log[] = array(
+							'user' 		=> 	$userdata['username'],
+							'tag' 		=> 	'inventory',
+							'tag_id'	=> 	$batch_id,
+							'action' 	=> 	'Sold ' . $i['qty'] . ' items from ' . $info['location'] . ' SALE #' . prettyID($id)
+							);							
+							
+						}
+						// Save Log Data ///////////////////				
+
+						$log[] = array(
+							'user' 		=> 	$userdata['username'],
+							'tag' 		=> 	'sale',
+							'tag_id'	=> 	$id,
+							'action' 	=> 	'Purchased by ' . $info['customer']
+						);
+					} elseif($status == 0) {
+						$log[] = array(
+							'user' 		=> 	$userdata['username'],
+							'tag' 		=> 	'sale',
+							'tag_id'	=> 	$id,
+							'action' 	=> 	'Cancelled'
+						);
+					}
+
+				
+					//Save log loop
+					foreach($log as $lg) {
+						$this->logs_model->create_log($lg['user'], $lg['tag'], $lg['tag_id'], $lg['action']);				
+					}							
+					////////////////////////////////////
+					
+					$this->session->set_flashdata('success', 'Purchase Success!');
+					redirect('sales/view/'.$id, 'refresh');
+				}
+
 			}
 
 		} else {
@@ -204,20 +279,68 @@ class Sales extends CI_Controller {
 			$data['title']		= 'Sale #' . prettyID($data['info']['id']);
 			$data['items'] 		= $this->sales_model->fetch_sale_items($id, NULL);
 
-		
+			
 			//Validate Usertype
-			if($data['user']['usertype'] == 'Administrator') {
+			if($data['user']['usertype'] == 'Administrator') {				
 
-				//Check URI Request 
-				if($this->uri->segment(4) == 'barcode') {
-					$this->load->view('sales/print_barcode', $data);						
-				} elseif(!$this->uri->segment(4)) {
-					$this->load->view('sales/view', $data);
-				} else {
-					show_404();
+				$this->load->view('sales/view', $data);				
+					
+			} else {
+				show_error('Oops! Your account does not have the privilege to view the content. Please Contact the Administrator', 403, 'Access Denied!');				
+			}		
+
+		} else {
+
+			$this->session->set_flashdata('error', 'You need to login!');
+			redirect('dashboard/login', 'refresh');
+		}
+
+	}
+
+	
+
+
+	public function update($id)		{
+
+		$userdata = $this->session->userdata('admin_logged_in'); //it's pretty clear it's a userdata
+
+		if($userdata)	{
+
+			$data['site_title'] = APP_NAME;
+			$data['user'] = $this->user_model->userdetails($userdata['username']); //fetches users record	
+
+			$data['info']		= $this->sales_model->view($id);
+			$data['title']		= 'Update Sale #' . prettyID($data['info']['id']);
+			$data['items'] 		= $this->sales_model->fetch_sale_items($id, NULL);
+
+			//Form Validation for user
+			$this->form_validation->set_rules('id', 'ID', 'trim|required');  
+			$this->form_validation->set_rules('customer', 'Customer Name', 'trim|required');  
+			$this->form_validation->set_rules('remarks', 'Remarks', 'trim'); 
+			$this->form_validation->set_rules('amt_tendered', 'Amount Tendered', 'trim|required|decimal'); 
+
+			//Validate Usertype
+			if($data['user']['usertype'] == 'Administrator') {				
+
+				if($this->form_validation->run() == FALSE)	{
+					if($data['info']['status'] == 1) {
+					$this->load->view('sales/update', $data);			
+					} else {
+						$this->load->view('sales/view', $data);			
+					}
+				} else {					
+					$id = $this->encryption->decrypt($this->input->post('id'));
+					//On Success
+					if($this->sales_model->update($id)) {	
+						$this->session->set_flashdata('success', 'Sales Queue Updated!');
+						redirect('sales/view/'.$id, 'refresh');
+					} else {
+						//failure
+						$this->session->set_flashdata('error', 'Error occured!');
+						redirect($_SERVER['HTTP_REFERER'], 'refresh');
+					}		
 				}		
 
-					
 			} else {
 				show_error('Oops! Your account does not have the privilege to view the content. Please Contact the Administrator', 403, 'Access Denied!');				
 			}		
@@ -249,23 +372,24 @@ class Sales extends CI_Controller {
 				redirect($_SERVER['HTTP_REFERER'], 'refresh');
 
 			} else {
+				$sales_id = $this->encryption->decrypt($this->input->post('sale_id'));
+				$item = $this->inventory_model->view_item($this->input->post('item'), $user['location']); //get the inventort details
 
-				$item = $this->item_model->view($this->input->post('item'));
-				$sale_id = $this->encryption->decrypt($this->input->post('id'));
+				//checks if it is in the actual cart
+				if($this->sales_model->view_item($item['batch_id'], $sales_id, $user['username'])) {
 
-				if($this->sales_model->view_item($item['id'], $sale_id, $user['username'])) {
-
-					$qty  = $this->sales_model->view_item($item['id'], $sale_id, $user['username'])['qty']; //gets the value of the existing quantity
-					$action = $this->sales_model->update_item_qty($item['id'], ($qty+1), NULL, $sale_id, $user['username']); // existing qty + 1; update quantity
+					$qty  = $this->sales_model->view_item($item['batch_id'], $sales_id, $user['username']); //gets the value of the existing quantity
+					$action = $this->sales_model->update_item_qty($item['batch_id'], $qty['qty'] + 1, $qty['discount'], $sales_id, $user['username']); // existing qty + 1; update quantity
 
 				} else {
-					$action = $this->sales_model->add_item($item['id'], 1, $sale_id, $item['SRP'], $user['username']); //ID of the row	
+					//add to cart
+					$action = $this->sales_model->add_item($item['batch_id'], 1, $sales_id, $user['username']); //ID of the row	
 				}
 							
 
 				if($action) {
 
-					$this->session->set_flashdata('success', 'Item Added!');
+					$this->session->set_flashdata('success', 'Item Added to Cart!');			
 					redirect($_SERVER['HTTP_REFERER'], 'refresh');
 				}
 			}
@@ -280,18 +404,21 @@ class Sales extends CI_Controller {
 
 
 	/**
-	 * Checks if ITEM Exist
+	 * Checks if ITEM Exist in the Storage Inventory
 	 * @param  [type] $item [description]
 	 * @return [type]       [description]
 	 */
-	function check_item($item) {
+	function check_item($batch) {
 
-		$userdata = $this->session->userdata('admin_logged_in'); //it's pretty clear it's a userdata
+		$id = $this->encryption->decrypt($this->input->post('id'));
+		$location = $this->location_model->view($id)['title'];
 
-		if($this->item_model->view($item)) {
+		$item = $this->inventory_model->view_item($batch, $location);
+
+		if($item['qty'] > 0) {
 			return TRUE;
 		} else {
-			$this->form_validation->set_message('check_item', 'No Item Record Found!');		
+			$this->session->set_flashdata('error', 'No Item Record Found!');		
 			return FALSE;
 		}
 	}
@@ -340,17 +467,24 @@ class Sales extends CI_Controller {
 		
 	}
 
+	/**
+	 * Checks the Current Quantity 
+	 * @return [type] [description]
+	 */
 	function check_quantity() {
 
 		$userdata = $this->session->userdata('admin_logged_in'); //it's pretty clear it's a userdata
 		$user = $this->user_model->userdetails($userdata['username']); //fetches users record
 
 		foreach ($this->input->post('qty') as $key => $qty) {
-			$item_id = $this->encryption->decrypt($this->input->post('id')[$key]);
-			$inv_qty = $this->item_model->check_item_inventory($item_id, $user['location']); //fetches qty
+			// POST DATA 
+			$batch_id = $this->encryption->decrypt($this->input->post('id')[$key]);
+			//Inventory Data
+			$inv_qty = $this->inventory_model->view_item($batch_id, $user['location']); //fetches qty
 
 			if($this->input->post('qty')[$key] > $inv_qty['qty']) {
-				$this->session->set_flashdata('warning', 'Check Quantity of <span class="badge bg-blue">' . $inv_qty['item_id'] . '</span> Current Items in Stock: <span class="badge bg-red">'. $inv_qty['qty'] . '</span>');
+				//returns false on Error
+				$this->session->set_flashdata('warning', 'Check Quantity of <span class="badge bg-blue">' . $inv_qty['batch_id'] . '</span> Current Items in Stock: <span class="badge bg-red">'. $inv_qty['qty'] . '</span>');
 				return FALSE;
 			} 
 		}
@@ -365,16 +499,17 @@ class Sales extends CI_Controller {
 
 		$userdata = $this->session->userdata('admin_logged_in'); //it's pretty clear it's a userdata
 		$user = $this->user_model->userdetails($userdata['username']); //fetches users record
+		$location = $user['location'];
 
 		if($userdata)	{
 
 			if (isset($_GET['term'])){
 		      $q = strtolower($_GET['term']);
-		      $result = $this->item_model->search($q, NULL);
+		      $result = $this->move_model->autocomplete_items($q, $location);
 
 		      foreach($result as $row) {
-		      	$new_row['label']=htmlentities(stripslashes($row['name'] . '(' . $row['unit'].')'));
-	            $new_row['value']=htmlentities(stripslashes($row['id']));
+		      	$new_row['label']=htmlentities(stripslashes($row['batch_id'] . ' - ' . $row['name'] . ' (In Stock: ' . $row['qty']. ' ' . $row['unit']).' | DP:'. $row['dp'] . ' | SRP:' . $row['srp'] .')');
+	            $new_row['value']=htmlentities(stripslashes($row['batch_id']));
 	            $row_set[] = $new_row; //build an array
 	          }
 	          echo json_encode($row_set); //format the array into json data     

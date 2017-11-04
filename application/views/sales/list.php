@@ -125,7 +125,11 @@
                 <tbody>
                   <?php foreach ($results as $res): ?>
                     <tr>
-                      <td><a href="<?=base_url('sales/view/'.$res['id'])?>">#<?=prettyID($res['id'])?></a></td>   
+                      <td><a href="<?=base_url('sales/view/'.$res['id'])?>">#<?=prettyID($res['id'])?>
+                        <?php if ($res['status'] == 1): ?>
+                          <span class="label label-warning">PENDING</span>
+                        <?php endif ?>
+                      </a></td>   
                       <td><a href="<?=base_url('sales/view/'.$res['id'])?>"><?=$res['user']?></a></td>             
                       <td><a href="<?=base_url('sales/view/'.$res['id'])?>"><?=$res['customer']?></a></td>
                       <td><a href="<?=base_url('sales/view/'.$res['id'])?>"><?=$res['totalAmt']?></a></td>                      

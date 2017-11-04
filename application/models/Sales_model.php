@@ -3,11 +3,11 @@
 Class Sales_Model extends CI_Model {
 
 
-    function create($user) {
+    function create($user, $location) {
 
             $data = array(              
                 'customer'        => $this->input->post('customer'),                
-                'location'        => $this->input->post('location'),                
+                'location'        => $location,                
                 'remarks'         => $this->input->post('remarks'),                
                 'amount_tendered' => $this->input->post('amt_tendered'),                
                 'user'            => $user,
@@ -21,12 +21,6 @@ Class Sales_Model extends CI_Model {
            $items = $this->fetch_sale_items(0, $user);
 
            if($items) {
-
-            //Minus from Inventory
-            foreach ($items as $i) {
-              $this->add_inventory($i['item_id'], ($i['qty']*-1), 'sale', $sale_id, $this->input->post('location'));
-            }
-
             //Update current sale items
               $data = array(              
                 'sale_id'    => $sale_id                    
@@ -45,6 +39,33 @@ Class Sales_Model extends CI_Model {
 
 
 
+    function update($id) {
+
+            $data = array(              
+                'customer'        => $this->input->post('customer'),                              
+                'remarks'         => $this->input->post('remarks'),                
+                'amount_tendered' => $this->input->post('amt_tendered'),                
+       
+             );
+
+           $this->db->where('id', $id);
+           return $this->db->update('sales', $data);    
+    }
+
+
+    function verify($id, $status) {
+
+            $data = array(              
+                'status' => $status               
+       
+             );
+
+           $this->db->where('id', $id);
+           return $this->db->update('sales', $data);    
+    }
+
+
+
 
 
     function view($id) {
@@ -54,6 +75,7 @@ Class Sales_Model extends CI_Model {
                 sales.customer,
                 sales.remarks,
                 sales.location,
+                sales.status,
                 sales.created_at,
                 sales.updated_at,
                 sales.amount_tendered,
@@ -75,6 +97,7 @@ Class Sales_Model extends CI_Model {
 
             $this->db->join('users', 'users.username = sales.user', 'left');
             $this->db->join('sale_items', 'sale_items.sale_id = sales.id', 'left');
+            $this->db->join('item_inventory', 'item_inventory.batch_id = sale_items.batch_id', 'left');
             $this->db->select('
                 sales.id,
                 sales.status,
@@ -83,7 +106,7 @@ Class Sales_Model extends CI_Model {
                 sales.amount_tendered,
                 sales.customer,
                 users.name as user,
-                SUM((sale_items.srp * sale_items.qty) - (sale_items.discount * sale_items.qty)) as totalAmt                
+                SUM((item_inventory.srp * sale_items.qty) - (sale_items.discount * sale_items.qty)) as totalAmt                
             ');
 
             if(($date)) {
@@ -153,13 +176,12 @@ Class Sales_Model extends CI_Model {
      * @param [type] $qty       [description]
      * @param [type] $export_id [description]
      */
-    function add_item($item, $qty, $sale_id, $srp, $user) {
+    function add_item($item, $qty, $sale_id, $user) {
 
             $data = array(              
-                'item_id'     => $item,  
+                'batch_id'    => $item,  
                 'sale_id'     => $sale_id,  
-                'qty'         => $qty,         
-                'srp'         => $srp,         
+                'qty'         => $qty,                 
                 'user'        => $user         
              );
        
@@ -180,7 +202,7 @@ Class Sales_Model extends CI_Model {
               if (!is_null($user)) {
                 $this->db->where('sale_items.user', $user);
               }
-              $this->db->where('item_id', $item);
+              $this->db->where('batch_id', $item);
               $this->db->where('sale_id', $sale_id);
               return $this->db->update('sale_items', $data); 
 
@@ -189,7 +211,7 @@ Class Sales_Model extends CI_Model {
               if (!is_null($user)) {
                 $this->db->where('sale_items.user', $user);
               }
-              $this->db->where('item_id', $item);
+              $this->db->where('batch_id', $item);
               $this->db->where('sale_id', $sale_id);
               return $this->db->delete('sale_items'); 
 
@@ -203,7 +225,7 @@ Class Sales_Model extends CI_Model {
             if (!is_null($user)) {
                 $this->db->where('sale_items.user', $user);
             }
-            $this->db->where('item_id', $item);
+            $this->db->where('batch_id', $item);
             $this->db->where('sale_id', $sale_id);        
             $this->db->limit(1);
 
@@ -215,17 +237,20 @@ Class Sales_Model extends CI_Model {
 
     function fetch_sale_items($sale_id, $user) {
 
-            $this->db->join('items', 'items.id = sale_items.item_id', 'left');
+            $this->db->join('item_inventory', 'item_inventory.batch_id = sale_items.batch_id', 'left');
+            $this->db->join('items', 'items.id = item_inventory.item_id', 'left');
             $this->db->select('
-            sale_items.id,
-            sale_items.qty,
+            sale_items.id,            
             sale_items.discount,
-            sale_items.srp,
+            sale_items.qty,
+            sale_items.batch_id,
             items.id as item_id,
             items.name,
             items.category,
             items.serial,
-            items.unit
+            items.unit,
+            item_inventory.srp,
+            item_inventory.dp,
             ');          
             
             if (!is_null($user)) {
@@ -241,31 +266,6 @@ Class Sales_Model extends CI_Model {
             return false;
 
     }
-
-
-
-    /**
-     * Adds an item to the actual inventory
-     * @param [type] $item     [description]
-     * @param [type] $qty      [description]
-     * @param [type] $tag      [description]
-     * @param [type] $tag_id   [description]
-     * @param [type] $location [description]
-     */
-    function add_inventory($item, $qty, $tag, $tag_id, $location) {
-
-            $data = array(              
-                'item_id'    => $item,  
-                'tag'        => $tag,  
-                'tag_id'     => $tag_id,  
-                'qty'        => $qty,  
-                'location'   => $location       
-             );
-       
-            return $this->db->insert('item_inventory', $data);    
-
-    }
-
 
 
   

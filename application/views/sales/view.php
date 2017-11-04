@@ -36,8 +36,8 @@
         <?=$title?>        
       </h1>
       <ol class="breadcrumb">
-        <li><a href="<?=base_url()?>">Home</a></li>
-        <li><a href="<?=base_url('move')?>">Moving Queues</a></li>
+        <li><a href="<?=base_url()?>">Dashboard</a></li>
+        <li><a href="<?=base_url('sales')?>">Sales</a></li>
         <li class="active"><?=$title?></li>
       </ol>
     </section>
@@ -79,7 +79,26 @@
         <?php endif; //formval end ?> 
         </div><!-- /.col-xs-12 -->
       </div><!-- /.row -->
-
+      
+      <?php if ($info['status'] ==1): ?>
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="callout callout-warning">
+              <h4>Verify Sale</h4>
+              <p>
+                <div class="row">
+                  <div class="col-sm-12">
+                    Please verify all inputs provided. By verifying the sale, you <span class="strong text-red">CANNOT UNDO or MODIFY</span> any inputs.
+                <button type="button" class="btn btn-flat btn-success btn-lg pull-right" data-toggle="modal" data-target="#modalVerify">
+                       <i class="fa fa-check-square-o"></i> Verify Sale
+                </button>
+                  </div><!-- /.col-sm-12 -->
+                </div><!-- /.row -->
+              </p>
+          </div>
+        </div><!-- /.col-sm-12 -->
+      </div><!-- /.row -->
+      <?php endif ?>
       
 
       <!-- Default box -->
@@ -97,6 +116,7 @@
               <table class="table table-bordered">
                 <thead>
                   <tr>
+                    <th width="10%">Batch ID</th>
                     <th width="10%">Item ID</th>
                     <th width="40%">Item Name</th>
                     <th>SRP</th>
@@ -109,6 +129,7 @@
                 <tbody>
                   <?php foreach ($items as $t): $qty[]=$t['qty']; $sub[]=(($t['qty']*$t['srp']) - ($t['qty']*$t['discount'])); $disc[] = ($t['qty']*$t['discount']);  ?>
                     <tr>
+                      <td><?=$t['batch_id']?></td>
                       <td><?=$t['item_id']?></td>
                       <td><?=$t['name']?> - <?=$t['unit']?></td>
                       <td><?=$t['srp']?></td>
@@ -116,12 +137,11 @@
                       <td class="bg-info"><?=$t['discount'] * $t['qty']?></td>
                       <td><?=decimalize(($t['qty']*$t['srp']) - ($t['qty'] * $t['discount']))?></td>
                     </tr>
-                    <input type="hidden" name="id[]" value="<?=$this->encryption->encrypt($t['item_id'])?>" />
                   <?php endforeach ?>
                 </tbody>
                 <tfoot>
                   <tr>
-                    <th colspan="3" class="text-right">Total</th>
+                    <th colspan="4" class="text-right">Total</th>
                     <th class="bg-info text-danger"><?=array_sum($qty)?></th><!-- /.bg-success text-danger -->
                     <th class="bg-info text-danger"><?=array_sum($disc)?></th><!-- /.bg-success text-danger -->
                     <th class="bg-success text-danger"><?=decimalize(array_sum($sub))?></th><!-- /.bg-success text-danger -->
@@ -176,6 +196,13 @@
                  <tr>
                    <td colspan="2" class="bg-info"><?=$info['remarks']?></td>
                  </tr>
+                 <?php if ($info['status'] == 1): ?>
+                <tr>
+                   <td colspan="2">
+                     <a href="<?=base_url('sales/update/'.$info['id'])?>" class="btn btn-lg btn-flat btn-block btn-warning">Update Sale</a>
+                   </td>
+                 </tr>
+                 <?php endif ?>
                </table><!-- /.table -->             
             </div><!-- /.col-md-4 -->
           </div><!-- /.row -->
@@ -191,6 +218,37 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
+
+
+    <div class="modal modal fade" id="modalVerify">
+          <div class="modal-dialog">
+          <?=form_open('sales/verify')?>
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"><i class="fa fa-check-square-o"></i> Finalize Sale</h4>
+              </div>
+              <div class="modal-body">
+                <p>
+                Are you sure to Finalize this Sale? <br />
+                Finalized Sale Items will be subtracted in the actual inventory. <br />
+                Note that <strong class="text-danger">AFTER SUBMITTING</strong>, you <strong class="text-danger">CANNOT UNDO</strong> any input given.
+                </p>
+            
+              </div>
+               <input type="hidden" name="id" value="<?=$this->encryption->encrypt($info['id'])?>" />              
+               <input type="hidden" name="status" value="<?=$this->encryption->encrypt(2)?>" />              
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-success">Verify Sale</button>
+              </div>
+            </div>
+            <!-- /.modal-content -->
+           <?=form_close()?>
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->   
 
   <footer class="main-footer">    
     <?php $this->load->view('inc/footer')?>    

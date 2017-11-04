@@ -46,8 +46,8 @@
         <?=$title?>        
       </h1>
       <ol class="breadcrumb">
-        <li><a href="#">Home</a></li>
-        <li><a href="#">Examples</a></li>
+        <li><a href="<?=base_url('dashboard')?>">Dashboard</a></li>
+        <li><a href="<?=base_url('sales')?>">Sales</a></li>
         <li class="active"><?=$title?></li>
       </ol>
     </section>
@@ -118,7 +118,7 @@
                   <?=form_open('sales/add_item')?>
                     <div class="input-group">
                       <input type="text" name="item" autofocus id="item" placeholder="Scan Barcode / Type to Search / Input ITEM ID or Serial..." class="form-control">
-                      <input type="hidden" name="id" value="<?=$this->encryption->encrypt(0)?>" />
+                      <input type="hidden" name="sale_id" value="<?=$this->encryption->encrypt(0)?>" />
                       <div class="input-group-btn">
                         <button type="submit" class="btn btn-default"><i class="fa fa-shopping-cart"></i> Add Item</button>
                       </div>
@@ -130,6 +130,7 @@
                     <table class="table table-bordered">
                       <thead>
                         <tr>
+                          <th width="15%">Batch ID</th>
                           <th width="10%">Item ID</th>
                           <th width="40%">Item Name</th>
                           <th>SRP</th>
@@ -142,6 +143,7 @@
                       <tbody>
                         <?php foreach ($items as $t): $qty[]=$t['qty']; $sub[]=(($t['qty']*$t['srp']) - ($t['qty'] * $t['discount'])); $disc[] = ($t['qty'] * $t['discount']); ?>
                           <tr>
+                            <td><?=$t['batch_id']?></td>
                             <td><?=$t['item_id']?></td>
                             <td><?=$t['name']?> - <?=$t['unit']?></td>
                             <td><?=$t['srp']?></td>
@@ -149,12 +151,12 @@
                             <td><input type="text" name="disc[]" value="<?=$t['discount']?>" style="width: 60px"/></td>
                             <td><?=(($t['qty']*$t['srp']) - ($t['qty'] * $t['discount']))?></td>
                           </tr>
-                          <input type="hidden" name="id[]" value="<?=$this->encryption->encrypt($t['item_id'])?>" />
+                          <input type="hidden" name="id[]" value="<?=$this->encryption->encrypt($t['batch_id'])?>" />
                         <?php endforeach ?>
                       </tbody>
                       <tfoot>
                         <tr>
-                          <th colspan="3" class="text-right">Total</th>
+                          <th colspan="4" class="text-right">Total</th>
                           <th class="bg-success text-danger"><?=array_sum($qty)?></th><!-- /.bg-success text-danger -->
                           <th class="bg-success text-danger"><?=decimalize(array_sum($disc))?></th><!-- /.bg-success text-danger -->
                           <th class="bg-success text-danger"><?=decimalize(array_sum($sub))?></th><!-- /.bg-success text-danger -->
@@ -163,7 +165,7 @@
                       <button type="submit" class="hidden"></button>
                       <?php else: ?>
                         <tr>
-                          <td colspan="6">
+                          <td colspan="7">
                             <div class="alert alert-info alert-dismissible">
                               <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                               <p>Add an item</p>
