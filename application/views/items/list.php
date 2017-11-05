@@ -147,7 +147,8 @@
       <!-- /.box -->
 
 
-      <div class="box <?php if(!validation_errors())echo "collapsed-box"; else echo "box-danger";?>">
+     <?php if ($user['usertype'] == 'Administrator'): ?>
+       <div class="box <?php if(!validation_errors())echo "collapsed-box"; else echo "box-danger";?>">
         <div class="box-header with-border">
           <h3 class="box-title">Register New Product</h3>
           <div class="box-tools pull-right">
@@ -209,7 +210,7 @@
                   </select>       
                </div>
 
-              <?php if ($user['usertype'] == 'Administrator'): ?>
+
               <label for="brand" class="col-sm-2 col-md-2 control-label">Brand</label>
               <div class="col-sm-10 col-md-2">        
                   <select name="brand" class="form-control" required>
@@ -225,7 +226,6 @@
                       ?>
                   </select>       
                </div>
-              <?php endif ?>
             </div>
             <div class="form-group">
               <label for="desc" class="col-sm-2 control-label">Description</label>
@@ -241,7 +241,8 @@
           </div>
           <!-- /.box-footer -->
         <?=form_close()?>
-      </div>
+      </div>       
+     <?php endif ?>
 
 
 

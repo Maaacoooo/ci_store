@@ -251,8 +251,15 @@ class Items extends CI_Controller {
 
 					} elseif(!$this->uri->segment(4)) {
 						//Item View
-						$data['logs']		= $this->logs_model->fetch_logs('item', $id, 50);
-						$this->load->view('items/view', $data);
+						//Admin
+						if ($data['user']['usertype'] == 'Administrator') {
+							$data['logs']		= $this->logs_model->fetch_logs('item', $id, 50);
+							$this->load->view('items/view', $data);
+						} else {
+							$data['exports'] = $this->item_model->fetch_exports($id);
+							$this->load->view('items/supplier_view', $data);
+						}
+						
 					} else {
 						show_404();
 					}

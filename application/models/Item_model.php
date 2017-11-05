@@ -323,4 +323,25 @@ Class Item_Model extends CI_Model {
             
 
     }
+
+    /**
+     * Fetches Export Data 
+     * @param  [type] $item_id [description]
+     * @return [type]          [description]
+     */
+    function fetch_exports($item_id) {
+        $this->db->join('exports', 'exports.id = export_items.export_id', 'LEFT');
+        $this->db->select('
+        exports.id as export_id,
+        exports.updated_at,
+        export_items.qty,
+        export_items.dp,
+        export_items.id
+        ');
+        $this->db->where('exports.status', 4);
+        $this->db->where('item_id', $item_id);
+        $query= $this->db->get('export_items');
+
+        return $query->result_array();
+    }
 }
