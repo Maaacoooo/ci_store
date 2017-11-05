@@ -13,7 +13,7 @@ Class Item_Model extends CI_Model {
         return 'ITEM'.prettyID(($total_rows + 1));  
     }
 
-    function create($brand) {
+    function create($brand, $approve) {
         
             $item_id = $this->generate_ItemID();
 
@@ -25,9 +25,10 @@ Class Item_Model extends CI_Model {
                 'unit'           => $this->input->post('unit'),  
                 'description'    => $this->input->post('desc'),  
                 'serial'         => $this->input->post('serial'),
-                'SRP'            => $this->input->post('srp'),
-                'DP'             => $this->input->post('dp'),
-                'critical_level' => $this->input->post('critical_level')
+                'srp'            => $this->input->post('srp'),
+                'dp'             => $this->input->post('dp'),
+                'critical_level' => $this->input->post('critical_level'),
+                'is_approved'    => $approve
              );
        
             $this->db->insert('items', $data);    
@@ -101,7 +102,7 @@ Class Item_Model extends CI_Model {
      * @param  int      $id         the Page ID of the request. 
      * @return Array        The array of returned rows 
      */
-    function fetch_items($limit, $id, $search, $brand) {
+    function fetch_items($limit, $id, $search, $brand, $approve) {
 
             if($search) {
               $this->db->like('items.name', $search);
@@ -128,12 +129,15 @@ Class Item_Model extends CI_Model {
             items.category,
             items.description,
             items.unit,
+            items.dp,
+            items.srp,
             items.critical_level,
             SUM(item_inventory.qty) as qty
             ');
             
 
             $this->db->where('items.is_deleted', 0);
+            $this->db->where('items.is_approved', $approve);
             $this->db->limit($limit, (($id-1)*$limit));
 
             $query = $this->db->get("items");
@@ -149,7 +153,7 @@ Class Item_Model extends CI_Model {
      * Returns the total number of rows of users
      * @return int       the total rows
      */
-    function count_items($search, $brand) {
+    function count_items($search, $brand, $approve) {
         if($search) {
           $this->db->group_start();
           $this->db->like('name', $search);
@@ -162,6 +166,7 @@ Class Item_Model extends CI_Model {
         if($brand) {
               $this->db->where('items.brand', $brand);
         }
+        $this->db->where('items.is_approved', $approve);
         $this->db->where('is_deleted', 0);
         return $this->db->count_all_results("items");
     }
@@ -169,10 +174,13 @@ Class Item_Model extends CI_Model {
 
     function view($id) {
 
-             $this->db->select('*');        
+             $this->db->select('*');     
+             $this->db->group_start();
              $this->db->where('id', $id);          
              $this->db->or_where('serial', $id);          
-             $this->db->limit(1);
+             $this->db->group_end();
+             $this->db->where('is_approved', 1);
+             $this->db->where('is_deleted', 0);          
 
              $query = $this->db->get('items');
 
@@ -343,5 +351,19 @@ Class Item_Model extends CI_Model {
         $query= $this->db->get('export_items');
 
         return $query->result_array();
+    }
+
+
+    /**
+     * Approves an Item
+     * @param  [type] $item_id [description]
+     * @return [type]          [description]
+     */
+    function approve_suggest($item_id) {
+         $data = array(             
+                'is_approved'        => 1   
+             );
+            $this->db->where('id', $item_id);
+            return $this->db->update('items', $data);    
     }
 }

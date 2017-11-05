@@ -235,6 +235,64 @@
       </div>
       <!-- /.box -->
 
+      <!-- Default box -->
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <h3 class="box-title">Pending for Approval Item Suggestions</h3>
+          <div class="box-tools pull-right">           
+            <button type="button" class="btn btn-default btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+              <i class="fa fa-minus"></i>
+            </button>  
+          </div>
+        </div>
+        <div class="box-body">
+        <?=form_open('items/accept_suggest')?>
+        <?php if ($pending_suggests): ?>
+          <table class="table table-bordered table-condensed table-hover">           
+            <thead>
+              <tr>
+                <th></th>
+                <th>ID</th>
+                <th>Item Name</th>
+                <th>Unit</th>
+                <th>Brand</th>
+                <th>Category</th>
+                <th>DP</th>
+                <th width="40%">Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php foreach ($pending_suggests as $sugg): ?>
+                <tr>
+                  <td><input type="checkbox" name="item_id[]" value="<?=$sugg['id']?>"/></td>
+                  <td><a href="#"><?=$sugg['id']?></a></td>
+                  <td><a href="#"><?=$sugg['name']?></a></td>
+                  <td><a href="#"><?=$sugg['unit']?></a></td>
+                  <td><a href="#"><?=$sugg['brand']?></a></td>
+                  <td><a href="#"><?=$sugg['category']?></a></td>
+                  <td><a href="#"><?=$sugg['dp']?></a></td>
+                  <td><em><?=ellipsize(strip_tags($sugg['description']), 70, 1)?></em></td>
+                </tr>
+              <?php endforeach; ?>
+            </tbody>           
+          </table><!-- /.table table-bordered -->
+          <?php else: ?>
+            <div class="callout callout-info">
+              <h4>No Pending for Approval Item Suggestions</h4>
+              <p>No Record to show</p>
+            </div>   
+          <?php endif; ?>              
+          
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer">
+          <button type="submit" class="btn btn-lg btn-success"><i class="fa fa-download"></i> Accept Items</button>
+        </div>
+        <!-- /.box-footer-->
+      <?=form_close()?>
+      </div>
+      <!-- /.box -->
+
     </section>
     <!-- /.content -->
   </div>

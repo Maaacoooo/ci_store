@@ -42,7 +42,7 @@ class Items extends CI_Controller {
 			//Paginated data				            
 	   		$config['num_links'] = 5;
 			$config['base_url'] = base_url('/items/index/');
-			$config["total_rows"] = $this->item_model->count_items($search, $brand);
+			$config["total_rows"] = $this->item_model->count_items($search, $brand, 1);
 			$config['per_page'] = 50;				
 			$this->load->config('pagination'); //LOAD PAGINATION CONFIG
 
@@ -53,7 +53,7 @@ class Items extends CI_Controller {
 		       $page = 1;		               
 		    }
 
-		    $data["results"] = $this->item_model->fetch_items($config["per_page"], $page, $search, $brand);
+		    $data["results"] = $this->item_model->fetch_items($config["per_page"], $page, $search, $brand, 1);
 		    $str_links = $this->pagination->create_links();
 		    $data["links"] = explode('&nbsp;',$str_links );
 
@@ -86,7 +86,7 @@ class Items extends CI_Controller {
 					if($brand) {
 						$act = $this->item_model->create($brand);
 					} else {
-						$act = $this->item_model->create($this->input->post('brand'));
+						$act = $this->item_model->create($this->input->post('brand'), 1);
 					}
 
 					//Proceed saving user				
@@ -187,6 +187,127 @@ class Items extends CI_Controller {
 			redirect('dashboard/login', 'refresh');
 		}		
 		
+
+	}
+
+
+	public function suggest()		{
+
+		$userdata = $this->session->userdata('admin_logged_in'); //it's pretty clear it's a userdata
+
+		if($userdata)	{
+
+			$data['title'] 		= 'Suggested New Items';
+			$data['site_title'] = APP_NAME;
+			$data['user'] 		= $this->user_model->userdetails($userdata['username']); //fetches users record
+
+			//Fetch Data
+			$data['brands']		= $this->item_model->fetch_brand();
+			$data['units']		= $this->item_model->fetch_unit();
+			$data['category']		= $this->item_model->fetch_category();
+
+			//Search 
+			$search = '';
+			if(isset($_GET['search'])) {
+				$search = $_GET['search'];
+			}
+
+			//item view for !Administrator account
+			$brand = '';
+			if($data['user']['usertype'] != 'Administrator') {
+				$brand = $data['user']['brand'];
+			}
+
+			//Paginated data				            
+	   		$config['num_links'] = 5;
+			$config['base_url'] = base_url('/items/suggest/');
+			$config["total_rows"] = $this->item_model->count_items($search, $brand, 0);
+			$config['per_page'] = 50;				
+			$this->load->config('pagination'); //LOAD PAGINATION CONFIG
+
+			$this->pagination->initialize($config);
+		    if($this->uri->segment(3)){
+		       $page = ($this->uri->segment(3)) ;
+		  	}	else 	{
+		       $page = 1;		               
+		    }
+
+		    $data["results"] = $this->item_model->fetch_items($config["per_page"], $page, $search, $brand, 0);
+		    $str_links = $this->pagination->create_links();
+		    $data["links"] = explode('&nbsp;',$str_links );
+
+		    //ITEM NUMBERING
+		    $data['per_page'] = $config['per_page'];
+		    $data['page'] = $page;
+
+		    //GET TOTAL RESULT
+		    $data['total_result'] = $config["total_rows"];
+		    //END PAGINATION		
+		
+			//Form Validation for user
+			$this->form_validation->set_rules('name', 'Item Name', 'trim|required'); 
+			$this->form_validation->set_rules('serial', 'Serial No', 'trim|is_unique[items.serial]'); 
+			$this->form_validation->set_rules('category', 'Category', 'trim|required');  
+			$this->form_validation->set_rules('unit', 'Unit', 'trim|required'); 			
+			$this->form_validation->set_rules('desc', 'Description', 'trim'); 
+			$this->form_validation->set_rules('srp', 'SRP', 'trim|decimal'); 
+			$this->form_validation->set_rules('dp', 'DP', 'trim|decimal'); 
+
+			if($data['user']['usertype'] == 'Administrator') {
+				$this->form_validation->set_rules('brand', 'Brand', 'trim|required'); 				
+			}
+			
+
+			if($this->form_validation->run() == FALSE)	{
+
+				if ($data['user']['usertype']=='Administrator') {					
+					$this->load->view('items/suggest_approve', $data);
+				} else {
+					$this->load->view('items/suggest_list', $data);					
+				}
+
+				} else {	
+					
+					if($brand) {
+						$act = $this->item_model->create($brand, 0);
+					} else {
+						$act = $this->item_model->create($this->input->post('brand'), 1);
+					}
+
+					//Proceed saving user				
+					if($act) {			
+
+						$item_id = $act; //fetch last insert case Row ID
+						// Save Log Data ///////////////////				
+
+						$log[] = array(
+							'user' 		=> 	$userdata['username'],
+							'tag' 		=> 	'item',
+							'tag_id'	=> 	$item_id,
+							'action' 	=> 	'Product Suggestion'
+							);
+
+				
+						//Save log loop
+						foreach($log as $lg) {
+							$this->logs_model->create_log($lg['user'], $lg['tag'], $lg['tag_id'], $lg['action']);				
+						}		
+						////////////////////////////////////
+					
+						$this->session->set_flashdata('success', 'Product Registered!');
+						redirect($_SERVER['HTTP_REFERER'], 'refresh');
+					} else {
+						//failure
+						$this->session->set_flashdata('error', 'Error occured!');
+						redirect($_SERVER['HTTP_REFERER'], 'refresh');
+					}		
+			}
+		
+		} else {
+
+			$this->session->set_flashdata('error', 'You need to login!');
+			redirect('dashboard/login', 'refresh');
+		}
 
 	}
 
@@ -309,6 +430,53 @@ class Items extends CI_Controller {
 			$this->session->set_flashdata('error', 'You need to login!');
 			redirect('dashboard/login', 'refresh');
 		}
+
+	}
+
+
+	public function accept_suggest()		{
+
+		$userdata = $this->session->userdata('admin_logged_in'); //it's pretty clear it's a userdata
+		$user = $this->user_model->userdetails($userdata['username']); //fetches users record
+
+		if($userdata)	{
+			
+				//FORM VALIDATION
+				$this->form_validation->set_rules('item_id[]', 'ID', 'trim|required'); 
+			 
+			   if($this->form_validation->run() == FALSE)	{
+
+					$this->session->set_flashdata('error', 'An Error has Occured!');
+					redirect($_SERVER['HTTP_REFERER'], 'refresh');
+
+				} else {
+					
+					foreach ($this->input->post('item_id') as $key => $value) {
+						$this->item_model->approve_suggest($value);
+
+						//save logs
+						$log[] = array(
+							'user' 		=> 	$userdata['username'],
+							'tag' 		=> 	'item',
+							'tag_id'	=> 	$value,
+							'action' 	=> 	'Suggested Item Approved'
+						);
+					}
+
+					//Save log loop
+					foreach($log as $lg) {
+						$this->logs_model->create_log($lg['user'], $lg['tag'], $lg['tag_id'], $lg['action']);				
+					}	
+					$this->session->set_flashdata('success', 'Items Accepted');
+					redirect($_SERVER['HTTP_REFERER'], 'refresh');
+				}
+		} else {
+
+			$this->session->set_flashdata('error', 'You need to login!');
+			redirect('dashboard/login', 'refresh');
+		}
+
+		
 
 	}
 

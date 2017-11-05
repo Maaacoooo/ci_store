@@ -22,6 +22,7 @@
 
         <?php if ($user['usertype'] == 'Supplier User'): ?>
         <li><a href="<?=base_url('items')?>"><i class="fa fa-flask"></i> <span>My Items</span></a></li>
+        <li><a href="<?=base_url('items/suggest')?>"><i class="fa fa-certificate"></i> <span>Suggest New Item</span></a></li>
         <li><a href="<?=base_url('exports')?>"><i class="fa fa-share-square"></i> <span>My Exports</span></a></li>
         <li><a href="<?=base_url('exports/pending')?>"><i class="fa fa-pencil-square-o"></i> <span>Pending Exports</span></a></li>
         <li><a href="<?=base_url('exports/in_transit')?>"><i class="fa fa-truck"></i> <span>In-Transit Exports</span></a></li>
@@ -43,6 +44,7 @@
             <li><a href="<?=base_url('items')?>"><i class="fa fa-flask"></i> <span>Item List</span></a></li>
             <li><a href="<?=base_url('categories')?>"><i class="fa fa-list"></i> <span>Item Categories</span></a></li>
             <li><a href="<?=base_url('units')?>"><i class="fa fa-certificate"></i> <span>Item Units</span></a></li>
+            <li><a href="<?=base_url('items/suggest')?>"><i class="fa fa-certificate"></i> <span>Item Suggestions</span></a></li>
           </ul>
         </li>        
         <li class="treeview">

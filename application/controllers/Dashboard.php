@@ -32,6 +32,7 @@ class Dashboard extends CI_Controller {
 				$data['intransit_exports'] 	= $this->export_model->fetch_exports(0, 0, 0, 0, 2);				
 				$data['pending_requests'] 	= $this->request_model->fetch_requests(0, 0, NULL, NULL, 1);		
 				$data['items']				= $this->inventory_model->critical_inventory();
+		    	$data["pending_suggests"] 	= $this->item_model->fetch_items(NULL, NULL, NULL, NULL, 0);
 
 				$this->load->view('dashboard/dashboard_admin', $data);						
 
