@@ -79,7 +79,9 @@
         <li><a href="<?=base_url('users')?>"><i class="fa fa-users"></i> <span>Users</span></a></li>
         <?php endif ?>      
 
-
+        <li class="header">SYSTEM INFORMATION</li>      
+        <li><a href="<?=base_url('settings/manual')?>"><i class="fa fa-question-circle"></i> <span>User Manual</span></a></li>
+        
 
       </ul>
     </section>
