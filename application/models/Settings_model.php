@@ -58,7 +58,7 @@ Class Settings_model extends CI_Model
 
     function fetch_manual() {
             $this->db->select('*');        
-
+            $this->db->order_by('ord');
             $query = $this->db->get('manual');
 
             return $query->result_array();
