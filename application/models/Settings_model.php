@@ -55,6 +55,50 @@ Class Settings_model extends CI_Model
     }
 
 
+
+    function fetch_manual() {
+            $this->db->select('*');        
+
+            $query = $this->db->get('manual');
+
+            return $query->result_array();
+    }
+
+
+    function view_manual($id) {
+            $this->db->select('*');        
+            $this->db->where('id', $id);
+            $query = $this->db->get('manual');
+            return $query->row_array();
+    }
+
+
+    function create_manual($id) {
+
+            $data = array(             
+                'id'           => $id,  
+                'title'        => $this->input->post('title'),  
+                'category'     => $this->input->post('category'),  
+                'description'  => $this->input->post('description'),       
+             );
+            
+            return $this->db->insert('manual', $data);     
+    }
+
+
+    function update_manual($id) {
+
+            $data = array(             
+                'title'        => $this->input->post('title'),  
+                'category'     => $this->input->post('category'),  
+                'description'  => $this->input->post('description'),       
+             );
+            $this->db->where('id', $id);
+            return $this->db->update('manual', $data);     
+    }
+
+
+
      
 
 }
