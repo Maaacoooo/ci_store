@@ -137,7 +137,6 @@ class Users extends CI_Controller {
 			$data['user'] = $this->user_model->userdetails($userdata['username']); //fetches users record
 
 			//Page Data 
-			$data['brands']		= $this->item_model->fetch_brand();
 			$data['usertypes']		= $this->user_model->usertypes();			
 			$data['locations']  = $this->location_model->fetch_locations(0, 0, 0);
 
@@ -145,6 +144,23 @@ class Users extends CI_Controller {
 			$data['info']		= $this->user_model->userdetails($id);
 			$data['logs']		= $this->logs_model->fetch_user_logs($id, 50);
 			$data['title'] 		= $data['info']['name'];
+
+
+			//Download Log Data 
+			if ($this->uri->segment(4) == 'download_logs') {
+
+				$log_data = $this->logs_model->fetch_user_logs($id, NULL);
+
+		        foreach ($log_data as $lg) {
+		        	$logs[] = (explode(';', (implode(";", $lg))));
+		        }
+
+		        $upload_path = checkDir('./uploads/logs/'.$id.'/');
+		        $file_path = $upload_path.$id.'_'.date('Y-m-d_H-i-s').'.log';
+
+		        write_file($file_path, magictable($logs));
+		        force_download($file_path, NULL);
+			}
 
 			//Validate if record exist
 			 //IF NO ID OR NO RESULT, REDIRECT
@@ -167,18 +183,13 @@ class Users extends CI_Controller {
 				$this->load->view('user/update', $data);
 				} else {			
 
-					$brand = NULL;
-					if($this->input->post('brand')) {
-						$brand = $this->input->post('brand');
-					}
-
 					$location = NULL;
 					if($this->input->post('location')) {
 						$location = $this->input->post('location');
 					}
 					//Proceed saving candidate				
 					$key_id = $this->encryption->decrypt($this->input->post('id')); //ID of the row
-					if($this->user_model->update_user($key_id, $brand, $location)) {		
+					if($this->user_model->update_user($key_id, $location)) {		
 
 						$log[] = array(
 							'user' 		=> 	$userdata['username'],

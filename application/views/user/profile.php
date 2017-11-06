@@ -108,7 +108,6 @@
 
               <h3 class="profile-username text-center"><?=$user['name']?></h3>
 
-              <p class="text-muted text-center"><?=$user['brand']?></p>
               <p class="text-muted text-center"><?=$user['usertype']?></p>
 
               <ul class="list-group list-group-unbordered">
@@ -200,29 +199,36 @@
                       <input type="password" name="oldpass" class="form-control" id="oldpass" placeholder="Old Password..." disabled required>
                     </div>
 
-                    <label for="contact" class="col-sm-2 col-md-2 control-label">Profile Image</label>
-                    <div class="col-sm-10 col-md-4">
-                      <input type="file" name="img" id="img">  
-                    </div>
-                  </div>
-                  <div class="form-group">
                     <label for="newpass" class="col-sm-2 col-md-2 control-label">New Password</label>
                     <div class="col-sm-10 col-md-4">
                       <input type="password" name="newpass" class="form-control" id="newpass" placeholder="New Password..." disabled="" required>
                     </div>   
+                  </div>
+                  <div class="form-group">
+                    <label for="confpass" class="col-sm-2 col-md-2 control-label">Confirm New Password</label>
+                    <div class="col-sm-10 col-md-4">
+                      <input type="password" name="confpass" class="form-control" id="confpass" placeholder="Confirm Password..." disabled="" required>
+                    </div> 
                     <div class="checkbox col-sm-2 col-md-6">
                       <label>
                         <input type="checkbox" id="resetpass" name="resetpass" onclick="enablereset()"> Change Password
                       </label>
                     </div>  
-
                   </div>  
-                  <div class="form-group">
-                    <label for="confpass" class="col-sm-2 col-md-2 control-label">Confirm New Password</label>
-                    <div class="col-sm-10 col-md-4">
-                      <input type="password" name="confpass" class="form-control" id="confpass" placeholder="Confirm Password..." disabled="" required>
-                    </div>                   
-                  </div>         
+                  <div class="form-group">    
+                    <label for="img" class="col-sm-2 control-label">Profile Image</label>    
+                    <div class="col-sm-3">
+                      <input type="file" name="img" id="img">   
+                    </div>
+ 
+                    <div class="col-sm-5">
+                      <div class="checkbox">
+                        <label>
+                          <input type="checkbox" name="remove_img"> Remove Image
+                        </label>
+                      </div>
+                    </div>    
+                  </div>      
                   <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
                         <button type="submit" class="btn btn-warning pull-right">Update</button>                                        
