@@ -90,6 +90,21 @@ class Dashboard extends CI_Controller {
 
 		if($result) {
 			$this->session->set_userdata('admin_logged_in', array('username' => $username)); //set userdata
+			//Set logs
+			$log[] = array(
+					'user' 		=> 	$username,
+					'tag' 		=> 	'',
+					'tag_id'	=> 	'',
+					'action' 	=> 	'User Logged In'
+				);
+
+				
+			//Save log loop ///////////
+			foreach($log as $lg) {
+				$this->logs_model->create_log($lg['user'], $lg['tag'], $lg['tag_id'], $lg['action']);				
+			}	
+			////////////////////////////////////
+			
 			return TRUE;
 		} else {
 			$this->form_validation->set_message('check_user', 'Username or Password does not match!');
