@@ -110,7 +110,7 @@
             <div class="col-md-8 table-responsive">
               <?=form_open('requests/add_item')?>
                 <div class="input-group">
-                  <input type="text" name="item" id="item" placeholder="Scan Barcode / Type to Search / Input ITEM ID or Serial..." class="form-control">
+                  <input type="text" name="item" id="item" placeholder="Scan Barcode / Type to Search / Input ITEM ID or Serial..." class="form-control" autofocus="">
                   <input type="hidden" name="id" value="<?=$this->encryption->encrypt($info['id'])?>" />
                   <div class="input-group-btn">
                     <button type="submit" class="btn btn-default"><i class="fa fa-shopping-cart"></i> Add Item</button>
