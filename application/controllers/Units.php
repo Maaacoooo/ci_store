@@ -18,7 +18,7 @@ class Units extends CI_Controller {
 
 		if($userdata)	{
 
-			$data['title'] 		= 'Item Categories';
+			$data['title'] 		= 'Item Units';
 			$data['site_title'] = APP_NAME;
 			$data['user'] 		= $this->user_model->userdetails($userdata['username']); //fetches users record
 

@@ -190,10 +190,10 @@
                   <div class="tab-pane <?php if($this->session->flashdata('flash_loc'))echo'active'?>" id="settings">
                   <?=form_open('categories/view/'.$info['id'], array('class' => 'form-horizontal'))?>                
                       <div class="form-group">
-                        <label for="title" class="col-sm-2 control-label">Location</label>
+                        <label for="title" class="col-sm-2 control-label">Unit</label>
 
                         <div class="col-sm-10">
-                          <input type="text" name="title" class="form-control" id="title" placeholder="Warehouse / Location / Building" value="<?=$info['title']?>" >
+                          <input type="text" name="title" class="form-control" id="title" placeholder="Item Unit..." value="<?=$info['title']?>" >
                         </div>
                       </div>                 
                       <input type="hidden" name="id" value="<?=$this->encryption->encrypt($info['id'])?>" />                 
