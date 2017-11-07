@@ -113,40 +113,6 @@
       <!-- /.box -->
 
 
-      <!-- Default box -->
-      <div class="box">
-        <div class="box-header with-border">
-          <h3 class="box-title">Create Manual</h3>
-
-          <div class="box-tools pull-right">
-            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
-                    title="Collapse">
-              <i class="fa fa-minus"></i></button>      
-          </div>
-        </div>
-        <div class="box-body">
-          <?=form_open('settings/create_manual')?>
-          <div class="form-group">
-            <label for="">Title</label>
-            <input type="text" name="title" class="form-control" />
-          </div><!-- /.form-group -->
-          <div class="form-group">
-            <label for="">Category</label>
-            <input type="text" name="category" class="form-control" />
-          </div><!-- /.form-group -->
-          <div class="form-group">
-            <textarea name="description" class="ckeditor"></textarea>
-          </div><!-- /.form-group -->
-          <button type="submit" class="btn btn-lg btn-primary">Submit</button>
-          <?=form_close()?>
-        </div>
-        <!-- /.box-body -->
-        <div class="box-footer">
-        </div>
-        <!-- /.box-footer-->
-      </div>
-      <!-- /.box -->
-
     </section>
     <!-- /.content -->
   </div>

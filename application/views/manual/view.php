@@ -31,9 +31,7 @@
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1>
-        <?=$title?>        
-      </h1>
+      <h1>&nbsp;</h1>
       <ol class="breadcrumb">
         <li><a href="<?=base_url()?>">Dashboard</a></li>
         <li><a href="<?=base_url('settings/manual')?>">User Manual</a></li>
@@ -85,7 +83,7 @@
           <!-- Default box -->
           <div class="box">
             <div class="box-header with-border">
-              <h3 class="box-title">Manual</h3>
+              <h3 class="box-title">User Manual</h3>
               <div class="box-tools pull-right">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
                         title="Collapse">
@@ -113,7 +111,7 @@
           <!-- Default box -->
           <div class="box box-primary">
             <div class="box-header with-border">
-              <h3 class="box-title">Information</h3>
+              <h3 class="box-title"><?=$title?></h3>
 
               <div class="box-tools pull-right">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
@@ -123,41 +121,6 @@
             </div>
             <div class="box-body">
               <?=$info['description']?>
-            </div>
-            <!-- /.box-body -->
-            <div class="box-footer">
-            </div>
-            <!-- /.box-footer-->
-          </div>
-          <!-- /.box -->
-
-          <!-- Default box -->
-          <div class="box box-warning">
-            <div class="box-header with-border">
-              <h3 class="box-title">Update Information</h3>
-
-              <div class="box-tools pull-right">
-                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
-                        title="Collapse">
-                  <i class="fa fa-minus"></i></button>      
-              </div>
-            </div>
-            <div class="box-body">
-              <?=form_open('settings/update_manual')?>
-              <div class="form-group">
-                <label for="">Title</label>
-                <input type="text" name="title" class="form-control" value="<?=$info['title']?>" />
-              </div><!-- /.form-group -->
-              <div class="form-group">
-                <label for="">Category</label>
-                <input type="text" name="category" class="form-control" value="<?=$info['category']?>" />
-              </div><!-- /.form-group -->
-              <div class="form-group">
-                <textarea name="description" class="ckeditor"><?=$info['description']?></textarea>
-              </div><!-- /.form-group -->
-              <input type="hidden" name="id" class="form-control" value="<?=$info['id']?>" />
-              <button type="submit" class="btn btn-lg btn-primary">Submit</button>
-              <?=form_close()?>
             </div>
             <!-- /.box-body -->
             <div class="box-footer">
