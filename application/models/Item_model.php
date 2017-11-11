@@ -20,14 +20,14 @@ Class Item_Model extends CI_Model {
       
             $data = array(              
                 'id'             => $item_id,  
-                'name'           => $this->input->post('name'),  
-                'category'       => $this->input->post('category'),  
-                'brand'          => $this->input->post('brand'),  
-                'unit'           => $this->input->post('unit'),  
-                'description'    => $this->input->post('desc'),  
-                'serial'         => $this->input->post('serial'),
-                'actual_price'   => $this->input->post('srp'),
-                'dealer_price'   => $this->input->post('dp')
+                'name'           => strip_tags($this->input->post('name', TRUE)),  
+                'category'       => strip_tags($this->input->post('category', TRUE)),  
+                'brand'          => strip_tags($this->input->post('brand', TRUE)),  
+                'unit'           => strip_tags($this->input->post('unit', TRUE)),  
+                'description'    => strip_tags($this->input->post('desc', TRUE)),  
+                'serial'         => strip_tags($this->input->post('serial', TRUE)),
+                'actual_price'   => strip_tags($this->input->post('srp', TRUE)),
+                'dealer_price'   => strip_tags($this->input->post('dp', TRUE)),
              );
 
             $create_act = $this->db->insert('items', $data);   
@@ -125,14 +125,14 @@ Class Item_Model extends CI_Model {
             } 
 
             $data = array(                
-                'name'           => $this->input->post('name'),  
-                'category'       => $this->input->post('category'),  
-                'brand'          => $this->input->post('brand'),  
-                'unit'           => $this->input->post('unit'),  
-                'description'    => $this->input->post('desc'),  
-                'serial'         => $this->input->post('serial'),
-                'actual_price'    => $this->input->post('srp'),
-                'dealer_price'   => $this->input->post('dp'),
+                'name'           => strip_tags($this->input->post('name', TRUE)),  
+                'category'       => strip_tags($this->input->post('category', TRUE)),  
+                'brand'          => strip_tags($this->input->post('brand', TRUE)),  
+                'unit'           => strip_tags($this->input->post('unit', TRUE)),  
+                'description'    => strip_tags($this->input->post('desc', TRUE)),  
+                'serial'         => strip_tags($this->input->post('serial', TRUE)),
+                'actual_price'   => strip_tags($this->input->post('srp', TRUE)),
+                'dealer_price'   => strip_tags($this->input->post('dp', TRUE)),
                 'img'            => $filepath
              );
        
