@@ -2,6 +2,14 @@
 
 Class Inventory_Model extends CI_Model {
 
+
+  function view_inventory($batch_id) {
+    $this->db->where('batch_id', $batch_id);
+    $query = $this->db->get('item_inventory');
+
+    return $query->row_array();
+  }
+
     /**
      * Creates or Updates a Batch
      * @param [type] $item     [description]
@@ -12,7 +20,7 @@ Class Inventory_Model extends CI_Model {
      * @param [type] $srp      [description]
      * @param [type] $dp       [description]
      */
-    function add_inventory($item, $qty, $tag, $tag_id, $location, $srp, $dp) {
+    function add_inventory($item, $qty, $location, $srp, $dp) {
 
 
         $batch = $this->getBatchID($item, $dp, $srp, $location);
@@ -26,30 +34,32 @@ Class Inventory_Model extends CI_Model {
 
             $this->db->where('batch_id', $batch['batch_id']);
        
-            return $this->db->update('item_inventory', $data);    
-
+            if(!$this->db->update('item_inventory', $data)) {
+              return FALSE;
+            }    
 
         } else {
 
+          $batch = $this->generateBatchID($item, $dp); //override batch data
 
           //Generate New Batch
           $data = array(              
-                'batch_id'        => $this->generateBatchID($item, $dp),
+                'batch_id'        => $batch,
                 'item_id'         => $item,  
-                'tag'             => $tag,  
-                'tag_id'          => $tag_id,  
                 'qty'             => $qty,  
                 'dealer_price'    => $dp,       
                 'actual_price'    => $srp,       
                 'location'        => $location       
              );
        
-            return $this->db->insert('item_inventory', $data);    
+            if(!$this->db->insert('item_inventory', $data)) {
+              return FALSE;
+            }    
 
 
         }
-
-            
+        
+      return $batch;            
 
     }
 
@@ -91,10 +101,6 @@ Class Inventory_Model extends CI_Model {
       $query = $this->db->get('item_inventory');
 
       return $query->row_array();
-    }
-
-
-
-  
+    } 
 
 }

@@ -110,10 +110,10 @@
                   <b>Brand</b> <a class="pull-right"><?=$info['brand']?></a>
                 </li>
                 <li class="list-group-item">
-                  <b>DP</b> <a class="pull-right strong text-red"><?=$batch['dp']?></a>
+                  <b>DP</b> <a class="pull-right strong text-red"><?=$batch['dealer_price']?></a>
                 </li>
                 <li class="list-group-item">
-                  <b>SRP</b> <a class="pull-right strong text-green"><?=$batch['srp']?></a>
+                  <b>SRP</b> <a class="pull-right strong text-green"><?=$batch['actual_price']?></a>
                 </li>
                 <li class="list-group-item">
                   <b>Total In Stock</b>
@@ -228,11 +228,11 @@
                   </div><!-- /.col-sm-4 -->
                   <div class="col-sm-4">
                     <label for="dp">DP</label>
-                    <input type="text" name="dp" id="dp" class="form-control" value="<?=$batch['dp']?>" required/>
+                    <input type="text" name="dp" id="dp" class="form-control" value="<?=$batch['dealer_price']?>" required/>
                   </div><!-- /.col-sm-4 -->
                   <div class="col-sm-4">
                     <label for="srp">SRP</label>
-                    <input type="text" name="srp" id="srp" class="form-control" value="<?=$batch['srp']?>" required/>
+                    <input type="text" name="srp" id="srp" class="form-control" value="<?=$batch['actual_price']?>" required/>
                   </div><!-- /.col-sm-4 -->
                 </div><!-- /.form-group -->
 

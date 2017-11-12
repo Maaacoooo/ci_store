@@ -162,7 +162,7 @@
                     <?php foreach ($inventory as $inv): ?>
                     <?php $qty[] = $inv['qty']; ?>
                     <tr>
-                      <td><?=$inv['batch_id']?></td>
+                      <td><a href="<?=base_url('items/view/'.$info['id'].'/batch/'.$inv['batch_id'])?>"><?=$inv['batch_id']?></a></td>
                       <td><?=$inv['location']?></td>
                       <td class="text-yellow bg-warning"><?=$inv['dealer_price']?></td>
                       <td class="text-green bg-success"><?=$inv['actual_price']?></td>

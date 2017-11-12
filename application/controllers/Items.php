@@ -10,6 +10,7 @@ class Items extends CI_Controller {
        $this->load->model('item_model');
        $this->load->model('brand_model');
        $this->load->model('category_model');
+       $this->load->model('inventory_model');
 	}	
 
 
@@ -194,7 +195,6 @@ class Items extends CI_Controller {
 			$data['inventory']	= $this->item_model->fetch_item_inventory($id);			
 
 			$data['info']		= $this->item_model->view($id);
-			$data['logs']		= $this->logs_model->fetch_logs('item', $id, 50);
 			$data['title'] 		= $data['info']['name'];
 			
 
@@ -229,9 +229,18 @@ class Items extends CI_Controller {
 			if($data['user']['usertype'] == 'Administrator' || $data['user']['brand'] == $data['info']['brand']) {
 				if($this->form_validation->run() == FALSE)	{
 					//Check URI Request 
-					if($this->uri->segment(4) == 'barcode') {
+					if($this->uri->segment(4) == 'barcode') {		
+						//Barcode Printing				
 						$this->load->view('items/print_barcode', $data);						
+					} elseif($this->uri->segment(4) == 'batch') {
+						//Batch View
+						$batch_id = $this->uri->segment(5);
+						$data['batch'] = $this->inventory_model->view_inventory($batch_id);
+						$data['logs']		= $this->logs_model->fetch_logs('inventory', $batch_id, 50);
+						$this->load->view('items/batch_view', $data);						
 					} elseif(!$this->uri->segment(4)) {
+						//Item View
+						$data['logs']		= $this->logs_model->fetch_logs('item', $id, 50);
 						$this->load->view('items/view', $data);
 					} else {
 						show_404();
@@ -482,6 +491,67 @@ class Items extends CI_Controller {
 			} else {
 				show_error('Oops! Your account does not have the privilege to view the content. Please Contact the Administrator', 403, 'Access Denied!');				
 			}		
+
+		} else {
+
+			$this->session->set_flashdata('error', 'You need to login!');
+			redirect('dashboard/login', 'refresh');
+		}
+
+	}
+
+
+
+	public function rebatch()		{
+
+		$userdata = $this->session->userdata('admin_logged_in'); //it's pretty clear it's a userdata
+
+		if($userdata)	{
+			
+			//FORM VALIDATION
+			$this->form_validation->set_rules('id', 'ID', 'trim|required');   
+		 
+		   if($this->form_validation->run() == FALSE)	{
+
+				$this->session->set_flashdata('error', 'An Error has Occured!');
+				redirect($_SERVER['HTTP_REFERER'], 'refresh');
+
+			} else {
+
+				$key_id = $this->encryption->decrypt($this->input->post('id')); //ID of the row				
+				$batch 	= $this->inventory_model->view_inventory($key_id); 
+				$qty 	= $this->input->post('qty'); 
+				$srp 	= $this->input->post('srp'); 
+				$dp 	= $this->input->post('dp'); 
+
+				//Subract inventory from current batch
+				$this->inventory_model->add_inventory($batch['item_id'], ($qty*-1), $batch['location'], $batch['actual_price'], $batch['dealer_price']);
+				//Add inventory to new batch
+				$new_batch = $this->inventory_model->add_inventory($batch['item_id'], ($qty), $batch['location'], $srp, $dp);
+				
+
+				$log[] = array(
+							'user' 		=> 	$userdata['username'],
+							'tag' 		=> 	'inventory',
+							'tag_id'	=> 	$key_id,
+							'action' 	=> 	'Rebatched ' . $qty . ' items to Batch ' . $new_batch
+							);
+
+				$log[] = array(
+							'user' 		=> 	$userdata['username'],
+							'tag' 		=> 	'inventory',
+							'tag_id'	=> 	$new_batch,
+							'action' 	=> 	'Rebatched ' . $qty . ' items from Batch ' . $key_id
+							);
+
+
+				//Save Logs/////////////////////////
+				$this->logs_model->save_logs($log);		
+				////////////////////////////////////
+				$this->session->set_flashdata('success', 'Successfully Rebatched!');
+				redirect($_SERVER['HTTP_REFERER'], 'refresh');
+				
+			}
 
 		} else {
 
