@@ -81,9 +81,9 @@ class Items extends CI_Controller {
 			$data['user'] 		= $this->user_model->userdetails($userdata['username']); //fetches users record
 
 			//Fetch Data
-			$data['brands']		= $this->brand_model->fetch_brands(NULL, NULL, NULL);
-			$data['units']		= $this->unit_model->fetch_units(NULL, NULL, NULL);
-			$data['category']	= $this->category_model->fetch_categories(NULL, NULL, NULL);
+			$data['brands']		= $this->brand_model->fetch_brands(NULL, NULL, NULL, 0);
+			$data['units']		= $this->unit_model->fetch_units(NULL, NULL, NULL, 0);
+			$data['category']	= $this->category_model->fetch_categories(NULL, NULL, NULL, 0);
 
 			//Search 
 			$search = '';
@@ -188,9 +188,9 @@ class Items extends CI_Controller {
 			$data['user'] = $this->user_model->userdetails($userdata['username']); //fetches users record
 
 			//Fetch Data
-			$data['brands']		= $this->brand_model->fetch_brands(NULL, NULL, NULL);
-			$data['units']		= $this->unit_model->fetch_units(NULL, NULL, NULL);
-			$data['category']	= $this->category_model->fetch_categories(NULL, NULL, NULL);			
+			$data['brands']		= $this->brand_model->fetch_brands(NULL, NULL, NULL, 0);
+			$data['units']		= $this->unit_model->fetch_units(NULL, NULL, NULL, 0);
+			$data['category']	= $this->category_model->fetch_categories(NULL, NULL, NULL, 0);			
 			$data['gallery']	= $this->item_model->fetch_gallery($id);			
 			$data['inventory']	= $this->item_model->fetch_inventory_items(NULL, NULL, NULL, 0, $id);			
 
