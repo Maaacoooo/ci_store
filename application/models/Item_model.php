@@ -28,6 +28,7 @@ Class Item_Model extends CI_Model {
                 'serial'         => strip_tags($this->input->post('serial', TRUE)),
                 'actual_price'   => strip_tags($this->input->post('srp', TRUE)),
                 'dealer_price'   => strip_tags($this->input->post('dp', TRUE)),
+                'critical_level' => strip_tags($this->input->post('critical_level', TRUE))
              );
 
             $create_act = $this->db->insert('items', $data);   
@@ -133,6 +134,7 @@ Class Item_Model extends CI_Model {
                 'serial'         => strip_tags($this->input->post('serial', TRUE)),
                 'actual_price'   => strip_tags($this->input->post('srp', TRUE)),
                 'dealer_price'   => strip_tags($this->input->post('dp', TRUE)),
+                'critical_level' => strip_tags($this->input->post('critical_level', TRUE)),
                 'img'            => $filepath
              );
        
@@ -192,6 +194,7 @@ Class Item_Model extends CI_Model {
             items.actual_price,
             items.dealer_price,
             items.description,
+            items.critical_level,
             items.unit,
             SUM(item_inventory.qty) as qty
             ');
@@ -362,6 +365,7 @@ Class Item_Model extends CI_Model {
             items.category,
             items.description,
             items.unit,
+            items.critical_level,
             item_inventory.batch_id,
             item_inventory.actual_price,
             item_inventory.dealer_price,            
@@ -437,6 +441,7 @@ Class Item_Model extends CI_Model {
             items.dealer_price,
             items.serial,
             items.unit,
+            items.critical_level,
             SUM(item_inventory.qty) as qty
             ');
             

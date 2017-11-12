@@ -129,13 +129,19 @@
                   <td class="bg-warning"><a href="<?=base_url('items/view/'.$res['id'])?>"><?=$res['dealer_price']?></a></td>
                   <td class="bg-success"><a href="<?=base_url('items/view/'.$res['id'])?>"><?=$res['actual_price']?></a></td>
                   <td>
+                    <?php 
+                      $critical = 10; //default critical level
+                      if($res['critical_level']) {
+                        $critical = $res['critical_level']; //override critical level
+                      }
+                    ?>     
                     <a href="<?=base_url('items/view/'.$res['id'])?>">                    
-                      <?php if ($res['qty'] <= 10): ?>
+                      <?php if ($res['qty'] <= $critical): ?>
                           <span class="text-red strong">
                             <?=$res['qty']?>
                             <i class="fa fa-exclamation-circle"></i>                       
                           </span>
-                      <?php elseif($res['qty'] <= 30): ?>
+                      <?php elseif($res['qty'] <= ($critical)*1.3): ?>
                           <span class="text-yellow">
                             <?=$res['qty']?>                  
                           </span>

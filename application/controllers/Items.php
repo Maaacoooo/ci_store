@@ -124,6 +124,7 @@ class Items extends CI_Controller {
 			$this->form_validation->set_rules('desc', 'Description', 'trim'); 
 			$this->form_validation->set_rules('srp', 'SRP', 'trim|decimal'); 
 			$this->form_validation->set_rules('dp', 'DP', 'trim|decimal'); 
+			$this->form_validation->set_rules('critical_level', 'Critical Level', 'trim'); 
 
 			if($data['user']['usertype'] == 'Administrator') {
 				$this->form_validation->set_rules('brand', 'Brand', 'trim|required'); 				
@@ -219,7 +220,8 @@ class Items extends CI_Controller {
 			$this->form_validation->set_rules('unit', 'Unit', 'trim|required'); 
 			$this->form_validation->set_rules('srp', 'SRP', 'trim|decimal'); 
 			$this->form_validation->set_rules('dp', 'DP', 'trim|decimal'); 
-			$this->form_validation->set_rules('desc', 'Description', 'trim'); 
+			$this->form_validation->set_rules('desc', 'Description', 'trim'); 			
+			$this->form_validation->set_rules('critical_level', 'Critical Level', 'trim'); 
 			
 			if($data['user']['usertype'] == 'Administrator') {
 				$this->form_validation->set_rules('brand', 'Brand', 'trim|required'); 				

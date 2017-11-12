@@ -100,7 +100,7 @@
           </div>
         </div>
         <div class="box-body table-responsive no-padding">
-          <table class="table">            
+          <table class="table table-condensed table-hover">            
             <?php if ($results): ?>
             <thead>
               <tr>
@@ -125,13 +125,19 @@
                   <td class="bg-warning"><a href="<?=base_url('items/view/'.$res['id'])?>"><?=$res['dealer_price']?></a></td>
                   <td class="bg-success"><a href="<?=base_url('items/view/'.$res['id'])?>"><?=$res['actual_price']?></a></td>
                   <td>
+                    <?php 
+                      $critical = 10; //default critical level
+                      if($res['critical_level']) {
+                        $critical = $res['critical_level']; //override critical level
+                      }
+                    ?>     
                     <a href="<?=base_url('items/view/'.$res['id'])?>">                    
-                      <?php if ($res['qty'] <= 10): ?>
+                      <?php if ($res['qty'] <= $critical): ?>
                           <span class="text-red strong">
                             <?=$res['qty']?>
                             <i class="fa fa-exclamation-circle"></i>                       
                           </span>
-                      <?php elseif($res['qty'] <= 30): ?>
+                      <?php elseif($res['qty'] <= ($critical)*1.3): ?>
                           <span class="text-yellow">
                             <?=$res['qty']?>                  
                           </span>
@@ -240,14 +246,19 @@
               <?php endif ?>
             </div>
             <div class="form-group">
-              <label for="dp" class="col-sm-2 col-md-2 control-label">DP</label>
-              <div class="col-sm-10 col-md-4">
+              <label for="dp" class="col-sm-2 col-md-2 control-label">Dealer's Price</label>
+              <div class="col-sm-10 col-md-2">
                 <input type="text" name="dp" class="form-control" id="dp" placeholder="Dealer's Price. e.g 500.00" value="<?=set_value('dp')?>">
               </div>
 
-              <label for="srp" class="col-sm-2 col-md-2 control-label">SRP</label>
-              <div class="col-sm-10 col-md-4">
+              <label for="srp" class="col-sm-2 col-md-2 control-label">Actual Price</label>
+              <div class="col-sm-10 col-md-2">
                 <input type="text" name="srp" class="form-control" id="srp" placeholder="Retail Price. e.g 1000.00" value="<?=set_value('srp')?>">
+              </div>
+
+              <label for="critical_level" class="col-sm-2 col-md-2 control-label">Critical Level</label>
+              <div class="col-sm-10 col-md-2">
+                <input type="number" name="critical_level" class="form-control" id="critical_level" placeholder="Critical Qty..." value="<?=set_value('critical_level')?>">
               </div>
             </div>
             <div class="form-group">
