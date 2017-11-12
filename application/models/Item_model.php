@@ -16,6 +16,12 @@ Class Item_Model extends CI_Model {
         return $code.'-'.$cat.'-'.$brand.'-'.prettyID(($total_rows + 1), 5);  
     }
 
+
+    /**
+     * Creates an Item Record
+     * @param  String   $item_id    a system generated ID 
+     * @return Boolean              TRUE on success
+     */
     function create($item_id) {
       
             $data = array(              
@@ -75,10 +81,14 @@ Class Item_Model extends CI_Model {
 
     }
 
+    /**
+     * Creates an Item Record
+     * @param  String   $item_id    the decrypted ITEM ID
+     * @return Boolean              TRUE on success
+     */
+    function update($item_id) { 
 
-    function update($id) { 
-
-          $filepath = $this->view($id)['img'];
+          $filepath = $this->view($item_id)['img'];
 
           if($this->input->post('remove_img')) {
             if(filexist($filepath)) {
@@ -95,7 +105,7 @@ Class Item_Model extends CI_Model {
                   unlink($filepath); //removes the file
                 } 
 
-                $path = checkDir('./uploads/items/'.$id.'/'); //the path to upload
+                $path = checkDir('./uploads/items/'.$item_id.'/'); //the path to upload
 
                 $config['upload_path'] = $path;
                 $config['allowed_types'] = 'gif|jpg|png'; 
@@ -139,13 +149,13 @@ Class Item_Model extends CI_Model {
              );
        
             
-            $this->db->where('id', $id);
+            $this->db->where('id', $item_id);
             return $this->db->update('items', $data);          
         
     }
 
 
-        /**
+    /**
      * Deletes a user record
      * @param  int    $id    the DECODED id of the item.   
      * @return boolean    returns TRUE if success
@@ -164,12 +174,15 @@ Class Item_Model extends CI_Model {
 
 
     /**
-     * Returns the paginated array of rows 
-     * @param  int      $limit      The limit of the results; defined at the controller
-     * @param  int      $id         the Page ID of the request. 
-     * @return Array        The array of returned rows 
+     * Returns a range of array of data as per request
+     * - Used by Item/Product List Pagination
+     * @param  Int      $limit        The limit of records to be returned
+     * @param  Int      $id           The ID of page
+     * @param  String   $search       The search query
+     * @param  Int      $is_deleted   if deleted record or not
+     * @return Array             [description]
      */
-    function fetch_items($limit, $id, $search) {
+    function fetch_items($limit, $id, $search, $is_deleted) {
 
             if($search) {
               $this->db->like('items.name', $search);
@@ -177,9 +190,6 @@ Class Item_Model extends CI_Model {
               $this->db->or_like('items.description', $search);
               $this->db->or_like('items.serial', $search);
               $this->db->or_like('items.id', $search);
-                if($brand) {
-                  $this->db->having('items.brand', $brand);
-              }
             }
 
 
@@ -200,7 +210,7 @@ Class Item_Model extends CI_Model {
             ');
             
 
-            $this->db->where('items.is_deleted', 0);
+            $this->db->where('items.is_deleted', $is_deleted);
             $this->db->limit($limit, (($id-1)*$limit));
 
             $query = $this->db->get("items");
@@ -213,10 +223,13 @@ Class Item_Model extends CI_Model {
     }
 
     /**
-     * Returns the total number of rows of users
-     * @return int       the total rows
+     * Counts the number of rows existing 
+     * - Used by Pagination
+     * @param  String     $search       The Search query
+     * @param  Int        $is_deleted   if deleted record or not
+     * @return Int         [description]
      */
-    function count_items($search) {
+    function count_items($search, $is_deleted) {
         if($search) {
           $this->db->group_start();
           $this->db->like('name', $search);
@@ -227,16 +240,21 @@ Class Item_Model extends CI_Model {
           $this->db->group_end();
         }
 
-        $this->db->where('is_deleted', 0);
+        $this->db->where('is_deleted', $is_deleted);
         return $this->db->count_all_results("items");
     }
 
 
-    function view($id) {
+    /**
+     * Returns an the row array of an item
+     * @param  [type] $id [description]
+     * @return [type]     [description]
+     */
+    function view($item_id) {
 
              $this->db->select('*');        
-             $this->db->where('id', $id);          
-             $this->db->or_where('serial', $id);          
+             $this->db->where('id', $item_id);          
+             $this->db->or_where('serial', $item_id);          
              $this->db->limit(1);
 
              $query = $this->db->get('items');
@@ -244,6 +262,12 @@ Class Item_Model extends CI_Model {
              return $query->row_array();
     }
 
+
+    /**
+     * Fetches the Gallery Images of an Item
+     * @param  [type] $item_id [description]
+     * @return [type]          [description]
+     */
     function fetch_gallery($item_id) {
              $this->db->select('*');        
              $this->db->where('item_id', $item_id);              
@@ -253,6 +277,11 @@ Class Item_Model extends CI_Model {
              return $query->result_array();
     }
 
+    /**
+     * Uploads a Gallery Image of an Item
+     * @param  [type] $item_id [description]
+     * @return [type]          [description]
+     */
     function upload_gallery($item_id) {
 
         //Process Image Upload
@@ -302,6 +331,11 @@ Class Item_Model extends CI_Model {
 
     }
 
+    /**
+     * Returns the row array of the Gallery item
+     * @param  int    $id   Gallery Item ID
+     * @return [type]     [description]
+     */
     function view_gallery($id) {
              $this->db->select('*');        
              $this->db->where('id', $id);              
@@ -311,6 +345,11 @@ Class Item_Model extends CI_Model {
              return $query->row_array();
     }
 
+    /**
+     * Deletes the file and row data of the Gallery Item
+     * @param  [type] $id [description]
+     * @return [type]     [description]
+     */
     function delete_gallery($id) {
             
             $file = $this->view_gallery($id);
@@ -323,7 +362,13 @@ Class Item_Model extends CI_Model {
     }
 
 
-
+    /**
+     * Checks the serial of an item if it already exist in the database
+     * - used by Form Validation for 
+     * @param  [type] $id     the ID of the 
+     * @param  [type] $serial [description]
+     * @return [type]         [description]
+     */
     function check_serial($id, $serial) {
 
              $this->db->select('*');        
@@ -341,7 +386,18 @@ Class Item_Model extends CI_Model {
   /// INVENTORY
   ////////////////////////////////////////////////////////////
   
-  function fetch_inventory_items($limit, $id, $search) {
+  /**
+     * Returns a range of array of data as per request
+     * - Used by Item Inventory List Pagination
+     * - Used to return inventory/batches of a specific items 
+     * @param  Int      $limit        The limit of records to be returned
+     * @param  Int      $id           The ID of page
+     * @param  String   $search       The search query
+     * @param  Int      $is_deleted   if deleted record or not
+     * @param  Int      $item_id      defined if to return inventory/batches of a specific item 
+     * @return Array             [description]
+    */
+  function fetch_inventory_items($limit, $id, $search, $is_deleted, $item_id) {
 
             if($search) {
               $this->db->like('items.name', $search);
@@ -373,8 +429,12 @@ Class Item_Model extends CI_Model {
             item_inventory.qty
             ');
             
-            
-            $this->db->where('items.is_deleted', 0);
+            //Returning inventory for a specific item
+            if(!is_null($item_id)) {
+              $this->db->where('items.id', $item_id);
+            }
+
+            $this->db->where('items.is_deleted', $is_deleted);
             $this->db->where('item_inventory.qty >', 0);
             $this->db->limit($limit, (($id-1)*$limit));
 
@@ -388,10 +448,15 @@ Class Item_Model extends CI_Model {
     }
 
     /**
-     * Returns the total number of rows of users
-     * @return int       the total rows
+     * Counts the number of rows existing 
+     * - 
+     * - Used by Pagination
+     * @param  String     $search       The Search query
+     * @param  Int        $is_deleted   if deleted record or not
+     * @param  Int        $item_id      defined if to return inventory/batches of a specific item 
+     * @return Int         [description]
      */
-    function count_inventory_items($search) {
+    function count_inventory_items($search, $is_deleted, $item_id) {
         if($search) {
               $this->db->like('items.name', $search);
               $this->db->or_like('items.category', $search);
@@ -401,7 +466,12 @@ Class Item_Model extends CI_Model {
                 if($brand) {
                   $this->db->having('items.brand', $brand);
               }
-            }
+          }
+
+        //Returning inventory for a specific item
+          if(!is_null($item_id)) {
+            $this->db->where('items.id', $item_id);
+          }
 
         $this->db->join('items', 'items.id = item_inventory.item_id', 'left');
         $this->db->where('items.is_deleted', 0);
@@ -409,107 +479,4 @@ Class Item_Model extends CI_Model {
     }
 
 
-    /**
-     * Fetches the quantity of the item in each location
-     * @param  [type] $id [description]
-     * @return [type]     [description]
-     */
-    function fetch_item_inventory($id) {      
-
-            $this->db->where('item_id', $id);
-
-            $query = $this->db->get("item_inventory");
-
-            if ($query->num_rows() > 0) {
-                return $query->result_array();
-            }
-            return false;
-
-    }
-
-
-    function total_inventory() {
-
-            $this->db->join('item_inventory', 'item_inventory.item_id = items.id', 'left');
-            $this->db->group_by('items.id');
-            $this->db->select('
-            items.id,
-            items.name,
-            items.brand,
-            items.category,
-            items.actual_price,
-            items.dealer_price,
-            items.serial,
-            items.unit,
-            items.critical_level,
-            SUM(item_inventory.qty) as qty
-            ');
-            
-
-            $this->db->where('items.is_deleted', 0);
-            $query = $this->db->get("items");
-
-            if ($query->num_rows() > 0) {
-                return $query->result_array();
-            }
-            return false;
-
-    }
-
-
-
-    /////////////////////////////////////////////////////////////////////////
-
-
-    //////////////
-    // HELPERS
-
-    function fetch_brand() {
-
-            $this->db->select('*');
-            $this->db->where('is_deleted', 0);
-            $query = $this->db->get('item_brand');
-
-            return $query->result_array();
-
-    }
-
-
-    function fetch_category() {
-
-            $this->db->select('*');
-            $this->db->where('is_deleted', 0);
-            $query = $this->db->get('item_category');
-
-            return $query->result_array();
-
-    }
-
-
-    function fetch_unit() {
-
-            $this->db->select('*');
-            $this->db->where('is_deleted', 0);
-            $query = $this->db->get('item_unit');
-
-            return $query->result_array();
-
-    }
-
-
-    function search($q, $brand){
-            
-            if($brand) {
-              $this->db->having('brand', $brand);
-            }
-            $this->db->like('name', $q);
-            $this->db->or_like('description', $q);
-            $this->db->or_like('serial', $q);
-            $this->db->or_like('id', $q);
-
-            $this->db->limit(15);
-            $query = $this->db->get('items');
-            
-            return $query->result_array();
-  }
 }

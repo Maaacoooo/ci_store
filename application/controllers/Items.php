@@ -9,6 +9,7 @@ class Items extends CI_Controller {
        $this->load->model('user_model');
        $this->load->model('item_model');
        $this->load->model('brand_model');
+       $this->load->model('unit_model');
        $this->load->model('category_model');
        $this->load->model('inventory_model');
 	}	
@@ -33,7 +34,7 @@ class Items extends CI_Controller {
 			//Paginated data				            
 	   		$config['num_links'] = 5;
 			$config['base_url'] = base_url('/items/index/');
-			$config["total_rows"] = $this->item_model->count_inventory_items($search);
+			$config["total_rows"] = $this->item_model->count_inventory_items($search, 0, NULL);
 			$config['per_page'] = 50;				
 			$this->load->config('pagination'); //LOAD PAGINATION CONFIG
 
@@ -44,7 +45,7 @@ class Items extends CI_Controller {
 		       $page = 1;		               
 		    }
 
-		    $data["results"] = $this->item_model->fetch_inventory_items($config["per_page"], $page, $search);
+		    $data["results"] = $this->item_model->fetch_inventory_items($config["per_page"], $page, $search, 0, NULL);
 		    $str_links = $this->pagination->create_links();
 		    $data["links"] = explode('&nbsp;',$str_links );
 
@@ -80,9 +81,9 @@ class Items extends CI_Controller {
 			$data['user'] 		= $this->user_model->userdetails($userdata['username']); //fetches users record
 
 			//Fetch Data
-			$data['brands']		= $this->item_model->fetch_brand();
-			$data['units']		= $this->item_model->fetch_unit();
-			$data['category']		= $this->item_model->fetch_category();
+			$data['brands']		= $this->brand_model->fetch_brands(NULL, NULL, NULL);
+			$data['units']		= $this->unit_model->fetch_units(NULL, NULL, NULL);
+			$data['category']	= $this->category_model->fetch_categories(NULL, NULL, NULL);
 
 			//Search 
 			$search = '';
@@ -93,7 +94,7 @@ class Items extends CI_Controller {
 			//Paginated data				            
 	   		$config['num_links'] = 5;
 			$config['base_url'] = base_url('/items/product_list/');
-			$config["total_rows"] = $this->item_model->count_items($search);
+			$config["total_rows"] = $this->item_model->count_items($search, 0);
 			$config['per_page'] = 50;				
 			$this->load->config('pagination'); //LOAD PAGINATION CONFIG
 
@@ -104,7 +105,7 @@ class Items extends CI_Controller {
 		       $page = 1;		               
 		    }
 
-		    $data["results"] = $this->item_model->fetch_items($config["per_page"], $page, $search);
+		    $data["results"] = $this->item_model->fetch_items($config["per_page"], $page, $search, 0);
 		    $str_links = $this->pagination->create_links();
 		    $data["links"] = explode('&nbsp;',$str_links );
 
@@ -156,10 +157,8 @@ class Items extends CI_Controller {
 							);
 
 				
-						//Save log loop
-						foreach($log as $lg) {
-							$this->logs_model->create_log($lg['user'], $lg['tag'], $lg['tag_id'], $lg['action']);				
-						}		
+						//Save Logs/////////////////////////
+						$this->logs_model->save_logs($log);		
 						////////////////////////////////////
 					
 						$this->session->set_flashdata('success', 'Product Registered!');
@@ -188,23 +187,15 @@ class Items extends CI_Controller {
 			$data['site_title'] = APP_NAME;
 			$data['user'] = $this->user_model->userdetails($userdata['username']); //fetches users record
 
-			//Page Data 
-			$data['brands']		= $this->item_model->fetch_brand();
-			$data['units']		= $this->item_model->fetch_unit();
-			$data['category']	= $this->item_model->fetch_category();			
+			//Fetch Data
+			$data['brands']		= $this->brand_model->fetch_brands(NULL, NULL, NULL);
+			$data['units']		= $this->unit_model->fetch_units(NULL, NULL, NULL);
+			$data['category']	= $this->category_model->fetch_categories(NULL, NULL, NULL);			
 			$data['gallery']	= $this->item_model->fetch_gallery($id);			
-			$data['inventory']	= $this->item_model->fetch_item_inventory($id);			
+			$data['inventory']	= $this->item_model->fetch_inventory_items(NULL, NULL, NULL, 0, $id);			
 
 			$data['info']		= $this->item_model->view($id);
 			$data['title'] 		= $data['info']['name'];
-			
-
-			//item view for !Administrator account
-			$brand = '';
-			if($data['user']['usertype'] != 'Administrator') {
-				$brand = $data['user']['brand'];
-			}
-
 
 			//Validate if record exist
 			 //IF NO ID OR NO RESULT, REDIRECT
@@ -251,14 +242,10 @@ class Items extends CI_Controller {
 
 					//Proceed saving candidate				
 					$key_id = $this->encryption->decrypt($this->input->post('id')); //ID of the row
+					$action = $this->item_model->update($key_id);
 
-					if($brand) {
-						$act = $this->item_model->update($key_id, $brand);
-					} else {
-						$act = $this->item_model->update($key_id, $this->input->post('brand'));
-					}	
 
-					if($act) {		
+					if($action) {		
 
 						$log[] = array(
 							'user' 		=> 	$userdata['username'],
@@ -346,11 +333,9 @@ class Items extends CI_Controller {
 							);
 
 				
-						//Save log loop
-						foreach($log as $lg) {
-							$this->logs_model->create_log($lg['user'], $lg['tag'], $lg['tag_id'], $lg['action']);				
-						}		
-						////////////////////////////////////
+					//Save Logs/////////////////////////
+					$this->logs_model->save_logs($log);		
+					////////////////////////////////////
 					$this->session->set_flashdata('gallery', 1); //used by tabs
 					$this->session->set_flashdata('success', 'Picture Uploaded');
 					redirect($_SERVER['HTTP_REFERER'], 'refresh');
@@ -397,11 +382,9 @@ class Items extends CI_Controller {
 							);
 
 				
-						//Save log loop
-						foreach($log as $lg) {
-							$this->logs_model->create_log($lg['user'], $lg['tag'], $lg['tag_id'], $lg['action']);				
-						}		
-						////////////////////////////////////
+					//Save Logs/////////////////////////
+					$this->logs_model->save_logs($log);		
+					////////////////////////////////////
 					$this->session->set_flashdata('gallery', 1); //used by tabs
 					$this->session->set_flashdata('success', 'Deleted Picture');
 					redirect($_SERVER['HTTP_REFERER'], 'refresh');
@@ -450,11 +433,10 @@ class Items extends CI_Controller {
 							);
 
 				
-						//Save log loop
-						foreach($log as $lg) {
-							$this->logs_model->create_log($lg['user'], $lg['tag'], $lg['tag_id'], $lg['action']);				
-						}		
-						////////////////////////////////////
+					//Save Logs/////////////////////////
+					$this->logs_model->save_logs($log);		
+					////////////////////////////////////
+
 					$this->session->set_flashdata('success', 'Item Deleted!');
 					redirect('items', 'refresh');
 				}
