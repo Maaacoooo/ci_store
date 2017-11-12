@@ -31,7 +31,7 @@ class Categories extends CI_Controller {
 			//Paginated data		            
 	   		$config['num_links'] = 5;
 			$config['base_url'] = base_url('/categories/index/');
-			$config["total_rows"] = $this->category_model->count_categories($search);
+			$config["total_rows"] = $this->category_model->count_categories($search, 0);
 			$config['per_page'] = 20;				
 			$this->load->config('pagination'); //LOAD PAGINATION CONFIG
 
@@ -42,7 +42,7 @@ class Categories extends CI_Controller {
 		       $page = 1;		               
 		    }
 
-		    $data["results"] = $this->category_model->fetch_categories($config["per_page"], $page, $search);
+		    $data["results"] = $this->category_model->fetch_categories($config["per_page"], $page, $search, 0);
 		    $str_links = $this->pagination->create_links();
 		    $data["links"] = explode('&nbsp;',$str_links );
 
@@ -78,10 +78,8 @@ class Categories extends CI_Controller {
 							);
 
 				
-						//Save log loop
-						foreach($log as $lg) {
-							$this->logs_model->create_log($lg['user'], $lg['tag'], $lg['tag_id'], $lg['action']);				
-						}		
+						//Save Logs/////////////////////////
+						$this->logs_model->save_logs($log);		
 						////////////////////////////////////
 					
 						$this->session->set_flashdata('success', 'Category Registered!');
@@ -175,10 +173,8 @@ class Categories extends CI_Controller {
 							);
 
 				
-						//Save log loop
-						foreach($log as $lg) {
-							$this->logs_model->create_log($lg['user'], $lg['tag'], $lg['tag_id'], $lg['action']);				
-						}		
+						//Save Logs/////////////////////////
+						$this->logs_model->save_logs($log);		
 						////////////////////////////////////
 						
 					
@@ -214,11 +210,10 @@ class Categories extends CI_Controller {
 		if($userdata)	{
 			
 			//FORM VALIDATION
-			$this->form_validation->set_rules('id', 'ID', 'trim|required');   
+			$this->form_validation->set_rules('id', 'ID', 'trim|required|callback_check_category');   
 		 
 		   if($this->form_validation->run() == FALSE)	{
 
-				$this->session->set_flashdata('error', 'An Error has Occured!');
 				redirect($_SERVER['HTTP_REFERER'], 'refresh');
 
 			} else {
@@ -235,11 +230,9 @@ class Categories extends CI_Controller {
 							);
 
 				
-						//Save log loop
-						foreach($log as $lg) {
-							$this->logs_model->create_log($lg['user'], $lg['tag'], $lg['tag_id'], $lg['action']);				
-						}		
-						////////////////////////////////////
+					//Save Logs/////////////////////////
+					$this->logs_model->save_logs($log);		
+					////////////////////////////////////
 					$this->session->set_flashdata('success', 'Category Deleted!');
 					redirect('categories', 'refresh');
 				}
@@ -249,6 +242,26 @@ class Categories extends CI_Controller {
 
 			$this->session->set_flashdata('error', 'You need to login!');
 			redirect('dashboard/login', 'refresh');
+		}
+
+	}
+
+
+	/**
+	 * Checks a category of there are existing items categorized with it
+	 * @param  [type] $cat [description]
+	 * @return [type]      [description]
+	 */
+	function check_category($cat) {
+		$cat_id = $this->encryption->decrypt($cat);
+
+		$category = $this->category_model->view($cat_id);
+
+		if($this->category_model->count_inventory($category['title'])) {
+			$this->session->set_flashdata('error', 'Oops! There are items categorized with the category you wanted to delete. You can only delete a category with no items');
+			return FALSE; 
+		} else {
+			return TRUE;
 		}
 
 	}

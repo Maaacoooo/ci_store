@@ -38,7 +38,7 @@
       </h1>
       <ol class="breadcrumb">
         <li><a href="<?=base_url()?>">Dashboard</a></li>
-        <li><a href="<?=base_url('locations')?>">Storage Locations</a></li>
+        <li><a href="<?=base_url('categories')?>">Item Categories</a></li>
         <li class="active"><?=$title?></li>
       </ol>
     </section>
@@ -88,7 +88,7 @@
        <!-- Default box -->
       <div class="box <?php if($this->session->flashdata('loc_item'))echo'collapsed-box'; ?>">
         <div class="box-header with-border">
-          <h3 class="box-title"><?=$title?> Inventory <span class="badge"><?=$total_result?></span></h3>
+          <h3 class="box-title"><?=$title?> Items <span class="badge"><?=$total_result?></span></h3>
 
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
@@ -110,29 +110,27 @@
                 <div class="tab-content">
                   <div class="tab-pane <?php if(!($this->session->flashdata('flash_loc')))echo'active'?>" id="items">
                     <?php if ($results): ?>
-                    <table class="table table-condensed table-bordered">
+                      <table class="table table-bordered table-condensed table-hover">
                       <thead>
                         <tr>
-                          <th>ID</th>
+                          <th>Item ID</th>
                           <th>Item Name</th>
-                          <th>Category</th>
                           <th>Unit</th>
-                          <th>DP</th>
-                          <th>SRP</th>
-                          <th>QTY</th>
+                          <th>Brand</th>
+                          <th class="bg-warning">Dealer</th>
+                          <th class="bg-success">Actual</th>
                         </tr>
                       </thead>
                       <tbody>
-                        <?php foreach ($results as $item): ?>
+                        <?php foreach ($results as $res): ?>
                         <tr>
-                          <td><a href="<?=base_url('items/view/'.$item['id'])?>"><?=$item['id']?></a></td>
-                          <td><a href="<?=base_url('items/view/'.$item['id'])?>"><?=$item['name']?></a></td>
-                          <td><a href="<?=base_url('items/view/'.$item['id'])?>"><?=$item['category']?></a></td>
-                          <td><a href="<?=base_url('items/view/'.$item['id'])?>"><?=$item['unit']?></a></td>
-                          <td><a href="<?=base_url('items/view/'.$item['id'])?>"><?=$item['DP']?></a></td>
-                          <td><a href="<?=base_url('items/view/'.$item['id'])?>"><?=$item['SRP']?></a></td>
-                          <td><a href="<?=base_url('items/view/'.$item['id'])?>"><?=$item['qty']?></a></td>
-                        </tr>
+                        <td><a href="<?=base_url('items/view/'.$res['id'])?>"><?=$res['id']?></a></td>
+                        <td><a href="<?=base_url('items/view/'.$res['id'])?>"><?=$res['name']?></a></td>
+                        <td><a href="<?=base_url('items/view/'.$res['id'])?>"><?=$res['unit']?></a></td>
+                        <td><a href="<?=base_url('items/view/'.$res['id'])?>"><?=$res['brand']?></a></td>
+                        <td class="bg-warning"><a href="<?=base_url('items/view/'.$res['id'])?>"><?=$res['dealer_price']?></a></td>
+                        <td class="bg-success"><a href="<?=base_url('items/view/'.$res['id'])?>"><?=$res['actual_price']?></a></td>
+                      </tr>
                         <?php endforeach ?>
                       </tbody>
                       <tfoot>

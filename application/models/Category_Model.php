@@ -52,7 +52,7 @@ Class Category_Model extends CI_Model {
      * @param  int      $id         the Page ID of the request. 
      * @return Array        The array of returned rows 
      */
-    function fetch_categories($limit, $id, $search) {
+    function fetch_categories($limit, $id, $search, $is_deleted) {
 
             if($search) {
               $this->db->like('item_category.title', $search);
@@ -64,7 +64,7 @@ Class Category_Model extends CI_Model {
             ');
             
 
-            $this->db->where('item_category.is_deleted', 0);
+            $this->db->where('item_category.is_deleted', $is_deleted);
             $this->db->limit($limit, (($id-1)*$limit));
 
             $query = $this->db->get("item_category");
@@ -80,11 +80,13 @@ Class Category_Model extends CI_Model {
      * Returns the total number of rows of users
      * @return int       the total rows
      */
-    function count_categories($search) {
+    function count_categories($search, $is_deleted) {
         if($search) {
           $this->db->like('title', $search);
         }
+        
         $this->db->where('is_deleted', 0);
+        $this->db->where('item_category.is_deleted', $is_deleted);
         return $this->db->count_all_results("item_category");
     }
 
@@ -109,8 +111,6 @@ Class Category_Model extends CI_Model {
      */
     function fetch_inventory($limit, $id, $category) {
 
-            $this->db->join('items', 'items.id = item_inventory.item_id', 'left');
-            $this->db->group_by('item_inventory.item_id');
             $this->db->select('
                 items.id,
                 items.name,
@@ -119,13 +119,14 @@ Class Category_Model extends CI_Model {
                 items.actual_price,
                 items.dealer_price,
                 items.serial,
+                items.critical_level,
                 items.unit,
-                SUM(item_inventory.qty) as qty
             ');            
             $this->db->limit($limit, (($id-1)*$limit));            
             $this->db->where('items.category', $category);
+            $this->db->where('items.is_deleted', 0);
 
-            $query = $this->db->get("item_inventory");
+            $query = $this->db->get("items");
 
             if ($query->num_rows() > 0) {
                 return $query->result_array();
@@ -135,12 +136,10 @@ Class Category_Model extends CI_Model {
     }
 
     function count_inventory($category) {
-        $this->db->join('items', 'items.id = item_inventory.item_id', 'left');
-        $this->db->group_by('item_inventory.item_id');
         $this->db->where('items.is_deleted', 0);
         $this->db->where('items.category', $category);
         $this->db->select('items.id'); 
-        return $this->db->count_all_results("item_inventory");
+        return $this->db->count_all_results("items");
     }
 
 
