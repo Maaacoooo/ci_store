@@ -255,14 +255,10 @@ class Items extends CI_Controller {
 							'tag_id'	=> 	$key_id,
 							'action' 	=> 	'Updated Item Information'
 							);
-
 				
-						//Save log loop
-						foreach($log as $lg) {
-							$this->logs_model->create_log($lg['user'], $lg['tag'], $lg['tag_id'], $lg['action']);				
-						}		
-						////////////////////////////////////
-						
+						//Save Array of Logs ///////////////			
+						$this->logs_model->save_logs($log);			
+						////////////////////////////////////						
 					
 						$this->session->set_flashdata('success', 'Succes! Item Updated!');
 						$this->session->set_flashdata('setting', 1); //used by tabs

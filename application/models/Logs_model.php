@@ -11,6 +11,8 @@ Class Logs_model extends CI_Model
 
     /**
      * Inserting a Log
+     * This only inserts one row
+     * - This will be SOON DEPRECATED and only used for backward versions purposes
      * @param  String       $user       The user
      * @param  String       $tag        The table of module
      * @param  String       $tag_id     The row ID of record
@@ -30,6 +32,28 @@ Class Logs_model extends CI_Model
        
             return $this->db->insert('logs', $data);      
 
+    }
+
+    /**
+     * New Logging function - More convenient that create_log()
+     * Inserts multiple rows
+     * @param  Multidimensional Array    $log    a set of array of log data
+     * @return Boolean      [description]
+     */
+    function save_logs($logs) {
+        
+        foreach ($logs as $log) {
+            $data['user'] = $log['user'];
+            $data['tag'] = $log['tag'];
+            $data['tag_id'] = $log['tag_id'];
+            $data['action'] = $log['action'];
+            $data['ip_address'] = $_SERVER['REMOTE_ADDR'] ;
+            $data['user_agent'] = $this->input->user_agent();
+
+            $data_arr[] = $data; //build data
+        } 
+
+        return $this->db->insert_batch('logs', $data_arr);
     }
 
 
