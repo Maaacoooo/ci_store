@@ -119,15 +119,15 @@
             <tbody>
               <?php foreach ($results as $res): ?>
                 <tr>
-                  <td><a href="<?=base_url('items/view/'.$res['id'])?>"><?=$res['batch_id']?></a></td>
-                  <td><a href="<?=base_url('items/view/'.$res['id'])?>"><?=$res['id']?></a></td>
-                  <td><a href="<?=base_url('items/view/'.$res['id'])?>"><?=$res['name']?></a></td>
-                  <td><a href="<?=base_url('items/view/'.$res['id'])?>"><?=$res['unit']?></a></td>
-                  <td><a href="<?=base_url('items/view/'.$res['id'])?>"><?=$res['brand']?></a></td>
-                  <td><a href="<?=base_url('items/view/'.$res['id'])?>"><?=$res['category']?></a></td>
-                  <td><a class="text-danger" href="<?=base_url('items/view/'.$res['id'])?>"><?=$res['location']?></a></td>
-                  <td class="bg-warning"><a href="<?=base_url('items/view/'.$res['id'])?>"><?=$res['dealer_price']?></a></td>
-                  <td class="bg-success"><a href="<?=base_url('items/view/'.$res['id'])?>"><?=$res['actual_price']?></a></td>
+                  <td><a href="<?=base_url('items/view/'.$res['id'].'/batch/'.$res['batch_id'])?>"><?=$res['batch_id']?></a></td>
+                  <td><a href="<?=base_url('items/view/'.$res['id'].'/batch/'.$res['batch_id'])?>"><?=$res['id']?> <a class="text-maroon" href="<?=base_url('items/view/'.$res['id'])?>"><small>[view Item]</small></a></a></td>
+                  <td><a href="<?=base_url('items/view/'.$res['id'].'/batch/'.$res['batch_id'])?>"><?=$res['name']?></a></td>
+                  <td><a href="<?=base_url('items/view/'.$res['id'].'/batch/'.$res['batch_id'])?>"><?=$res['unit']?></a></td>
+                  <td><a href="<?=base_url('items/view/'.$res['id'].'/batch/'.$res['batch_id'])?>"><?=$res['brand']?></a></td>
+                  <td><a href="<?=base_url('items/view/'.$res['id'].'/batch/'.$res['batch_id'])?>"><?=$res['category']?></a></td>
+                  <td><a class="text-danger" href="<?=base_url('items/view/'.$res['id'].'/batch/'.$res['batch_id'])?>"><?=$res['location']?></a></td>
+                  <td class="bg-warning"><a href="<?=base_url('items/view/'.$res['id'].'/batch/'.$res['batch_id'])?>"><?=$res['dealer_price']?></a></td>
+                  <td class="bg-success"><a href="<?=base_url('items/view/'.$res['id'].'/batch/'.$res['batch_id'])?>"><?=$res['actual_price']?></a></td>
                   <td>
                     <?php 
                       $critical = 10; //default critical level
