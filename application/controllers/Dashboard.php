@@ -27,7 +27,6 @@ class Dashboard extends CI_Controller {
 
 			if($data['user']['usertype'] == 'Administrator') {
 
-				$data['brands']				= $this->item_model->fetch_brand();
 				$data['intransit_exports'] 	= $this->export_model->fetch_exports(0, 0, 0, 2);				
 				$data['pending_requests'] 	= $this->request_model->fetch_requests(0, 0, NULL, 1);				
 				$this->load->view('dashboard/dashboard_admin', $data);						
