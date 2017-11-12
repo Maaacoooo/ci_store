@@ -100,7 +100,7 @@
           </div>
         </div>
         <div class="box-body table-responsive no-padding">
-          <table class="table">            
+          <table class="table table-bordered table-condensed table-hover">            
             <?php if ($results): ?>
             <thead>
               <tr>
