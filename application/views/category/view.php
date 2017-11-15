@@ -136,7 +136,6 @@
                       <tfoot>
                         <tr>
                           <td colspan="7">
-                            <a href="<?=base_url('locations/print_inventory/'.$info['id'])?>" class="btn btn-primary" target="_blank"><i class="fa fa-print"></i> Print <?=$info['title']?> Inventory</a>
                             <div class="pull-right">
                               <?php foreach ($links as $link) { echo $link; } ?>
                             </div><!-- /.pull-right -->
