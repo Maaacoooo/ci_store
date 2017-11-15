@@ -82,12 +82,21 @@ Class Logs_model extends CI_Model
 
 
     function fetch_user_logs($user, $limit) {
-
+            $this->db->select('
+            id,
+            user,
+            tag,
+            tag_id,
+            action,
+            ip_address,
+            date_time');
             if($limit) {
                 $this->db->limit($limit);
             }
 
-            $this->db->where('user', $user);;
+            if(!is_null($user)){
+                $this->db->where('user', $user);;
+            }
             $this->db->order_by('date_time', 'DESC');
 
             $query = $this->db->get("logs");
