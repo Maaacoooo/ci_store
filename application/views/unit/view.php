@@ -38,7 +38,7 @@
       </h1>
       <ol class="breadcrumb">
         <li><a href="<?=base_url()?>">Dashboard</a></li>
-        <li><a href="<?=base_url('locations')?>">Storage Locations</a></li>
+        <li><a href="<?=base_url('categories')?>">Item Categories</a></li>
         <li class="active"><?=$title?></li>
       </ol>
     </section>
@@ -88,7 +88,7 @@
        <!-- Default box -->
       <div class="box <?php if($this->session->flashdata('loc_item'))echo'collapsed-box'; ?>">
         <div class="box-header with-border">
-          <h3 class="box-title"><?=$title?> Inventory <span class="badge"><?=$total_result?></span></h3>
+          <h3 class="box-title"><?=$title?> Items <span class="badge"><?=$total_result?></span></h3>
 
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
@@ -110,29 +110,27 @@
                 <div class="tab-content">
                   <div class="tab-pane <?php if(!($this->session->flashdata('flash_loc')))echo'active'?>" id="items">
                     <?php if ($results): ?>
-                    <table class="table table-condensed table-bordered">
+                      <table class="table table-bordered table-condensed table-hover">
                       <thead>
                         <tr>
-                          <th>ID</th>
+                          <th>Item ID</th>
                           <th>Item Name</th>
-                          <th>Category</th>
                           <th>Unit</th>
-                          <th>DP</th>
-                          <th>SRP</th>
-                          <th>QTY</th>
+                          <th>Brand</th>
+                          <th class="bg-warning">Dealer</th>
+                          <th class="bg-success">Actual</th>
                         </tr>
                       </thead>
                       <tbody>
-                        <?php foreach ($results as $item): ?>
+                        <?php foreach ($results as $res): ?>
                         <tr>
-                          <td><a href="<?=base_url('items/view/'.$item['id'])?>"><?=$item['id']?></a></td>
-                          <td><a href="<?=base_url('items/view/'.$item['id'])?>"><?=$item['name']?></a></td>
-                          <td><a href="<?=base_url('items/view/'.$item['id'])?>"><?=$item['category']?></a></td>
-                          <td><a href="<?=base_url('items/view/'.$item['id'])?>"><?=$item['unit']?></a></td>
-                          <td><a href="<?=base_url('items/view/'.$item['id'])?>"><?=$item['DP']?></a></td>
-                          <td><a href="<?=base_url('items/view/'.$item['id'])?>"><?=$item['SRP']?></a></td>
-                          <td><a href="<?=base_url('items/view/'.$item['id'])?>"><?=$item['qty']?></a></td>
-                        </tr>
+                        <td><a href="<?=base_url('items/view/'.$res['id'])?>"><?=$res['id']?></a></td>
+                        <td><a href="<?=base_url('items/view/'.$res['id'])?>"><?=$res['name']?></a></td>
+                        <td><a href="<?=base_url('items/view/'.$res['id'])?>"><?=$res['unit']?></a></td>
+                        <td><a href="<?=base_url('items/view/'.$res['id'])?>"><?=$res['brand']?></a></td>
+                        <td class="bg-warning"><a href="<?=base_url('items/view/'.$res['id'])?>"><?=$res['dealer_price']?></a></td>
+                        <td class="bg-success"><a href="<?=base_url('items/view/'.$res['id'])?>"><?=$res['actual_price']?></a></td>
+                      </tr>
                         <?php endforeach ?>
                       </tbody>
                       <tfoot>
@@ -188,12 +186,12 @@
                   
                   <!-- Settings -->
                   <div class="tab-pane <?php if($this->session->flashdata('flash_loc'))echo'active'?>" id="settings">
-                  <?=form_open('categories/view/'.$info['id'], array('class' => 'form-horizontal'))?>                
+                  <?=form_open('units/view/'.$info['id'], array('class' => 'form-horizontal'))?>                
                       <div class="form-group">
-                        <label for="title" class="col-sm-2 control-label">Location</label>
+                        <label for="title" class="col-sm-2 control-label">Item Unit</label>
 
                         <div class="col-sm-10">
-                          <input type="text" name="title" class="form-control" id="title" placeholder="Warehouse / Location / Building" value="<?=$info['title']?>" >
+                          <input type="text" name="title" class="form-control" id="title" placeholder="Item Unit..." value="<?=$info['title']?>" >
                         </div>
                       </div>                 
                       <input type="hidden" name="id" value="<?=$this->encryption->encrypt($info['id'])?>" />                 
@@ -233,7 +231,7 @@
   
         <div class="modal modal-danger fade" id="modalDelete" style="display: none;">
           <div class="modal-dialog">
-          <?=form_open('categories/delete')?>
+          <?=form_open('units/delete')?>
             <div class="modal-content">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -247,113 +245,7 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-outline">Delete Category</button>
-              </div>
-            </div>
-            <!-- /.modal-content -->
-          <?=form_close()?>
-          </div>
-          <!-- /.modal-dialog -->
-        </div>
-
-
-        <div class="modal fade" id="modalMove" style="display: none;">
-          <div class="modal-dialog modal-lg">
-          <?=form_open('move/create')?>
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">×</span></button>
-                <h4 class="modal-title"><i class="fa fa-truck"></i>Move Items from <?=$title?></h4>
-              </div>
-              <div class="modal-body">
-                <div class="callout callout-info">
-                  <h4><i class="fa fa-info-circle"></i> Information</h4>
-                  <p>When moving items, select a correct destination of where to move your items. You can also dispose the items, by selecting <em>DISPOSE ITEMS</em> in the Location / Destination options.</p>
-                  <p>Note that any data submitted <strong class="text-danger">CANNOT BE UNDONE</strong>.</p>
-                  <p>Please review the following items to be moved.</p>                  
-                </div><!-- /.callout callout-info -->
-                <table class="table table-bordered">
-                      <thead>
-                        <tr>
-                          <th width="10%">Item ID</th>
-                          <th width="40%">Item Name</th>
-                          <th>Unit</th>
-                          <th>DP</th>
-                          <th>QTY</th>
-                          <th>Sub Total</th>
-                        </tr>
-                      </thead>
-                      <?php if ($items): ?>
-                      <tbody>
-                        <?php foreach ($items as $t): $qty[]=$t['qty']; $sub[]=($t['qty']*$t['DP']); ?>
-                          <tr>
-                            <td><?=$t['item_id']?></td>
-                            <td><?=$t['name']?></td>
-                            <td><?=$t['unit']?></td>
-                            <td><?=$t['DP']?></td>
-                            <td><?=$t['qty']?></td>
-                            <td><?=($t['qty']*$t['DP'])?></td>
-                          </tr>                          
-                        <?php endforeach ?>
-                      </tbody>
-                      <tfoot>
-                        <tr>
-                          <th colspan="4" class="text-right">Total</th>
-                          <th class="bg-success text-danger"><?=array_sum($qty)?></th><!-- /.bg-success text-danger -->
-                          <th class="bg-success text-danger"><?=array_sum($sub)?></th><!-- /.bg-success text-danger -->
-                        </tr>
-                      </tfoot>
-                      <button type="submit" class="hidden"></button>
-                      <?php else: ?>
-                        <tr>
-                          <td colspan="6">
-                            <div class="alert alert-info alert-dismissible">
-                              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                              <p>Add an item</p>
-                            </div>
-                          </td>
-                        </tr>
-                      <?php endif ?>
-                    </table><!-- /.table table-bordered -->
-                    <div class="row">
-                      <div class="col-md-12">
-                        <div class="form-group">
-                          <label for="destination">Destination to Move</label>
-                          <select name="destination" id="destination" class="form-control" required="true">
-                            <option disabled selected="">Select a location to move...</option>
-                            <option value="0">--- Dispose Items ---</option>
-                            <?php if ($locations): ?>
-                            <?php foreach ($locations as $loc): ?>
-                            <option value="<?=$loc['title']?>"><?=$loc['title']?></option>                                
-                            <?php endforeach ?>                              
-                            <?php endif ?>                            
-                          </select>
-                        </div><!-- /.form-group -->
-                      </div><!-- /.col-md-12 -->
-                    </div><!-- /.row -->
-                    <div class="row">
-                      <div class="col-md-12">
-                        <div class="form-group">
-                          <label for="remarks">Remarks</label>
-                          <textarea name="remarks" id="remarks" class="form-control" rows="5"></textarea>
-                        </div><!-- /.form-group -->
-                      </div><!-- /.col-md-12 -->
-                    </div><!-- /.row -->
-                    <div class="row">
-                      <div class="col-md-12">
-                         <div class="checkbox pull-right">
-                          <label>
-                            <input type="checkbox" required> Yes. I am sure that all inputs are correct.
-                          </label>
-                        </div>
-                      </div><!-- /.col-md-12 -->
-                    </div><!-- /.row -->
-                <input type="hidden" name="id" value="<?=$this->encryption->encrypt($info['id'])?>" />                    
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-success"><i class="fa fa-truck"></i> Move Items</button>
+                <button type="submit" class="btn btn-outline">Delete Item Unit</button>
               </div>
             </div>
             <!-- /.modal-content -->

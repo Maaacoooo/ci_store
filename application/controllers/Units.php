@@ -31,7 +31,7 @@ class Units extends CI_Controller {
 			//Paginated data		            
 	   		$config['num_links'] = 5;
 			$config['base_url'] = base_url('/units/index/');
-			$config["total_rows"] = $this->unit_model->count_units($search);
+			$config["total_rows"] = $this->unit_model->count_units($search, 0);
 			$config['per_page'] = 20;				
 			$this->load->config('pagination'); //LOAD PAGINATION CONFIG
 
@@ -42,7 +42,7 @@ class Units extends CI_Controller {
 		       $page = 1;		               
 		    }
 
-		    $data["results"] = $this->unit_model->fetch_units($config["per_page"], $page, $search);
+		    $data["results"] = $this->unit_model->fetch_units($config["per_page"], $page, $search, 0);
 		    $str_links = $this->pagination->create_links();
 		    $data["links"] = explode('&nbsp;',$str_links );
 
@@ -78,10 +78,8 @@ class Units extends CI_Controller {
 							);
 
 				
-						//Save log loop
-						foreach($log as $lg) {
-							$this->logs_model->create_log($lg['user'], $lg['tag'], $lg['tag_id'], $lg['action']);				
-						}		
+						//Save Logs/////////////////////////
+						$this->logs_model->save_logs($log);		
 						////////////////////////////////////
 					
 						$this->session->set_flashdata('success', 'Item Unit Registered!');
@@ -115,7 +113,7 @@ class Units extends CI_Controller {
 
 			//Page Data 
 			$data['info']			= $this->unit_model->view($id);		
-			$data['logs']			= $this->logs_model->fetch_logs('category', $id, 50);
+			$data['logs']			= $this->logs_model->fetch_logs('unit', $id, 50);
 			$data['title'] 			= $data['info']['title'];
 
 			//Paginated data			            
@@ -150,7 +148,7 @@ class Units extends CI_Controller {
 			//Validate if record exist
 			 //IF NO ID OR NO RESULT, REDIRECT
 				if(!$id || !$data['info'] || $data['info']['is_deleted']) {
-					redirect('items', 'refresh');
+					redirect('units', 'refresh');
 			}	
 
 			//Form Validation
@@ -175,10 +173,8 @@ class Units extends CI_Controller {
 							);
 
 				
-						//Save log loop
-						foreach($log as $lg) {
-							$this->logs_model->create_log($lg['user'], $lg['tag'], $lg['tag_id'], $lg['action']);				
-						}		
+						//Save Logs/////////////////////////
+						$this->logs_model->save_logs($log);		
 						////////////////////////////////////
 						
 					
@@ -225,21 +221,19 @@ class Units extends CI_Controller {
 
 				$key_id = $this->encryption->decrypt($this->input->post('id')); //ID of the row				
 
-				if($this->category_model->delete($key_id)) {
+				if($this->unit_model->delete($key_id)) {
 
 					$log[] = array(
 							'user' 		=> 	$userdata['username'],
-							'tag' 		=> 	'location',
+							'tag' 		=> 	'unit',
 							'tag_id'	=> 	$key_id,
 							'action' 	=> 	'Deleted Unit'
 							);
 
 				
-						//Save log loop
-						foreach($log as $lg) {
-							$this->logs_model->create_log($lg['user'], $lg['tag'], $lg['tag_id'], $lg['action']);				
-						}		
-						////////////////////////////////////
+					//Save Logs/////////////////////////
+					$this->logs_model->save_logs($log);		
+					////////////////////////////////////
 					$this->session->set_flashdata('success', 'Unit Deleted!');
 					redirect('units', 'refresh');
 				}

@@ -52,7 +52,7 @@ Class Unit_Model extends CI_Model {
      * @param  int      $id         the Page ID of the request. 
      * @return Array        The array of returned rows 
      */
-    function fetch_units($limit, $id, $search) {
+    function fetch_units($limit, $id, $search, $is_deleted) {
 
             if($search) {
               $this->db->like('item_unit.title', $search);
@@ -64,7 +64,7 @@ Class Unit_Model extends CI_Model {
             ');
             
 
-            $this->db->where('item_unit.is_deleted', 0);
+            $this->db->where('is_deleted', $is_deleted);
             $this->db->limit($limit, (($id-1)*$limit));
 
             $query = $this->db->get("item_unit");
@@ -80,11 +80,11 @@ Class Unit_Model extends CI_Model {
      * Returns the total number of rows of users
      * @return int       the total rows
      */
-    function count_units($search) {
+    function count_units($search, $is_deleted) {
         if($search) {
           $this->db->like('title', $search);
         }
-        $this->db->where('is_deleted', 0);
+        $this->db->where('is_deleted', $is_deleted);
         return $this->db->count_all_results("item_unit");
     }
 
@@ -102,29 +102,28 @@ Class Unit_Model extends CI_Model {
 
 
     /**
-     * Fetches the quantity of the item in each unit
+     * Fetches the quantity of the item in each category
      * @param  [type] $id [description]
      * @return [type]     [description]
      */
     function fetch_inventory($limit, $id, $unit) {
 
-            $this->db->join('items', 'items.id = item_inventory.item_id', 'left');
-            $this->db->group_by('item_inventory.item_id');
             $this->db->select('
                 items.id,
                 items.name,
                 items.brand,
                 items.category,
-                items.SRP,
-                items.DP,
+                items.actual_price,
+                items.dealer_price,
                 items.serial,
+                items.critical_level,
                 items.unit,
-                SUM(item_inventory.qty) as qty
             ');            
             $this->db->limit($limit, (($id-1)*$limit));            
             $this->db->where('items.unit', $unit);
+            $this->db->where('items.is_deleted', 0);
 
-            $query = $this->db->get("item_inventory");
+            $query = $this->db->get("items");
 
             if ($query->num_rows() > 0) {
                 return $query->result_array();
@@ -134,12 +133,10 @@ Class Unit_Model extends CI_Model {
     }
 
     function count_inventory($unit) {
-        $this->db->join('items', 'items.id = item_inventory.item_id', 'left');
-        $this->db->group_by('item_inventory.item_id');
         $this->db->where('items.is_deleted', 0);
         $this->db->where('items.unit', $unit);
         $this->db->select('items.id'); 
-        return $this->db->count_all_results("item_inventory");
+        return $this->db->count_all_results("items");
     }
 
 
