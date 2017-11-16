@@ -14,8 +14,8 @@ class Command extends CI_Controller {
 			$log_data = $this->logs_model->fetch_user_logs($user, NULL);
 
 			foreach ($log_data as $lg) {
-			    $logs[] = (explode(';', (implode(";", $lg))));
-			}
+		        	$logs[] = (explode(';', (implode(";", $lg))));
+		        }
 
 			//var_dump($logs);
 			echo magictable($logs);
@@ -26,7 +26,34 @@ class Command extends CI_Controller {
 
 
 	public function test() {
-		echo $this->input->method();
+
+		$this->load->library('magictable');
+		$log_data = $this->logs_model->fetch_user_logs(NULL, NULL);
+
+
+		foreach ($log_data as $lg) {
+		        	$logs[] = (explode(';', (implode(';', $lg))));
+		        }
+	   $header = array('ID', 'USERNAME', 'TAG', 'TAG_ID', 'ACTION', 'IP ADDRESS', 'DATE | TIME');
+       echo $this->magictable->maketable($header, $logs);
+
+	
+
+	}
+
+	public function test2() {
+
+		$this->load->library('magictable');		
+
+		$logs = array(
+			array('bbbb', 'cool', 'awesomeee', 'akjsdaksdkashdjkashdjkhasjkdhd', 'WOOPP'),
+			array('bbbb', 'cool', 'awesomeee', 'akjsdaksdkashdjkashdjkhasjkdhd', 'WOOPP')
+		);
+       echo $this->magictable->maketable(NULL, $logs);
+       
+       echo "\n\nRendered in " . $this->benchmark->elapsed_time('code_start', 'code_end') . 's';
+	
+
 	}
 
 
