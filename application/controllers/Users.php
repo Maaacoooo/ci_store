@@ -26,7 +26,6 @@ class Users extends CI_Controller {
 
 			//Page Data 
 			$data['usertypes']	= $this->user_model->usertypes();
-			$data['brands']		= $this->item_model->fetch_brand();
 			$data['locations']  = $this->location_model->fetch_locations(0, 0, 0);
 
 			//Search
@@ -149,6 +148,8 @@ class Users extends CI_Controller {
 			//Download Log Data 
 			if ($this->uri->segment(4) == 'download_logs') {
 
+				$this->load->library('magictable'); //load magictable library
+
 				$log_data = $this->logs_model->fetch_user_logs($id, NULL);
 
 		        foreach ($log_data as $lg) {
@@ -158,7 +159,7 @@ class Users extends CI_Controller {
 		        $upload_path = checkDir('./uploads/logs/'.$id.'/');
 		        $file_path = $upload_path.$id.'_'.date('Y-m-d_H-i-s').'.log';
 
-		        write_file($file_path, magictable($logs));
+		        write_file($file_path, $this->magictable->maketable(array('ID', 'USERNAME', 'TAG', 'TAG_ID', 'ACTION', 'IP ADDRESS', 'DATE | TIME'),$logs));
 		        force_download($file_path, NULL);
 			}
 
