@@ -88,7 +88,7 @@ class Dashboard extends CI_Controller {
 						);
 
 					//sets a notification //////////////////////////////
-					$notification['success'][] = "Welcome back . $username!";
+					$notification['success'] = "Welcome back . $username!";
 					$this->sessnotif->setNotif($notification);
 						
 					//Save Logs/////////////////////////
@@ -120,7 +120,7 @@ class Dashboard extends CI_Controller {
 
 	public function logout() {
 		//sets a notification //////////////////////////////
-		$notification['success'][] = "You have successfully logged out!";
+		$notification['success'] = "You have successfully logged out!";
 		$this->sessnotif->setNotif($notification);
 
 		$this->session->unset_userdata('admin_logged_in');		  
