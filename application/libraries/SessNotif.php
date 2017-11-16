@@ -148,25 +148,6 @@ class SessNotif
 					$show .= '</div>';
 					break;
 				
-				/**
-				 * This is a default view 
-				 */
-				default:
-					$show .= '<div class="alert bg-purple alert-dismissible">' . "\n";
-					$show .= "\t" . '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>' . "\n";
-					$show .= "\t" . '<h4><i class="icon fa fa-info-circle"></i> Notification</h4>' . "\n";
-					//checks if it is an array
-					if(is_array($value)) {
-						$show .= "\t" . '<ul>' . "\n";
-						for($x=0;$x<sizeof($value);$x++) {
-							$show .= "\t\t" . '<li>'.$value[$x].'</li>' . "\n";
-						}
-						$show .= "\t" . '</ul>' . "\n";
-					} else {
-						$show .= "\t<p>". $value . "</p>\n";
-					}
-					$show .= '</div>';
-					break;
 			} 
 	
 
