@@ -76,6 +76,23 @@ class Dashboard extends CI_Controller {
 					$this->load->view('user/admin_login', $data);
 
 				} else {
+					//Sets user data
+					$username = $this->input->post('username');
+					$this->session->set_userdata('admin_logged_in', array('username' => $username)); //set userdata
+					//Set logs
+					$log[] = array(
+							'user' 		=> 	$username,
+							'tag' 		=> 	'',
+							'tag_id'	=> 	'',
+							'action' 	=> 	'User Logged In'
+						);
+
+					//sets a notification //////////////////////////////
+					$notification['success'][] = "Welcome back . $username!";
+					$this->sessnotif->setNotif($notification);
+						
+					//Save Logs/////////////////////////
+					$this->logs_model->save_logs($log);		
 
 					redirect('dashboard', 'refresh');
 			}
@@ -87,23 +104,7 @@ class Dashboard extends CI_Controller {
 
 		$result = $this->user_model->check_user($username, $this->input->post('password'));
 
-		if($result) {
-			$this->session->set_userdata('admin_logged_in', array('username' => $username)); //set userdata
-			//Set logs
-			$log[] = array(
-					'user' 		=> 	$username,
-					'tag' 		=> 	'',
-					'tag_id'	=> 	'',
-					'action' 	=> 	'User Logged In'
-				);
-
-				
-			//Save log loop ///////////
-			foreach($log as $lg) {
-				$this->logs_model->create_log($lg['user'], $lg['tag'], $lg['tag_id'], $lg['action']);				
-			}	
-			////////////////////////////////////
-			
+		if($result) {	
 			return TRUE;
 		} else {
 			$this->form_validation->set_message('check_user', 'Username or Password does not match!');
@@ -118,7 +119,10 @@ class Dashboard extends CI_Controller {
 
 
 	public function logout() {
-		$this->session->set_flashdata('success', 'You sucessfuly logged out!');
+		//sets a notification //////////////////////////////
+		$notification['success'][] = "You have successfully logged out!";
+		$this->sessnotif->setNotif($notification);
+
 		$this->session->unset_userdata('admin_logged_in');		  
 		redirect('dashboard/login', 'refresh');
 	}
