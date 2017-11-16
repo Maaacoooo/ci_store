@@ -82,13 +82,13 @@ class Dashboard extends CI_Controller {
 					//Set logs
 					$log[] = array(
 							'user' 		=> 	$username,
-							'tag' 		=> 	'',
-							'tag_id'	=> 	'',
+							'tag' 		=> 	' ',
+							'tag_id'	=> 	' ',
 							'action' 	=> 	'User Logged In'
 						);
 
 					//sets a notification //////////////////////////////
-					$notification['success'] = "Welcome back . $username!";
+					$notification['success'] = "Welcome back $username!";
 					$this->sessnotif->setNotif($notification);
 						
 					//Save Logs/////////////////////////
