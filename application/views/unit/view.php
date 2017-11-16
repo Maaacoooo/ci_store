@@ -52,35 +52,12 @@
             //ERROR ACTION        
             $flash_error = $this->session->flashdata('error');
             $flash_success = $this->session->flashdata('success');
-            $flash_valid =  validation_errors();                 
-            if($this->session->flashdata('error')): ?>
+            $flash_valid =  validation_errors();   
 
-            <div class="alert alert-danger alert-dismissible">
-              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-              <h4><i class="icon fa fa-ban"></i> Oops!</h4>
-              <?=$this->session->flashdata('error')?>
-            </div>
-                       
-        <?php 
-            endif; //error end
-            //SUCCESS ACTION                          
-            if($this->session->flashdata('success')): ?>
-            <div class="alert alert-success alert-dismissible">
-              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-              <h4><i class="icon fa fa-check"></i> Success!</h4>
-              <?=$this->session->flashdata('success')?>
-            </div>
-        <?php 
-            endif; //success end
-            //FORM VALIDATION ERROR
-            $this->form_validation->set_error_delimiters('<li>', '</li>');
-            if(validation_errors()): ?>
-            <div class="alert alert-warning alert-dismissible">
-              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-              <h4><i class="icon fa fa-warning"></i> Warning!</h4>         
-              <?=validation_errors()?>         
-            </div>
-        <?php endif; //formval end ?> 
+            //show notif              
+            echo $this->sessnotif->showNotif();
+
+          ?>
         </div><!-- /.col-xs-12 -->
       </div><!-- /.row -->
 
