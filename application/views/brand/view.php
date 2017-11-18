@@ -36,7 +36,7 @@
       </h1>
       <ol class="breadcrumb">
         <li><a href="<?=base_url()?>">Dashboard</a></li>
-        <li><a href="<?=base_url('users')?>">Users</a></li>
+        <li><a href="<?=base_url('brands')?>">Item Brands</a></li>
         <li class="active"><?=$title?></li>
       </ol>
     </section>
@@ -45,6 +45,13 @@
 
       <div class="row">
         <div class="col-xs-12">
+          <?php
+            //ALERT / NOTIFICATION
+            //ERROR ACTION        
+            $flash_error = $this->session->flashdata('error');
+            $flash_success = $this->session->flashdata('success');
+            $flash_valid =  validation_errors();                 
+         ?>    
           <?=$this->sessnotif->showNotif()?>
         </div><!-- /.col-xs-12 -->
       </div><!-- /.row -->
@@ -56,30 +63,17 @@
           <div class="box box-primary">
             <div class="box-body box-profile">             
               <?php if (filexist($info['logo']) && $info['logo']): ?>
-                <img class="profile-user-img img-responsive" src="<?=base_url('uploads/'.$info['logo'])?>" alt="User profile picture">
+                <img class="profile-user-img img-responsive" src="<?=base_url($info['logo'])?>" alt="User profile picture">
               <?php else: ?>
                 <img class="profile-user-img img-responsive" src="<?=base_url('assets/img/no_image.gif')?>" alt="User profile picture">                
               <?php endif ?>
 
               <h3 class="profile-username text-center"><?=$info['title']?></h3>
 
-              <ul class="list-group list-group-unbordered">
-                <li class="list-group-item">
-                  <b>Address</b> <a class="pull-right"><?=$info['address']?></a>
-                </li>
-                <li class="list-group-item">
-                  <b>Email</b> <a href="mailto:<?=$info['email']?>" class="pull-right"><?=$info['email']?></a>
-                </li>
-                <li class="list-group-item">
-                  <b>Contact</b> <a class="pull-right"><?=$info['contact']?></a>
-                </li>  
+              <ul class="list-group list-group-unbordered">                
                 <li class="list-group-item">
                   <b>Web Address</b> <a class="pull-right"><?=$info['web']?></a>
-                </li>
-                <li class="list-group-item">
-                  <b>Description</b>
-                  <p><?=$info['description']?></p>
-                </li>              
+                </li>            
               </ul>
             </div>
             <!-- /.box-body -->
@@ -101,7 +95,7 @@
             <div class="tab-content">
               <div class="tab-pane <?php if(!($flash_error || $flash_success || $flash_valid))echo'active'?>" id="items">
                 <?php if ($results): ?>
-                <table class="table table-condensed table-bordered">
+                <table class="table table-condensed table-bordered table-hover">
                   <thead>
                     <tr>
                       <th>ID</th>
@@ -110,7 +104,6 @@
                       <th>Unit</th>
                       <th>DP</th>
                       <th>SRP</th>
-                      <th>QTY</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -120,9 +113,8 @@
                       <td><a href="<?=base_url('items/view/'.$item['id'])?>"><?=$item['name']?></a></td>
                       <td><a href="<?=base_url('items/view/'.$item['id'])?>"><?=$item['category']?></a></td>
                       <td><a href="<?=base_url('items/view/'.$item['id'])?>"><?=$item['unit']?></a></td>
-                      <td><a href="<?=base_url('items/view/'.$item['id'])?>"><?=$item['DP']?></a></td>
-                      <td><a href="<?=base_url('items/view/'.$item['id'])?>"><?=$item['SRP']?></a></td>
-                      <td><a href="<?=base_url('items/view/'.$item['id'])?>"><?=$item['qty']?></a></td>
+                      <td><a href="<?=base_url('items/view/'.$item['id'])?>"><?=$item['dealer_price']?></a></td>
+                      <td><a href="<?=base_url('items/view/'.$item['id'])?>"><?=$item['actual_price']?></a></td>
                     </tr>
                     <?php endforeach ?>
                   </tbody>
@@ -182,35 +174,11 @@
               <div class="tab-pane <?php if($flash_error || $flash_success || $flash_valid)echo'active'?>" id="settings">
               <?=form_open_multipart('brands/view/'.$info['id'], array('class' => 'form-horizontal'))?>                
                   <div class="form-group">
-                    <label for="title" class="col-sm-2 control-label">Affiliate Company / Brand</label>
+                    <label for="title" class="col-sm-2 control-label">Item Brand</label>
 
                     <div class="col-sm-10">
-                      <input type="text" name="title" class="form-control" id="title" placeholder="Brand / Company..." value="<?=$info['title']?>" >
+                      <input type="text" name="title" class="form-control" id="title" placeholder="Brand..." value="<?=$info['title']?>" >
                     </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="desc" class="col-sm-2 control-label">Description</label>
-                    <div class="col-sm-10">
-                      <textarea name="desc" id="desc" cols="30" rows="10" class="ckeditor"><?=$info['description']?></textarea>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="address" class="col-sm-2 control-label">Address</label>
-                    <div class="col-sm-10">
-                      <input type="text" name="address" class="form-control" id="address" placeholder="Company Address..." value="<?=$info['address']?>">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="email" class="col-sm-2 col-md-2 control-label">Email Address</label>
-                    <div class="col-sm-10 col-md-4">
-                      <input type="email" name="email" class="form-control" id="email" placeholder="Email Address..." value="<?=$info['email']?>" required>
-                    </div>
-
-                    <label for="contact" class="col-sm-2 col-md-2 control-label">Contact Number</label>
-                    <div class="col-sm-10 col-md-4">
-                      <input type="text" name="contact" class="form-control" id="contact" placeholder="Contact Number..." value="<?=$info['contact']?>">
-                    </div>
-
                   </div>
                   <div class="form-group">
                     <label for="web" class="col-sm-2 col-md-2 control-label">Web Address</label>
@@ -218,7 +186,7 @@
                       <input type="web" name="web" class="form-control" id="web" placeholder="http://webadress.com" value="<?=$info['web']?>" required>
                     </div>
 
-                    <label for="img" class="col-sm-2 col-md-2 control-label">Company Logo</label>
+                    <label for="img" class="col-sm-2 col-md-2 control-label">Brand Logo</label>
                     <div class="col-sm-10 col-md-4">        
                         <input type="file" name="img" id="img">       
                     </div>

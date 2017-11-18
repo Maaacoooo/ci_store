@@ -6,12 +6,22 @@ Class Brand_model extends CI_Model
 
     function create_brand() {
 
-            $filename = ''; //img filename empty if not present
+      
+            $data = array(              
+                'title'         => $this->input->post('title'),  
+                'web'           => $this->input->post('web')
+             );
+       
+            $this->db->insert('item_brand', $data);
+
+            $create = $this->db->insert_id(); //return the insert ID
 
             //Process Image Upload
               if($_FILES['img']['name'] != NULL)  {        
 
-                $config['upload_path'] = './uploads/';
+                $path = checkDir('./uploads/item_brands/'.$create.'/'); //the path to upload
+
+                $config['upload_path'] = $path;
                 $config['allowed_types'] = 'gif|jpg|png'; 
                 $config['encrypt_name'] = TRUE;                        
 
@@ -20,38 +30,56 @@ Class Brand_model extends CI_Model
                 
                 $field_name = "img";
                 $this->upload->do_upload($field_name);
-                $data2 = array('upload_data' => $this->upload->data());
-                foreach ($data2 as $key => $value) {     
-                  $filename = $value['file_name'];
-                }
-                
-            }
-      
-            $data = array(              
-                'title'         => $this->input->post('title'),  
-                'web'           => $this->input->post('web'),                                
-                'logo'          => $filename  
-             );
-       
-            return $this->db->insert('item_brand', $data);      
+
+                $upload_data = $this->upload->data();
+
+                $filepath = $path . $upload_data['file_name'];
+
+                // Set Watermark ////////////////////////////////////////////////////
+                $wm_config['quality'] = '100%';
+                $wm_config['wm_text'] = 'Copyright '.APP_NAME.' '.date('Y');
+                $wm_config['wm_type'] = 'text';
+                $wm_config['wm_font_path'] = './system/fonts/arial.ttf';
+                $wm_config['wm_font_size'] = '16';
+                $wm_config['wm_font_color'] = 'ffffff';
+                $wm_config['wm_vrt_alignment'] = 'bottom';
+                $wm_config['wm_hor_alignment'] = 'left';
+                $wm_config['source_image'] = $filepath; 
+                /////////////////////////////////////////////////////////////////////
+
+                //Update row 
+                $this->db->update('item_brand', array('logo' => $filepath), array('id'=>$create));
+            
+            } 
+
+            return $create;
 
     }
 
 
     function update_brand($id) { 
 
-            $filename = $this->view($id)['logo']; //gets the old data 
+            $filepath = $this->view($id)['logo']; //gets the old data 
+
+            //Remove Image
+            if($this->input->post('remove_img')) {
+                if(filexist($filepath)) {
+                  unlink($filepath); //removes the file
+                }
+                $filepath = ''; //set to null
+            }
 
             //Process Image Upload
               if($_FILES['img']['name'] != NULL)  { 
 
+                //remove old img
+                if(filexist($filepath)) {
+                  unlink($filepath); //removes the file
+                } 
 
-                //Deletes the old photo
-                if(!filexist($filename)) {
-                  unlink('./uploads/'.$filename); 
-                }
+                $path = checkDir('./uploads/item_brands/'.$id.'/'); //the path to upload
 
-                $config['upload_path'] = './uploads/';
+                $config['upload_path'] = $path;
                 $config['allowed_types'] = 'gif|jpg|png'; 
                 $config['encrypt_name'] = TRUE;                        
 
@@ -60,17 +88,28 @@ Class Brand_model extends CI_Model
                 
                 $field_name = "img";
                 $this->upload->do_upload($field_name);
-                $data2 = array('upload_data' => $this->upload->data());
-                foreach ($data2 as $key => $value) {     
-                  $filename = $value['file_name'];
-                }
+
+                $upload_data = $this->upload->data();
+
+                $filepath = $path . $upload_data['file_name']; //overwrite variable
+
+                 // Set Watermark ////////////////////////////////////////////////////
+                $wm_config['quality'] = '100%';
+                $wm_config['wm_text'] = 'Copyright '.APP_NAME.' '.date('Y');
+                $wm_config['wm_type'] = 'text';
+                $wm_config['wm_font_path'] = './system/fonts/arial.ttf';
+                $wm_config['wm_font_size'] = '16';
+                $wm_config['wm_font_color'] = 'ffffff';
+                $wm_config['wm_vrt_alignment'] = 'bottom';
+                $wm_config['wm_hor_alignment'] = 'left';
+                $wm_config['source_image'] = $filepath; 
                 
             }
       
             $data = array(           
                 'title'         => $this->input->post('title'),   
                 'web'           => $this->input->post('web'),                                
-                'logo'          => $filename   
+                'logo'          => $filepath   
              );
             
             $this->db->where('id', $id);
@@ -97,19 +136,27 @@ Class Brand_model extends CI_Model
     }
 
 
-    /**
+     /**
      * Returns the paginated array of rows 
      * @param  int      $limit      The limit of the results; defined at the controller
      * @param  int      $id         the Page ID of the request. 
      * @return Array        The array of returned rows 
      */
-    function fetch_brands($limit, $id, $search) {
+    function fetch_brands($limit, $id, $search, $is_deleted) {
 
             if($search) {
-              $this->db->like('title', $search);
+              $this->db->like('item_brand.title', $search);
             }
 
-            $this->db->where('is_deleted', 0);
+            $this->db->select('
+                item_brand.id,
+                item_brand.title,
+                item_brand.logo,
+                item_brand.web
+            ');
+            
+
+            $this->db->where('item_brand.is_deleted', $is_deleted);
             $this->db->limit($limit, (($id-1)*$limit));
 
             $query = $this->db->get("item_brand");
@@ -125,11 +172,13 @@ Class Brand_model extends CI_Model
      * Returns the total number of rows of users
      * @return int       the total rows
      */
-    function count_brands($search) {
+    function count_brands($search, $is_deleted) {
         if($search) {
           $this->db->like('title', $search);
         }
+        
         $this->db->where('is_deleted', 0);
+        $this->db->where('item_brand.is_deleted', $is_deleted);
         return $this->db->count_all_results("item_brand");
     }
 
@@ -138,7 +187,7 @@ Class Brand_model extends CI_Model
 
              $this->db->select('*');        
              $this->db->where('id', $id);          
-             $this->db->or_where('title', $id);                       
+             $this->db->or_where('title', $id);          
              $this->db->limit(1);
 
              $query = $this->db->get('item_brand');
@@ -147,25 +196,27 @@ Class Brand_model extends CI_Model
     }
 
 
+    /**
+     * Fetches the quantity of the item in each brand
+     * @param  [type] $id [description]
+     * @return [type]     [description]
+     */
+    function fetch_inventory($limit, $id, $brand) {
 
-    function fetch_brands_item($limit, $id, $brand) {
-            $this->db->where('brand', $brand);
-            $this->db->where('is_deleted', 0);
-            $this->db->limit($limit, (($id-1)*$limit));
-
-            $this->db->join('item_inventory', 'item_inventory.item_id = items.id', 'left');
-            $this->db->group_by('items.id');
             $this->db->select('
-            items.id,
-            items.name,
-            items.brand,
-            items.category,
-            items.SRP,
-            items.DP,
-            items.serial,
-            items.unit,
-            SUM(item_inventory.qty) as qty
-            ');
+                items.id,
+                items.name,
+                items.brand,
+                items.category,
+                items.actual_price,
+                items.dealer_price,
+                items.serial,
+                items.critical_level,
+                items.unit,
+            ');            
+            $this->db->limit($limit, (($id-1)*$limit));            
+            $this->db->where('items.brand', $brand);
+            $this->db->where('items.is_deleted', 0);
 
             $query = $this->db->get("items");
 
@@ -176,12 +227,11 @@ Class Brand_model extends CI_Model
 
     }
 
-    function count_brands_item($brand) {
-        $this->db->where('is_deleted', 0);
-        $this->db->where('brand', $brand);
+    function count_inventory($brand) {
+        $this->db->where('items.is_deleted', 0);
+        $this->db->where('items.brand', $brand);
+        $this->db->select('items.id'); 
         return $this->db->count_all_results("items");
     }
-
-
 
 }

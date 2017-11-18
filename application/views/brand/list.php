@@ -52,10 +52,10 @@
       <!-- Default box -->
       <div class="box box-primary">
         <div class="box-header with-border">
-          <h3 class="box-title">Affiliated Brands and Companies  <span class="badge"><?=$total_result?></span></h3>
+          <h3 class="box-title">Brand List  <span class="badge"><?=$total_result?></span></h3>
           <div class="box-tools pull-right">            
             <?=form_open('brands', array('method' => 'get', 'class' => 'input-group input-group-sm', 'style' => 'width: 150px;'))?>
-              <input type="text" name="search" class="form-control pull-right" placeholder="Search...">
+              <input type="text" name="search" value="<?=$search?>" class="form-control pull-right" placeholder="Search...">
               <div class="input-group-btn">
                 <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
                 <button type="button" class="btn btn-default btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
@@ -75,15 +75,13 @@
                   <td width="8%">
                     <a href="<?=base_url('brands/view/'.$res['id'])?>">
                       <?php if (filexist($res['logo']) && $res['logo']): ?>
-                        <img class="profile-user-img img-responsive" src="<?=base_url('uploads/'.$res['logo'])?>" alt="User profile picture">
+                        <img class="profile-user-img img-responsive" src="<?=base_url($res['logo'])?>" alt="User profile picture">
                       <?php else: ?>
                         <img class="profile-user-img img-responsive" src="<?=base_url('assets/img/no_image.gif')?>" alt="User profile picture">                
                       <?php endif ?>
                     </a>
                   </td>
                   <td><a href="<?=base_url('brands/view/'.$res['id'])?>"><?=$res['title']?></a></td>
-                  <td><a href="<?=base_url('brands/view/'.$res['id'])?>"><?=$res['email']?></a></td>
-                  <td><a href="<?=base_url('brands/view/'.$res['id'])?>"><?=$res['contact']?></a></td>
                   <td><a href="<?=base_url('brands/view/'.$res['id'])?>"><?=$res['web']?></a></td>
                 </tr>
               <?php endforeach; ?>
@@ -104,7 +102,7 @@
 
       <div class="box <?php if(!validation_errors())echo "collapsed-box"; else echo "box-danger";?>">
         <div class="box-header with-border">
-          <h3 class="box-title">Register Affiliate</h3>
+          <h3 class="box-title">Register Brand</h3>
           <div class="box-tools pull-right">
               <button type="button" class="btn btn-default btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-plus"></i></button>            
           </div><!-- /.box-tools pull-right -->
@@ -114,35 +112,11 @@
         <?=form_open_multipart('brands', array('class' => 'form-horizontal'))?>
           <div class="box-body">
             <div class="form-group">
-              <label for="title" class="col-sm-2 control-label">Affiliate Company / Brand</label>
+              <label for="title" class="col-sm-2 control-label">Item Brand</label>
 
               <div class="col-sm-10">
-                <input type="text" name="title" class="form-control" id="title" placeholder="Brand / Company..." value="<?=set_value('title')?>" >
+                <input type="text" name="title" class="form-control" id="title" placeholder="Brand Name..." value="<?=set_value('title')?>" >
               </div>
-            </div>
-            <div class="form-group">
-              <label for="desc" class="col-sm-2 control-label">Description</label>
-              <div class="col-sm-10">
-                <textarea name="desc" id="desc" cols="30" rows="10" class="ckeditor"><?=set_value('description')?></textarea>
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="address" class="col-sm-2 control-label">Address</label>
-              <div class="col-sm-10">
-                <input type="text" name="address" class="form-control" id="address" placeholder="Company Address..." value="<?=set_value('address')?>">
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="email" class="col-sm-2 col-md-2 control-label">Email Address</label>
-              <div class="col-sm-10 col-md-4">
-                <input type="email" name="email" class="form-control" id="email" placeholder="Email Address..." value="<?=set_value('email')?>" required>
-              </div>
-
-              <label for="contact" class="col-sm-2 col-md-2 control-label">Contact Number</label>
-              <div class="col-sm-10 col-md-4">
-                <input type="text" name="contact" class="form-control" id="contact" placeholder="Contact Number..." value="<?=set_value('contact')?>">
-              </div>
-
             </div>
             <div class="form-group">
               <label for="web" class="col-sm-2 col-md-2 control-label">Web Address</label>
@@ -150,7 +124,7 @@
                 <input type="web" name="web" class="form-control" id="web" placeholder="http://webadress.com" value="<?=set_value('web')?>" required>
               </div>
 
-              <label for="img" class="col-sm-2 col-md-2 control-label">Company Logo</label>
+              <label for="img" class="col-sm-2 col-md-2 control-label">Brand Logo</label>
               <div class="col-sm-10 col-md-4">        
                   <input type="file" name="img" id="img">       
               </div>
@@ -160,7 +134,7 @@
           </div>
           <!-- /.box-body -->
           <div class="box-footer">
-            <button type="submit" class="btn btn-info pull-right">Register New User</button>
+            <button type="submit" class="btn btn-info pull-right">Register Brand</button>
           </div>
           <!-- /.box-footer -->
         <?=form_close()?>

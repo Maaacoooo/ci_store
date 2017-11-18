@@ -19,20 +19,16 @@ class Brands extends CI_Controller {
 
 		if($userdata)	{
 
-			$data['title'] 		= 'Brands and Companies';
+			$data['title'] 		= 'Item Brands';
 			$data['site_title'] = APP_NAME;
 			$data['user'] 		= $this->user_model->userdetails($userdata['username']); //fetches users record
 
-			//Search
-			$search = '';
-			if(isset($_GET['search'])) {
-				$search = $_GET['search'];
-			}
+			$data['search']	= $this->input->get('search', TRUE);
 
 			//Paginated data - Candidate Names				            
 	   		$config['num_links'] = 5;
 			$config['base_url'] = base_url('/brands/index/');
-			$config["total_rows"] = $this->brand_model->count_brands($search);
+			$config["total_rows"] = $this->brand_model->count_brands($data['search'], 0);
 			$config['per_page'] = 20;				
 			$this->load->config('pagination'); //LOAD PAGINATION CONFIG
 
@@ -43,7 +39,7 @@ class Brands extends CI_Controller {
 		       $page = 1;		               
 		    }
 
-		    $data["results"] = $this->brand_model->fetch_brands($config["per_page"], $page, $search);
+		    $data["results"] = $this->brand_model->fetch_brands($config["per_page"], $page, $data['search'], 0);
 		    $str_links = $this->pagination->create_links();
 		    $data["links"] = explode('&nbsp;',$str_links );
 
@@ -56,13 +52,8 @@ class Brands extends CI_Controller {
 		    //END PAGINATION		
 		
 			//Form Validation for user
-			$this->form_validation->set_rules('title', 'Company / Brand', 'trim|required'); 
-			$this->form_validation->set_rules('address', 'Address', 'trim|required'); 
-			$this->form_validation->set_rules('email', 'Email Address', 'trim|valid_email'); 
-			$this->form_validation->set_rules('contact', 'Contact Number', 'trim'); 
+			$this->form_validation->set_rules('title', 'Item Brand Title', 'trim|required'); 
 			$this->form_validation->set_rules('web', 'Web Address', 'trim'); 
-			$this->form_validation->set_rules('desc', 'Description', 'trim'); 
-			
 			
 			//Validate Usertype
 			if($data['user']['usertype'] == 'Administrator') {
@@ -70,11 +61,12 @@ class Brands extends CI_Controller {
 				if($this->form_validation->run() == FALSE)	{
 					$this->load->view('brand/list', $data);
 				} else {	
-			
-					//Proceed saving user				
-					if($this->brand_model->create_brand()) {			
+					
+					$brand_id = $this->brand_model->create_brand();
 
-						$brand_id = $this->db->insert_id(); //fetch last insert case Row ID
+					//Proceed saving user				
+					if($brand_id) {			
+
 						// Save Log Data ///////////////////				
 
 						$log[] = array(
@@ -85,10 +77,8 @@ class Brands extends CI_Controller {
 							);
 
 				
-						//Save log loop
-						foreach($log as $lg) {
-							$this->logs_model->create_log($lg['user'], $lg['tag'], $lg['tag_id'], $lg['action']);				
-						}		
+						//Save Logs/////////////////////////
+						$this->logs_model->save_logs($log);		
 						////////////////////////////////////
 					
 						$this->session->set_flashdata('success', 'Affiliate Registered!');
@@ -127,7 +117,7 @@ class Brands extends CI_Controller {
 			//Paginated data			            
 		   	$config['num_links'] = 5;
 			$config['base_url'] = base_url('/brands/view/'.$id.'/items/');
-			$config["total_rows"] = $this->brand_model->count_brands_item($data['info']['title']);
+			$config["total_rows"] = $this->brand_model->count_inventory($data['info']['title']);
 			$config['per_page'] = 50;				
 			$this->load->config('pagination'); //LOAD PAGINATION CONFIG
 			$this->pagination->initialize($config);
@@ -140,7 +130,7 @@ class Brands extends CI_Controller {
 			  	}
 			}
 
-			$data["results"] = $this->brand_model->fetch_brands_item($config["per_page"], $page, $data['info']['title']);
+			$data["results"] = $this->brand_model->fetch_inventory($config["per_page"], $page, $data['info']['title']);
 			$str_links = $this->pagination->create_links();
 			$data["links"] = explode('&nbsp;',$str_links );
 
@@ -157,16 +147,13 @@ class Brands extends CI_Controller {
 			//Validate if record exist
 			 //IF NO ID OR NO RESULT, REDIRECT
 				if(!$id || !$data['info'] || $data['info']['is_deleted']) {
-					redirect('users', 'refresh');
+					redirect('brands', 'refresh');
 			}	
 
 			//Form Validation for user
+			$this->form_validation->set_rules('id', 'ID', 'trim|required'); 
 			$this->form_validation->set_rules('title', 'Company / Brand', 'trim|required'); 
-			$this->form_validation->set_rules('address', 'Address', 'trim|required'); 
-			$this->form_validation->set_rules('email', 'Email Address', 'trim|valid_email'); 
-			$this->form_validation->set_rules('contact', 'Contact Number', 'trim'); 
 			$this->form_validation->set_rules('web', 'Web Address', 'trim'); 
-			$this->form_validation->set_rules('desc', 'Description', 'trim'); 
 		
 			//Validate Usertype
 			if($data['user']['usertype'] == 'Administrator') {
@@ -186,12 +173,9 @@ class Brands extends CI_Controller {
 							);
 
 				
-						//Save log loop
-						foreach($log as $lg) {
-							$this->logs_model->create_log($lg['user'], $lg['tag'], $lg['tag_id'], $lg['action']);				
-						}		
-						////////////////////////////////////
-						
+						//Save Logs/////////////////////////
+						$this->logs_model->save_logs($log);		
+						////////////////////////////////////						
 					
 						$this->session->set_flashdata('success', 'Succes! Brand Updated!');
 						redirect($_SERVER['HTTP_REFERER'], 'refresh');
@@ -222,11 +206,15 @@ class Brands extends CI_Controller {
 		if($userdata)	{
 			
 			//FORM VALIDATION
-			$this->form_validation->set_rules('id', 'ID', 'trim|required');   
+			$this->form_validation->set_rules('id', 'ID', 'trim|required|callback_check_brand');   
 		 
 		   if($this->form_validation->run() == FALSE)	{
 
-				$this->session->set_flashdata('error', 'An Error has Occured!');
+				//Notifications //////////////////////////////
+				$notification['warning'][] = "Oops! There are items branded with the brand you wanted to delete. You can only delete a brand with no items"; //set message
+				$this->sessnotif->setNotif($notification); //set notification
+
+				//redirect
 				redirect($_SERVER['HTTP_REFERER'], 'refresh');
 
 			} else {
@@ -243,12 +231,15 @@ class Brands extends CI_Controller {
 							);
 
 				
-						//Save log loop
-						foreach($log as $lg) {
-							$this->logs_model->create_log($lg['user'], $lg['tag'], $lg['tag_id'], $lg['action']);				
-						}		
-						////////////////////////////////////
-					$this->session->set_flashdata('success', 'Brand Deleted!');
+					//Save Logs/////////////////////////
+					$this->logs_model->save_logs($log);		
+					////////////////////////////////////
+					
+					//Notifications //////////////////////////////
+					$notification['success'] = "Item Brand Deleted!"; //set message
+					$this->sessnotif->setNotif($notification); //set notification
+
+					//redirect
 					redirect('brands', 'refresh');
 				}
 			}
@@ -257,6 +248,33 @@ class Brands extends CI_Controller {
 
 			$this->session->set_flashdata('error', 'You need to login!');
 			redirect('dashboard/login', 'refresh');
+		}
+
+	}
+
+
+
+	/**
+	 * Checks a Brand of there are existing items branded with it
+	 * @param  [type] $brn [description]
+	 * @return [type]      [description]
+	 */
+	function check_brand($brn) {
+		$brand_id = $this->encryption->decrypt($brn);
+
+		$brand = $this->brand_model->view($brand_id);
+
+		if($this->brand_model->count_inventory($brand['title'])) {
+
+			//Notifications //////////////////////////////
+			$notification['warning'][] = "Oops! There are items branded with the brand you wanted to delete. You can only delete a brand with no items"; //set message
+
+			$this->sessnotif->setNotif($notification); //set notification
+
+			//return
+			return FALSE; 
+		} else {
+			return TRUE;
 		}
 
 	}
