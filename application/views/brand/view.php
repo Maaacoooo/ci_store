@@ -176,21 +176,29 @@
                   <div class="form-group">
                     <label for="title" class="col-sm-2 control-label">Item Brand</label>
 
-                    <div class="col-sm-10">
+                    <div class="col-sm-4">
                       <input type="text" name="title" class="form-control" id="title" placeholder="Brand..." value="<?=$info['title']?>" >
                     </div>
-                  </div>
-                  <div class="form-group">
+
                     <label for="web" class="col-sm-2 col-md-2 control-label">Web Address</label>
                     <div class="col-sm-10 col-md-4">
                       <input type="web" name="web" class="form-control" id="web" placeholder="http://webadress.com" value="<?=$info['web']?>" required>
                     </div>
-
-                    <label for="img" class="col-sm-2 col-md-2 control-label">Brand Logo</label>
-                    <div class="col-sm-10 col-md-4">        
-                        <input type="file" name="img" id="img">       
-                    </div>
                   </div>
+                  <div class="form-group">    
+                    <label for="img" class="col-sm-2 control-label">Brand Logo</label>    
+                    <div class="col-sm-3">
+                      <input type="file" name="img" id="img">   
+                    </div>
+ 
+                    <div class="col-sm-5">
+                      <div class="checkbox">
+                        <label>
+                          <input type="checkbox" name="remove_img"> Remove Image
+                        </label>
+                      </div>
+                    </div>    
+                  </div> 
                   <input type="hidden" name="id" value="<?=$this->encryption->encrypt($info['id'])?>" />                 
                   <div class="form-group">
                       <div class="col-sm-offset-2 col-sm-10">
