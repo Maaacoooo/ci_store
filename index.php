@@ -6,7 +6,6 @@
  *--------------------------------------------------------------------------
 
  */
-	define('APP_NAME', 'Inventory System');
 	date_default_timezone_set('Asia/Manila');
 
 /*

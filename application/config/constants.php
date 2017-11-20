@@ -3,6 +3,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 /*
 |--------------------------------------------------------------------------
+| System Defaults
+|--------------------------------------------------------------------------
+|
+| This are the global default variables of the system
+|
+*/
+define('APP_NAME', 'Inventory System'); // Application name 
+define('APP_CURRENCY', 'Php'); //the default currency
+
+/*
+|--------------------------------------------------------------------------
 | Display Debug backtrace
 |--------------------------------------------------------------------------
 |
