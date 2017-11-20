@@ -65,10 +65,18 @@
         <div class="box-header with-border">
           <h3 class="box-title"><?=$title?> Inventory <span class="badge"><?=$total_result?></span></h3>
 
-          <div class="box-tools pull-right">
-            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
-                    title="Collapse">
-              <i class="fa fa-<?php if($this->session->flashdata('loc_item'))echo'plus';else echo 'minus';?>"></i></button>      
+          <div class="box-tools pull-right">            
+            <?=form_open('locations/view/'.$info['id'], array('method' => 'get', 'class' => 'input-group input-group-sm', 'style' => 'width: 250px;'))?>
+              <input type="text" name="search" class="form-control pull-right" placeholder="Search Item..." value="<?=$search?>">
+              <div class="input-group-btn">
+                <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                <a href="<?=base_url('locations/view/'.$info['id'].'/print')?>" target="_blank" class="btn btn-default"><i class="fa fa-print"></i> Print</a>
+                <button type="button" class="btn btn-default btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                  <i class="fa fa-minus"></i>
+                </button>  
+              </div> 
+            <?=form_close()?> 
+
           </div>
         </div>
         <div class="box-body">
@@ -84,49 +92,75 @@
                 <!-- Item List -->
                 <div class="tab-content">
                   <div class="tab-pane <?php if(!($this->session->flashdata('flash_loc')))echo'active'?>" id="items">
-                    <?php if ($results): ?>
-                    <table class="table table-condensed table-bordered">
+                    <table class="table table-bordered table-condensed table-hover">            
+                      <?php if ($results): ?>
                       <thead>
                         <tr>
-                          <th>ID</th>
+                          <th>Batch ID</th>
+                          <th>Item ID</th>
                           <th>Item Name</th>
-                          <th>Category</th>
                           <th>Unit</th>
-                          <th>DP</th>
-                          <th>SRP</th>
+                          <th>Brand</th>
+                          <th>Category</th>
+                          <th class="bg-warning">Dealer</th>
+                          <th class="bg-success">Actual</th>
                           <th>QTY</th>
                         </tr>
                       </thead>
                       <tbody>
-                        <?php foreach ($results as $item): ?>
-                        <tr>
-                          <td><a href="<?=base_url('items/view/'.$item['id'])?>"><?=$item['id']?></a></td>
-                          <td><a href="<?=base_url('items/view/'.$item['id'])?>"><?=$item['name']?></a></td>
-                          <td><a href="<?=base_url('items/view/'.$item['id'])?>"><?=$item['category']?></a></td>
-                          <td><a href="<?=base_url('items/view/'.$item['id'])?>"><?=$item['unit']?></a></td>
-                          <td><a href="<?=base_url('items/view/'.$item['id'])?>"><?=$item['DP']?></a></td>
-                          <td><a href="<?=base_url('items/view/'.$item['id'])?>"><?=$item['SRP']?></a></td>
-                          <td><a href="<?=base_url('items/view/'.$item['id'])?>"><?=$item['qty']?></a></td>
-                        </tr>
-                        <?php endforeach ?>
-                      </tbody>
-                      <tfoot>
-                        <tr>
-                          <td colspan="7">
-                            <a href="<?=base_url('locations/print_inventory/'.$info['id'])?>" class="btn btn-primary" target="_blank"><i class="fa fa-print"></i> Print <?=$info['title']?> Inventory</a>
-                            <div class="pull-right">
-                              <?php foreach ($links as $link) { echo $link; } ?>
-                            </div><!-- /.pull-right -->
-                          </td>
-                        </tr>
-                      </tfoot>
-                    </table><!-- /.table table-condensed -->
-                    <?php else: ?>
-                      <div class="alert alert-warning">               
-                        <h4><i class="icon fa fa-warning"></i> No item found!</h4>         
-                        No items found in the system
-                      </div>
-                    <?php endif ?>
+                        <?php foreach ($results as $res): ?>
+                          <tr>
+                            <td><a href="<?=base_url('items/view/'.$res['id'].'/batch/'.$res['batch_id'])?>"><?=$res['batch_id']?></a></td>
+                            <td><a href="<?=base_url('items/view/'.$res['id'].'/batch/'.$res['batch_id'])?>"><?=$res['id']?> <a class="text-maroon" href="<?=base_url('items/view/'.$res['id'])?>"><small>[view Item]</small></a></a></td>
+                            <td><a href="<?=base_url('items/view/'.$res['id'].'/batch/'.$res['batch_id'])?>"><?=$res['name']?></a></td>
+                            <td><a href="<?=base_url('items/view/'.$res['id'].'/batch/'.$res['batch_id'])?>"><?=$res['unit']?></a></td>
+                            <td><a href="<?=base_url('items/view/'.$res['id'].'/batch/'.$res['batch_id'])?>"><?=$res['brand']?></a></td>
+                            <td><a href="<?=base_url('items/view/'.$res['id'].'/batch/'.$res['batch_id'])?>"><?=$res['category']?></a></td>
+                            <td class="bg-warning"><a href="<?=base_url('items/view/'.$res['id'].'/batch/'.$res['batch_id'])?>"><?=$res['dealer_price']?></a></td>
+                            <td class="bg-success"><a href="<?=base_url('items/view/'.$res['id'].'/batch/'.$res['batch_id'])?>"><?=$res['actual_price']?></a></td>
+                            <td>
+                              <?php 
+                                $critical = 10; //default critical level
+                                if($res['critical_level']) {
+                                  $critical = $res['critical_level']; //override critical level
+                                }
+                              ?>     
+                              <a href="<?=base_url('items/view/'.$res['id'])?>">                    
+                                <?php if ($res['qty'] <= $critical): ?>
+                                    <span class="text-red strong">
+                                      <?=$res['qty']?>
+                                      <i class="fa fa-exclamation-circle"></i>                       
+                                    </span>
+                                <?php elseif($res['qty'] <= ($critical)*1.3): ?>
+                                    <span class="text-yellow">
+                                      <?=$res['qty']?>                  
+                                    </span>
+                                <?php else: ?>
+                                    <span class="text-green">
+                                      <?=$res['qty']?>                  
+                                    </span>
+                                <?php endif ?>
+                              </a>
+                            </td>
+                          </tr>
+                        <?php endforeach; ?>
+                      </tbody>    
+                      <?php else: ?>
+                        <div class="alert alert-warning alert-dismissible">
+                          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                          <h4><i class="icon fa fa-exclamation-circle"></i> No Items Found!</h4>
+                          <p>There are no items / inventory batches that are found in this location</p>
+                        </div>        
+                      <?php endif; ?>        
+                    </table><!-- /.table table-bordered -->
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <a href="<?=base_url('locations/view/'.$info['id'].'/print')?>" target="_blank" class="btn btn-primary"><i class="fa fa-print"></i> Print Report</a>
+                        <div class="pull-right">
+                          <?php foreach ($links as $link) { echo $link; } ?>
+                        </div><!-- /.pull-right -->
+                      </div><!-- /.col-sm-12 -->
+                    </div><!-- /.row -->
                   </div>
                   <!-- /.tab-pane -->
 
@@ -197,6 +231,7 @@
       </div>
       <!-- /.box -->
 
+        <?php if ($results): ?>
         <!-- Default box -->
           <div class="box box-warning <?php if(!$this->session->flashdata('loc_item'))echo'collapsed-box'; ?>">
             <div class="box-header with-border">
@@ -279,6 +314,7 @@
             <!-- /.box-footer-->
           </div>
           <!-- /.box -->
+        <?php endif ?>
 
       
 
