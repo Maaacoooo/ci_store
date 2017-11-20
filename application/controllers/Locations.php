@@ -24,15 +24,12 @@ class Locations extends CI_Controller {
 			$data['user'] 		= $this->user_model->userdetails($userdata['username']); //fetches users record
 
 			//Search
-			$search = '';
-			if(isset($_GET['search'])) {
-				$search = $_GET['search'];
-			}
+			$data['search'] = $this->input->get('search', TRUE);
 
 			//Paginated data		            
 	   		$config['num_links'] = 5;
 			$config['base_url'] = base_url('/locations/index/');
-			$config["total_rows"] = $this->location_model->count_locations($search);
+			$config["total_rows"] = $this->location_model->count_locations($data['search'], 0);
 			$config['per_page'] = 50;				
 			$this->load->config('pagination'); //LOAD PAGINATION CONFIG
 
@@ -43,7 +40,7 @@ class Locations extends CI_Controller {
 		       $page = 1;		               
 		    }
 
-		    $data["results"] = $this->location_model->fetch_locations($config["per_page"], $page, $search);
+		    $data["results"] = $this->location_model->fetch_locations($config["per_page"], $page, $data['search'], 0);
 		    $str_links = $this->pagination->create_links();
 		    $data["links"] = explode('&nbsp;',$str_links );
 
@@ -119,12 +116,14 @@ class Locations extends CI_Controller {
 			$data['logs']			= $this->logs_model->fetch_logs('location', $id, 50);
 			$data['title'] 			= $data['info']['title'];
 			$data['items']			= $this->move_model->fetch_move_items($id, $userdata['username'], 0);
-			$data['locations']		= $this->location_model->fetch_locations(0, 0, 0);
+			$data['locations']		= $this->location_model->fetch_locations(NULL, NULL, NULL, 0);
+
+			$data['search'] = $this->input->get('search', TRUE);
 
 			//Paginated data			            
 		   	$config['num_links'] = 5;
 			$config['base_url'] = base_url('locations/view/'.$id.'/items/');
-			$config["total_rows"] = $this->location_model->count_inventory($data['info']['title']);
+			$config["total_rows"] = $this->location_model->count_inventory($data['info']['title'], $data['search']);
 			$config['per_page'] = 50;				
 			$this->load->config('pagination'); //LOAD PAGINATION CONFIG
 			$this->pagination->initialize($config);
@@ -137,7 +136,7 @@ class Locations extends CI_Controller {
 			  	}
 			}
 
-			$data["results"] = $this->location_model->fetch_inventory($config["per_page"], $page, $data['info']['title']);
+			$data["results"] = $this->location_model->fetch_inventory($config["per_page"], $page, $data['info']['title'], $data['search']);
 
 			$str_links = $this->pagination->create_links();
 			$data["links"] = explode('&nbsp;',$str_links );
@@ -163,7 +162,19 @@ class Locations extends CI_Controller {
 			//Validate Usertype
 			if($data['user']['usertype'] == 'Administrator') {
 				if($this->form_validation->run() == FALSE)	{
-					$this->load->view('location/view', $data);
+
+					if ($this->uri->segment(4)=='print') {
+						//print view
+						$data["results"] = $this->location_model->fetch_inventory(NULL, NULL, $data['info']['title'], NULL);
+						
+						$this->load->view('location/print_inventory', $data);
+					} elseif (!$this->uri->segment(4) || $this->uri->segment(4)=='items') {
+						$this->load->view('location/view', $data);
+					} else {
+						show_404();
+					}
+
+
 				} else {			
 
 					//Proceed saving candidate				

@@ -55,7 +55,7 @@
           <h3 class="box-title">Storage Location List <span class="badge"><?=$total_result?></span></h3>
           <div class="box-tools pull-right">            
             <?=form_open('locations', array('method' => 'get', 'class' => 'input-group input-group-sm', 'style' => 'width: 150px;'))?>
-              <input type="text" name="search" class="form-control pull-right" placeholder="Search...">
+              <input type="text" name="search" class="form-control pull-right" value="<?=$search?>" placeholder="Search...">
               <div class="input-group-btn">
                 <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
                 <button type="button" class="btn btn-default btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">

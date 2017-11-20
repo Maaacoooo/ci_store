@@ -232,8 +232,8 @@ Class Move_Model extends CI_Model {
             items.id as item_id,
             items.name,
             items.category,
-            items.SRP,
-            items.DP,
+            items.actual_price,
+            items.dealer_price,
             items.serial,
             items.unit
             ');          

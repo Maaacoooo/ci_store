@@ -52,24 +52,23 @@ Class Location_Model extends CI_Model {
      * @param  int      $id         the Page ID of the request. 
      * @return Array        The array of returned rows 
      */
-    function fetch_locations($limit, $id, $search) {
+    function fetch_locations($limit, $id, $search, $is_deleted) {
 
             if($search) {
               $this->db->like('item_location.title', $search);
             }
 
             $this->db->join('item_inventory', 'item_inventory.location = item_location.title', 'left');
-            $this->db->join('items', 'items.id = item_inventory.item_id', 'left');
             $this->db->group_by('item_location.id');
             $this->db->select('
                 item_location.id,
                 item_location.title,
                 SUM(item_inventory.qty) as qty,
-                COUNT(DISTINCT (items.id)) as items
+                COUNT(item_inventory.batch_id) as items
             ');
             
 
-            $this->db->where('item_location.is_deleted', 0);
+            $this->db->where('item_location.is_deleted', $is_deleted);
             $this->db->limit($limit, (($id-1)*$limit));
 
             $query = $this->db->get("item_location");
@@ -85,11 +84,11 @@ Class Location_Model extends CI_Model {
      * Returns the total number of rows of users
      * @return int       the total rows
      */
-    function count_locations($search) {
+    function count_locations($search, $is_deleted) {
         if($search) {
           $this->db->like('title', $search);
         }
-        $this->db->where('is_deleted', 0);
+        $this->db->where('is_deleted', $is_deleted);
         return $this->db->count_all_results("item_location");
     }
 
@@ -111,23 +110,37 @@ Class Location_Model extends CI_Model {
      * @param  [type] $id [description]
      * @return [type]     [description]
      */
-    function fetch_inventory($limit, $id, $location) {
+    function fetch_inventory($limit, $id, $location, $search) {
 
             $this->db->join('items', 'items.id = item_inventory.item_id', 'left');
-            $this->db->group_by('item_inventory.item_id');
             $this->db->select('
                 items.id,
                 items.name,
                 items.brand,
                 items.category,
-                items.SRP,
-                items.DP,
+                items.actual_price,
+                items.dealer_price,
                 items.serial,
                 items.unit,
-                SUM(item_inventory.qty) as qty
+                items.critical_level,
+                item_inventory.batch_id,
+                item_inventory.qty
             ');            
             $this->db->limit($limit, (($id-1)*$limit));            
+
+            if($search) {
+              $this->db->group_start();
+                  $this->db->like('items.name', $search);
+                  $this->db->or_like('items.category', $search);
+                  $this->db->or_like('items.description', $search);
+                  $this->db->or_like('items.serial', $search);
+                  $this->db->or_like('items.id', $search);
+                  $this->db->or_like('items.brand', $search);    
+              $this->db->group_end();          
+            }
+
             $this->db->where('item_inventory.location', $location);
+            $this->db->order_by('item_inventory.qty', 'DESC');
 
             $query = $this->db->get("item_inventory");
 
@@ -138,12 +151,25 @@ Class Location_Model extends CI_Model {
 
     }
 
-    function count_inventory($location) {
+    function count_inventory($location, $search) {
+
         $this->db->join('items', 'items.id = item_inventory.item_id', 'left');
-        $this->db->group_by('item_inventory.item_id');
+
+        if($search) {
+              $this->db->group_start();
+                  $this->db->like('items.name', $search);
+                  $this->db->or_like('items.category', $search);
+                  $this->db->or_like('items.description', $search);
+                  $this->db->or_like('items.serial', $search);
+                  $this->db->or_like('items.id', $search);
+                  $this->db->or_like('items.brand', $search);    
+              $this->db->group_end();          
+        }
+
         $this->db->where('items.is_deleted', 0);
         $this->db->where('item_inventory.location', $location);
-        $this->db->select('items.id'); 
+        
+
         return $this->db->count_all_results("item_inventory");
     }
 
