@@ -71,8 +71,51 @@ class SessNotif
 	 */
 	function setNotif($notif) {
 
-		foreach ($notif as $key => $value) {
-			$this->CI->session->set_flashdata($key, $value);
+		$existing_sess = $this->CI->session->flashdata();
+
+		//check for existing data
+		if ($existing_sess) {
+
+			//loop old data
+			foreach ($existing_sess as $key => $value) {
+				if (is_array($value)) {
+					for ($i=0; $i < sizeof($value); $i++) { 
+						$new_data[$key][] = $value[$i];
+					}
+				} else {
+					//check if there is a new data passed with a distinct key
+					if(isset($notif[$key])) {
+						$new_data[$key][] = $value; 
+					} else {
+						$new_data[$key] = $value;
+					} 				
+					
+				}
+			}
+			//loop new data 
+			foreach ($notif as $key => $value) {
+				if (is_array($value)) {
+					for ($i=0; $i < sizeof($value); $i++) { 
+						$new_data[$key][] = $value[$i];
+					}
+				} else {
+					//check if there's an existing data in a distinct key
+					if($this->getNotifMessages($key)) {
+						$new_data[$key][] = $value;
+					} else {
+						$new_data[$key] = $value;
+					}
+				}
+			}
+
+			//loop new values and rebuild the flashdata
+			$this->CI->session->set_flashdata($new_data);
+
+		} else {
+			//Initialise the very first flashdata
+			foreach ($notif as $key => $value) {
+				$this->CI->session->set_flashdata($key, $value);
+			}
 		}
 
 	}
@@ -96,7 +139,7 @@ class SessNotif
 
 		foreach ($this->CI->session->flashdata() as $key => $value) {
 			switch ($key) {
-				case 'error':
+				case ('error'):
 					$show .= '<div class="alert alert-danger alert-dismissible">' . "\n";
 					$show .= "\t" . '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>' . "\n";
 					$show .= "\t" . '<h4><i class="icon fa fa-ban"></i> Oops!</h4>' . "\n";
@@ -149,11 +192,11 @@ class SessNotif
 					break;
 				
 			} 
-	
+			
+			//Destroy the Flashdata 
+			$this->CI->session->unmark_flash($key);
 
 		}
-
-
 	   /**
 		* Shows the Form Validation Errors
 	 	* For the sake of cleaner-looking view		 
