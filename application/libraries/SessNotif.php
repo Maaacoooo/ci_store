@@ -118,6 +118,9 @@ class SessNotif
 			}
 		}
 
+
+		return $this->CI->session->flashdata();
+
 	}
 
 	/**

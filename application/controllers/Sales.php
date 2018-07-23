@@ -141,7 +141,7 @@ echo $txt;
 			$data['site_title'] = APP_NAME;
 			$data['user'] 		= $this->user_model->userdetails($userdata['username']); //fetches users record
 			$data['items'] 		= $this->sales_model->fetch_sale_items(0, $data['user']['username']);
-			$data['locations']  = $this->location_model->fetch_locations(0, 0, 0);
+			//$data['locations']  = $this->location_model->fetch_locations(0, 0, 0);
 		
 			//Form Validation for user
 			$this->form_validation->set_rules('customer', 'Customer Name', 'trim|required'); 

@@ -46,6 +46,7 @@
             <li><a href="<?=base_url('brands')?>"><i class="fa fa-tag"></i> <span>Item Brands</span></a></li>
           </ul>
         </li>        
+        <li><a href="<?=base_url('locations')?>"><i class="fa fa-building"></i> <span>Storage Locations</span></a></li>
         <li class="treeview">
           <a href="#">
             <i class="fa fa-money"></i> <span>Sales</span>
@@ -75,8 +76,7 @@
           </ul>
         </li>
         <li><a href="<?=base_url('move')?>"><i class="fa fa-exchange"></i> <span>Moved Items</span></a></li>
-        <li><a href="<?=base_url('brands')?>"><i class="fa fa-bookmark"></i> <span>Affiliated Brands / Company</span></a></li>
-        <li><a href="<?=base_url('locations')?>"><i class="fa fa-building"></i> <span>Storage Locations</span></a></li>
+        <li><a href="<?=base_url('brands')?>"><i class="fa fa-bookmark"></i> <span>Affiliated Brands / Company</span></a></li>        
         <li><a href="<?=base_url('users')?>"><i class="fa fa-users"></i> <span>Users</span></a></li>
         <?php endif ?>      
 
